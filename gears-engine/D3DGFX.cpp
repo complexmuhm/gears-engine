@@ -1,9 +1,16 @@
 #include "D3DGFX.h"
-#include <d3dcompiler.h>
 #include "D3DException.h"
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "D3Dcompiler.lib")
+
+#include "ConstantBuffer.h"
+#include "IndexBuffer.h"
+#include "VertexBuffer.h"
+#include "InputLayout.h"
+#include "VertexShader.h"
+#include "PixelShader.h"
+#include "Topology.h"
 
 D3DGFX::D3DGFX(HWND hwnd)
 	: hwnd(hwnd)
@@ -72,84 +79,69 @@ void D3DGFX::end()
 
 void D3DGFX::test()
 {
-	HRESULT result;
-	struct Vertex
+	IndexBuffer index_buffer(*this, {
+			0, 1, 2,
+			//0, 2, 3,
+			//4, 5, 6,
+			//4, 6, 7,
+			//1, 5, 6,
+			//1, 6, 2,
+			//4, 0, 3,
+			//4, 3, 7,
+			//4, 5, 1,
+			//4, 1, 0,
+			//3, 2, 6,
+			//3, 6, 7
+		});
+	VertexBuffer vertex_buffer(*this, {
+		{ -0.5f,  1.0f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f},
+		{  0.5f,  0.5f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f},
+		{  0.5f, -0.5f,  0.0f, 0.0f, 0.0f, 1.0f, 1.0f},
+		{ -0.5f, -0.5f,  0.0f, 0.5f, 0.5f, 0.5f, 1.0f},
+		{ -0.5f,  0.5f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f},
+		{  0.5f,  0.5f,  1.0f, 0.0f, 1.0f, 0.0f, 1.0f},
+		{  0.5f, -0.5f,  1.0f, 0.0f, 0.0f, 1.0f, 1.0f},
+		{ -0.5f, -0.5f,  1.0f, 0.5f, 0.5f, 0.5f, 1.0f}
+		});
+	VertexShader vertex_shader(*this, L"VertexShader.cso");
+	InputLayout input_layout(*this, vertex_shader.get_compiled_shader());
+	PixelShader pixel_shader(*this, L"PixelShader.cso");
+	Topology topology(*this, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	struct cBuffer
 	{
-		float x, y, z;
-		float r, g, b, a;
+		struct {
+			float element[4][4];
+		} transformation;
 	};
 
-	const Vertex v[] = {
-		{ -0.5f, -0.5f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f },
-		{  0.0f,  0.5f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f },
-		{  0.5f, -0.5f,  0.0f, 0.0f, 0.0f, 1.0f, 1.0f }
-	};
+	static float theta = 0.0f;
+	theta += 0.005f;
 
-	// Create the buffer
-	D3D11_BUFFER_DESC vertex_buffer_desc = {};
-	vertex_buffer_desc.Usage = D3D11_USAGE_DEFAULT;
-	vertex_buffer_desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vertex_buffer_desc.ByteWidth = sizeof(v);
-	vertex_buffer_desc.StructureByteStride = sizeof(Vertex);
-	vertex_buffer_desc.CPUAccessFlags = 0;
-	vertex_buffer_desc.MiscFlags = 0;
-
-	D3D11_SUBRESOURCE_DATA vertex_buffer_data = {};
-	vertex_buffer_data.pSysMem = v;
-
-	wrl::ComPtr<ID3D11Buffer> vertex_buffer;
-	result = device->CreateBuffer(&vertex_buffer_desc, &vertex_buffer_data, &vertex_buffer);
-	D3D_EXCEPTION(result);
-
-	// Set the pipeline state
-	const UINT stride = sizeof(Vertex);
-	const UINT offset = 0;
-	device_context->IASetVertexBuffers(0, 1, vertex_buffer.GetAddressOf(), &stride, &offset);
-	// Set the topology
-	device_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	
-	// Get the compiled vertex shader and set it in the pipeline
-	wrl::ComPtr<ID3DBlob> compiled_shader;
-	result = D3DReadFileToBlob(L"VertexShader.cso", &compiled_shader);
-	D3D_EXCEPTION(result);
-
-	wrl::ComPtr<ID3D11VertexShader> vertex_shader;
-	result = device->CreateVertexShader(
-		compiled_shader->GetBufferPointer(), 
-		compiled_shader->GetBufferSize(), 
-		nullptr, &vertex_shader);
-	D3D_EXCEPTION(result);
-	
-	device_context->VSSetShader(vertex_shader.Get(), nullptr, 0u);
-
-	// Set the input layout for the vertex shader
-	wrl::ComPtr<ID3D11InputLayout> input_layout;
-	const D3D11_INPUT_ELEMENT_DESC input_element_desc[] =
+	cBuffer cbuf = 
 	{
-		{"Position", 0u, DXGI_FORMAT_R32G32B32_FLOAT, 0u, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0u},
-		{"Color", 0u, DXGI_FORMAT_R32G32B32A32_FLOAT, 0u, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0u}
+		 (3.f / 4.f) * cosf(theta),  sinf(theta),  0.0f, 0.0f ,
+		 (3.f / 4.f) * -sinf(theta),  cosf(theta),  0.0f, 0.0f ,
+		  0.0f,         0.0f,         0.0f, 0.0f ,
+		  0.0f,         0.0f,         0.0f, 1.0f 
 	};
-	result = device->CreateInputLayout(
-		input_element_desc, (UINT)std::size(input_element_desc), 
-		compiled_shader->GetBufferPointer(), compiled_shader->GetBufferSize(),
-		&input_layout);
-	D3D_EXCEPTION(result);
 
-	device_context->IASetInputLayout(input_layout.Get());
+	VertexConstantBuffer<cBuffer> vertex_cbuffer(*this, cbuf);
 
-	// Get the compiled pixel shader and set it in the pipeline
-	result = D3DReadFileToBlob(L"PixelShader.cso", &compiled_shader);
-	D3D_EXCEPTION(result);
+	std::vector<Bindable*> list;
+	list.push_back(&index_buffer);
+	list.push_back(&vertex_buffer);
+	list.push_back(&vertex_shader);
+	list.push_back(&input_layout);
+	list.push_back(&pixel_shader);
+	list.push_back(&topology);
+	list.push_back(&vertex_cbuffer);
 
-	wrl::ComPtr<ID3D11PixelShader> pixel_shader;
-	result = device->CreatePixelShader(
-		compiled_shader->GetBufferPointer(),
-		compiled_shader->GetBufferSize(),
-		nullptr, &pixel_shader);
-	D3D_EXCEPTION(result);
+	for (auto& x : list)
+		x->bind();
 
-	device_context->PSSetShader(pixel_shader.Get(), nullptr, 0u);
-	
+
+
 	// Set the render target to the render target view that we have created at the ctor
 	device_context->OMSetRenderTargets(1u, target_view.GetAddressOf(), nullptr);
 
@@ -167,8 +159,8 @@ void D3DGFX::test()
 	viewport.MinDepth = 0;
 	viewport.MaxDepth = 1;
 	device_context->RSSetViewports(1u, &viewport);
+	
 
-
-	device_context->Draw((UINT)std::size(v), 0);
+	device_context->DrawIndexed(index_buffer.size(), 0u, 0u);
 }
 

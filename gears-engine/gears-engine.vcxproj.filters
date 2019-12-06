@@ -87,6 +87,12 @@
     <ClInclude Include="D3DException.h">
       <Filter>Headerdateien\Exception</Filter>
     </ClInclude>
+    <ClInclude Include="InputLayout.h">
+      <Filter>Headerdateien\D3DGFX Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Topology.h">
+      <Filter>Headerdateien\D3DGFX Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="D3DGFX.cpp">
@@ -136,6 +142,12 @@
     </ClCompile>
     <ClCompile Include="D3DException.cpp">
       <Filter>Quelldateien\Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="Topology.cpp">
+      <Filter>Quelldateien\D3DGFX Components</Filter>
+    </ClCompile>
+    <ClCompile Include="InputLayout.cpp">
+      <Filter>Quelldateien\D3DGFX Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

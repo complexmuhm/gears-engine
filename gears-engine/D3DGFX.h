@@ -2,6 +2,7 @@
 #include <D3D11.h>
 #include <wrl.h>
 //#include <xnamath.h> //For SSE optimized vectors, matrices etc.
+#include <d3dcompiler.h>
 
 namespace wrl = Microsoft::WRL;
 

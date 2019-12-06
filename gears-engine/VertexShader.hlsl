@@ -1,3 +1,8 @@
+cbuffer cBuf
+{
+	row_major matrix transformation;
+};
+
 struct VertexShaderOut
 {
 	float4 color : Color;
@@ -7,7 +12,8 @@ struct VertexShaderOut
 VertexShaderOut main(float3 position : Position, float4 color : Color)
 {
 	VertexShaderOut output;
-	output.position = float4(position.xyz, 1.0f);
+	float4 newpos = mul(float4(position.xyz, 1.0f), transformation);
+	output.position = newpos;
 	output.color = color;
 	return output;
 }

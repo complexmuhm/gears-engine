@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Bindable.h"
-#include "D3DException.h"
 
 template<typename T>
 class ConstantBuffer : public Bindable
@@ -36,6 +35,7 @@ ConstantBuffer<T>::ConstantBuffer(D3DGFX& gfx)
 
 template<typename T>
 ConstantBuffer<T>::ConstantBuffer(D3DGFX& gfx, const T& c_buffer)
+	: Bindable(gfx)
 {
 	HRESULT result;
 
@@ -78,7 +78,7 @@ class VertexConstantBuffer : public ConstantBuffer<T>
 public:
 	using ConstantBuffer<T>::ConstantBuffer;
 
-	void bind()
+	void bind() override
 	{
 		get_device_context()->VSSetConstantBuffers(0u, 1u, constant_buffer.GetAddressOf());
 	}
@@ -93,7 +93,7 @@ class PixelConstantBuffer : public ConstantBuffer<T>
 public:
 	using ConstantBuffer<T>::ConstantBuffer;
 
-	void bind()
+	void bind() override
 	{
 		get_device_context()->PSSetConstantBuffers(0u, 1u, constant_buffer.GetAddressOf());
 	}

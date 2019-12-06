@@ -1,11 +1,12 @@
 #pragma once
 #include "D3DGFX.h"
+#include "D3DException.h"
 
 class Bindable
 {
 public:
 	Bindable(D3DGFX& gfx);
-	virtual void bind(D3DGFX& gfx) = 0;
+	virtual void bind() = 0;
 	virtual ~Bindable() = default;
 
 protected:
