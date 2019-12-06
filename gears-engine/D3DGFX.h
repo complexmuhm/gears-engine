@@ -41,6 +41,7 @@ public:
 	void test();
 
 private:
+	HWND hwnd;
 #ifndef NDEBUG
 	//DXGIDebugInfoManager debug_info;
 #endif

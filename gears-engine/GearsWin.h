@@ -1,6 +1,7 @@
 #pragma once
 
 // target Windows 7 or later
+#define _WIN_VER 0x0501
 #define _WIN32_WINNT 0x0601
 #include <sdkddkver.h>
 // The following #defines disable a bunch of unused windows stuff. If you 
