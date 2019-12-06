@@ -56,10 +56,59 @@ D3DGFX::D3DGFX(HWND hwnd)
 	D3D_EXCEPTION(result);
 
 	D3D11_RENDER_TARGET_VIEW_DESC view_desc = {};
-	result = device->CreateRenderTargetView(resource.Get(), nullptr, &target_view);
+	result = device->CreateRenderTargetView(resource.Get(), nullptr, &render_view);
 	D3D_EXCEPTION(result);
 
+	// Create depth stencil state, (depth buffer)
+	D3D11_DEPTH_STENCIL_DESC depth_stencil_desc = {};
+	depth_stencil_desc.DepthEnable = true;
+	depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS;
 
+	wrl::ComPtr<ID3D11DepthStencilState> depth_stencil_state;
+	result = device->CreateDepthStencilState(
+		&depth_stencil_desc, &depth_stencil_state);
+	D3D_EXCEPTION(result);
+
+	device_context->OMSetDepthStencilState(
+		depth_stencil_state.Get(), 1u);
+
+	RECT rect = {};
+	GetClientRect(hwnd, &rect);
+	long width = rect.right - rect.left;
+	long height = rect.bottom - rect.top;
+
+	// Create the depth texture2d 
+	wrl::ComPtr<ID3D11Texture2D> texture2d;
+	D3D11_TEXTURE2D_DESC texture2d_desc = {};
+	texture2d_desc.Width = width;
+	texture2d_desc.Height = height;
+	texture2d_desc.MipLevels = 1u;
+	texture2d_desc.ArraySize = 1u;
+	texture2d_desc.Format = DXGI_FORMAT_D32_FLOAT; //D for depth
+	texture2d_desc.SampleDesc.Count = 1u;
+	texture2d_desc.SampleDesc.Quality = 0u;
+	texture2d_desc.Usage = D3D11_USAGE_DEFAULT;
+	texture2d_desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+
+	result = device->CreateTexture2D(
+		&texture2d_desc, nullptr, &texture2d);
+	D3D_EXCEPTION(result);
+
+	// Create the depth view
+	D3D11_DEPTH_STENCIL_VIEW_DESC depth_stencil_view_desc = {};
+	depth_stencil_view_desc.Format = DXGI_FORMAT_D32_FLOAT;
+	depth_stencil_view_desc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	depth_stencil_view_desc.Texture2D.MipSlice = 0u;
+
+	result = device->CreateDepthStencilView(
+		texture2d.Get(), &depth_stencil_view_desc,
+		&depth_view);
+	D3D_EXCEPTION(result);
+
+	// Bind it
+	device_context->OMSetRenderTargets(
+		1u, render_view.GetAddressOf(), depth_view.Get());
 }
 
 D3DGFX::~D3DGFX()
@@ -69,7 +118,10 @@ D3DGFX::~D3DGFX()
 void D3DGFX::start(float r, float g, float b, float a)
 {
 	float color[] = { r, g, b, a };
-	device_context->ClearRenderTargetView(target_view.Get(), color);	
+	device_context->ClearRenderTargetView(
+		render_view.Get(), color);	
+	device_context->ClearDepthStencilView(
+		depth_view.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 }
 
 void D3DGFX::end()
@@ -168,11 +220,6 @@ void D3DGFX::test()
 
 	for (auto& x : list)
 		x->bind();
-
-
-
-	// Set the render target to the render target view that we have created at the ctor
-	device_context->OMSetRenderTargets(1u, target_view.GetAddressOf(), nullptr);
 
 	// Create the viewport
 

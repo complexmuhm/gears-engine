@@ -30,7 +30,8 @@ private:
 	wrl::ComPtr<IDXGISwapChain> swap_chain;
 	wrl::ComPtr<ID3D11Device> device;
 	wrl::ComPtr<ID3D11DeviceContext> device_context;
-	wrl::ComPtr<ID3D11RenderTargetView> target_view;
+	wrl::ComPtr<ID3D11RenderTargetView> render_view;
+	wrl::ComPtr<ID3D11DepthStencilView> depth_view;
 
 };
 
