@@ -115,15 +115,15 @@ void D3DGFX::test()
 	long height = rect.bottom - rect.top;
 	float aspr = (float)(height) / (float)(width);
 
-	struct cBuffer
+	static float theta = 0.0f;
+	theta += 0.005f;
+
+	struct cVertexBuffer
 	{
 		DirectX::XMMATRIX transformation;
 	};
 
-	static float theta = 0.0f;
-	theta += 0.005f;
-
-	cBuffer cbuf =
+	cVertexBuffer cverbuf =
 	{
 		DirectX::XMMatrixTranspose(
 		DirectX::XMMatrixRotationZ(theta) *
@@ -132,7 +132,29 @@ void D3DGFX::test()
 		DirectX::XMMatrixPerspectiveLH(1.0f, aspr, 0.5f, 10.f))
 	};
 
-	VertexConstantBuffer<cBuffer> vertex_cbuffer(*this, cbuf);
+	VertexConstantBuffer<cVertexBuffer> vertex_cbuffer(*this, cverbuf);
+
+	struct cPixelBuffer
+	{
+		struct
+		{
+			float r, g, b, a;
+		} face_colors[6];
+	};
+
+	cPixelBuffer cpixbuf =
+	{
+		{
+			{1.0f, 0.0f, 1.0f, 1.0f},
+			{1.0f, 0.0f, 0.0f, 1.0f},
+			{0.0f, 1.0f, 0.0f, 1.0f},
+			{0.0f, 0.0f, 1.0f, 1.0f},
+			{1.0f, 1.0f, 0.0f, 1.0f},
+			{0.0f, 1.0f, 1.0f, 1.0f}
+		}
+	};
+
+	PixelConstantBuffer<cPixelBuffer> pixel_cbuffer(*this, cpixbuf);
 
 	std::vector<Bindable*> list;
 	list.push_back(&index_buffer);
@@ -142,6 +164,7 @@ void D3DGFX::test()
 	list.push_back(&pixel_shader);
 	list.push_back(&topology);
 	list.push_back(&vertex_cbuffer);
+	list.push_back(&pixel_cbuffer);
 
 	for (auto& x : list)
 		x->bind();
