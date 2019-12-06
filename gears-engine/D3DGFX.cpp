@@ -1,5 +1,6 @@
 #include "D3DGFX.h"
 #include "D3DException.h"
+#include <DirectXMath.h>
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "D3Dcompiler.lib")
@@ -81,20 +82,20 @@ void D3DGFX::test()
 {
 	IndexBuffer index_buffer(*this, {
 			0, 1, 2,
-			//0, 2, 3,
-			//4, 5, 6,
-			//4, 6, 7,
-			//1, 5, 6,
-			//1, 6, 2,
-			//4, 0, 3,
-			//4, 3, 7,
-			//4, 5, 1,
-			//4, 1, 0,
-			//3, 2, 6,
-			//3, 6, 7
+			0, 2, 3,
+			1, 5, 6,
+			1, 6, 2,
+			5, 4, 7,
+			5, 7, 6,
+			4, 0, 3,
+			4, 3, 7,
+			4, 5, 1,
+			4, 1, 0,
+			3, 2, 6,
+			3, 6, 7
 		});
 	VertexBuffer vertex_buffer(*this, {
-		{ -0.5f,  1.0f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f},
+		{ -0.5f,  0.5f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f},
 		{  0.5f,  0.5f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f},
 		{  0.5f, -0.5f,  0.0f, 0.0f, 0.0f, 1.0f, 1.0f},
 		{ -0.5f, -0.5f,  0.0f, 0.5f, 0.5f, 0.5f, 1.0f},
@@ -108,22 +109,27 @@ void D3DGFX::test()
 	PixelShader pixel_shader(*this, L"PixelShader.cso");
 	Topology topology(*this, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+	RECT rect = {};
+	GetClientRect(hwnd, &rect);
+	long width = rect.right - rect.left;
+	long height = rect.bottom - rect.top;
+	float aspr = (float)(height) / (float)(width);
+
 	struct cBuffer
 	{
-		struct {
-			float element[4][4];
-		} transformation;
+		DirectX::XMMATRIX transformation;
 	};
 
 	static float theta = 0.0f;
 	theta += 0.005f;
 
-	cBuffer cbuf = 
+	cBuffer cbuf =
 	{
-		 (3.f / 4.f) * cosf(theta),  sinf(theta),  0.0f, 0.0f ,
-		 (3.f / 4.f) * -sinf(theta),  cosf(theta),  0.0f, 0.0f ,
-		  0.0f,         0.0f,         0.0f, 0.0f ,
-		  0.0f,         0.0f,         0.0f, 1.0f 
+		DirectX::XMMatrixTranspose(
+		DirectX::XMMatrixRotationZ(theta) *
+		DirectX::XMMatrixRotationX(theta) *
+		DirectX::XMMatrixTranslation(0.0f, 0.0f, 4.0f) *
+		DirectX::XMMatrixPerspectiveLH(1.0f, aspr, 0.5f, 10.f))
 	};
 
 	VertexConstantBuffer<cBuffer> vertex_cbuffer(*this, cbuf);
@@ -146,10 +152,6 @@ void D3DGFX::test()
 	device_context->OMSetRenderTargets(1u, target_view.GetAddressOf(), nullptr);
 
 	// Create the viewport
-	RECT rect = {};
-	GetClientRect(hwnd, &rect);
-	long width = rect.right - rect.left;
-	long height = rect.bottom - rect.top;
 
 	D3D11_VIEWPORT viewport = {};
 	viewport.Width = (float)width;

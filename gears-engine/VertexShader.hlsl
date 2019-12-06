@@ -1,6 +1,6 @@
 cbuffer cBuf
 {
-	row_major matrix transformation;
+	matrix transformation;
 };
 
 struct VertexShaderOut
