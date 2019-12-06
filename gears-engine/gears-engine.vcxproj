@@ -157,23 +157,37 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaseException.h" />
+    <ClInclude Include="Bindable.h" />
+    <ClInclude Include="ConstantBuffer.h" />
+    <ClInclude Include="D3DException.h" />
     <ClInclude Include="D3DGFX.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="GearsWin.h" />
+    <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="PixelShader.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="VertexBuffer.h" />
+    <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WinException.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseException.cpp" />
+    <ClCompile Include="Bindable.cpp" />
+    <ClCompile Include="ConstantBuffer.cpp" />
+    <ClCompile Include="D3DException.cpp" />
     <ClCompile Include="D3DGFX.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Vector.cpp" />
+    <ClCompile Include="VertexBuffer.cpp" />
+    <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinException.cpp" />
     <ClCompile Include="WinMain.cpp" />

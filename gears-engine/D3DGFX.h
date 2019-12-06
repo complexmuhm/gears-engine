@@ -2,32 +2,13 @@
 #include <D3D11.h>
 #include <wrl.h>
 //#include <xnamath.h> //For SSE optimized vectors, matrices etc.
-#include <vector>
-#include <string>
-#include "BaseException.h"
-#include "Vector.h"
 
 namespace wrl = Microsoft::WRL;
 
 class D3DGFX
 {
+	friend class Bindable;
 public:
-	class D3DException : public BaseException
-	{
-	public:
-		D3DException(int line, const char* file, HRESULT result, std::vector<std::string> msgs = {}) noexcept;
-
-		const char* what() const noexcept override;
-		const char* get_type() const noexcept override;
-		HRESULT get_error_code() const noexcept;
-		std::string get_error() const noexcept;
-		std::string get_error_description() const noexcept;
-		std::string get_error_info() const noexcept;
-
-	private:
-		HRESULT result;
-		std::string info;
-	};
 
 public:
 	D3DGFX(HWND hwnd);
@@ -35,7 +16,7 @@ public:
 	D3DGFX& operator=(const D3DGFX&) = delete;
 	~D3DGFX();
 
-	void start(Vector4f color);
+	void start(float r, float g, float b, float a);
 	void end();
 
 	void test();
