@@ -1,54 +1,61 @@
 #include "Transform.h"
 
-void Transform::set_position(const Position& pos)
+Transform::Transform()
+	: sx(1.f), sy(1.f), sz(1.f)
+	, pitch(0.f), yaw(0.f), roll(0.f)
+	, px(0.f), py(0.f), pz(0.f)
 {
-	position = pos;
 }
 
 void Transform::set_position(float x, float y, float z)
 {
-	position = { x, y, z };
+	px = x;
+	py = y;
+	pz = z;
 }
 
-void Transform::set_rotation(const Rotation& rot)
+void Transform::set_scale(float x, float y, float z)
 {
-	rotation = rot;
+	sx = x;
+	sy = y;
+	sz = z;
 }
 
 void Transform::set_rotation(float pitch, float yaw, float roll)
 {
-	rotation = { pitch, yaw, roll };
-}
-
-Position Transform::get_position() const
-{
-	return position;
+	this->pitch = pitch;
+	this->yaw = yaw;
+	this->roll = roll;
 }
 
 void Transform::get_position(float& x, float& y, float& z) const
 {
-	x = position.x;
-	y = position.y;
-	z = position.z;
+	x = px;
+	y = py;
+	z = pz;
 }
 
-Rotation Transform::get_rotation() const
+void Transform::get_scale(float& x, float& y, float& z) const
 {
-	return rotation;
+	x = sx;
+	y = sy;
+	z = sz;
 }
 
 void Transform::get_rotation(float& pitch, float& yaw, float& roll) const
 {
-	pitch = rotation.pitch;
-	yaw = rotation.yaw;
-	roll = rotation.roll;
+	pitch = this->pitch;
+	yaw = this->yaw;
+	roll = roll;
 }
 
 DirectX::XMMATRIX Transform::get_transformation_matrix()
 {
-	return 
+	return
+		DirectX::XMMatrixScaling(
+			sx, sy, sz) *
 		DirectX::XMMatrixRotationRollPitchYaw(
-			rotation.pitch, rotation.yaw, rotation.roll) *
+			pitch, yaw, roll) *
 		DirectX::XMMatrixTranslation(
-			position.x, position.y, position.z);
+			px, py, pz);
 }

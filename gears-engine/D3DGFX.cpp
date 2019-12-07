@@ -144,11 +144,17 @@ void D3DGFX::test()
 {
 	static float theta = 0.0f;
 	theta += 0.005f;
-	static Cuboid c(*this, 1.0f, 1.0f, 1.0f);
-	c.set_rotation(theta, theta, 0);
-	c.set_position(0.f, 0.f, 1.0f);
 
-	DirectX::XMMATRIX transposed = DirectX::XMMatrixTranspose(c.get_transformation_matrix());
+	const float aspr = 720.f / 1280.f;
+	static Cuboid c(*this, 1.0f, 1.0f, 1.0f);
+	c.set_scale(1.0f, 1.0f, 1.0f);
+	c.set_rotation(theta, theta * 0.5f, 0);
+	c.set_position(0.f, 0.f, 10.0f);
+
+	DirectX::XMMATRIX transposed = 
+		DirectX::XMMatrixTranspose(
+			c.get_transformation_matrix() *
+		DirectX::XMMatrixPerspectiveLH(1.f, aspr, 1.0f, 100.f));
 	VertexConstantBuffer<DirectX::XMMATRIX> vertex_cbuffer(*this, transposed);
 
 	struct cPixelBuffer

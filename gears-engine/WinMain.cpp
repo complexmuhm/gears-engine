@@ -10,7 +10,7 @@ WinMain(
 {
 	try
 	{
-		Engine e({ 800, 600 }, L"Gears");
+		Engine e({ 1280, 720 }, L"Gears");
 		e.run();
 	}
 	catch (const BaseException& e)

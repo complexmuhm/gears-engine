@@ -25,6 +25,11 @@ void Engine::process_events()
 		TranslateMessage(&msg);
 		DispatchMessageW(&msg);
 	}
+
+	if (window.keybd.is_key_pressed(VK_ESCAPE))
+	{
+		window.close();
+	}
 }
 
 void Engine::update()
