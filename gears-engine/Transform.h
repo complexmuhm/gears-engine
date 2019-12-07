@@ -20,8 +20,10 @@ public:
 	virtual ~Transform() = default;
 
 	virtual void set_position(float x, float y, float z);
+	virtual void move(float dx, float dy, float dz);
 	virtual void set_scale(float x, float y, float z);
 	virtual void set_rotation(float pitch, float yaw, float roll);
+	virtual void rotate(float dpitch, float dyaw, float droll);
 
 	virtual void get_position(float& x, float& y, float& z) const;
 	virtual void get_scale(float& x, float& y, float& z) const;

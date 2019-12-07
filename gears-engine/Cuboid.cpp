@@ -1,16 +1,14 @@
 #include "Cuboid.h"
 
-#include "IndexBuffer.h"
-#include "VertexBuffer.h"
-#include "VertexShader.h"
-#include "PixelShader.h"
-#include "Topology.h"
-#include "InputLayout.h"
-#include <memory>
-
-Cuboid::Cuboid(D3DGFX& gfx, float length, float height, float width)
+Cuboid::Cuboid(D3DGFX& gfx, 
+	float length, float height, float width, 
+	float inv_aspr, float z_near, float z_far)
 	: length(length), height(height), width(width) 
 {
+	DirectX::XMStoreFloat4x4(
+		&perspective_matrix, 
+		DirectX::XMMatrixPerspectiveLH(1.0f, inv_aspr, z_near, z_far));
+
 	std::vector<UINT> indices =
 	{
 		0, 1, 2,
@@ -33,18 +31,18 @@ Cuboid::Cuboid(D3DGFX& gfx, float length, float height, float width)
 
 	std::vector<Vertex> vertices =
 	{
-		{ -hlength,  hheight,  -hwidth, 1.0f, 0.0f, 0.0f, 1.0f},
-		{  hlength,  hheight,  -hwidth, 1.0f, 0.0f, 0.0f, 1.0f},
-		{  hlength, -hheight,  -hwidth, 1.0f, 0.0f, 0.0f, 1.0f},
-		{ -hlength, -hheight,  -hwidth, 1.0f, 0.0f, 0.0f, 1.0f},
-		{ -hlength,  hheight,   hwidth, 1.0f, 0.0f, 0.0f, 1.0f},
-		{  hlength,  hheight,   hwidth, 1.0f, 0.0f, 0.0f, 1.0f},
-		{  hlength, -hheight,   hwidth, 1.0f, 0.0f, 0.0f, 1.0f},
-		{ -hlength, -hheight,   hwidth, 1.0f, 0.0f, 0.0f, 1.0f},
+		{ -hlength,  hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
+		{  hlength,  hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
+		{  hlength, -hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
+		{ -hlength, -hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
+		{ -hlength,  hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
+		{  hlength,  hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
+		{  hlength, -hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
+		{ -hlength, -hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
 	};
 
 	const wchar_t* vertex_shader_binary = L"VertexShader.cso";
-	const wchar_t* pixel_shader_binary = L"PixelShader.cso";
+	const wchar_t* pixel_shader_binary = L"WireFrame.cso";
 	D3D11_PRIMITIVE_TOPOLOGY top = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
 	std::unique_ptr<IndexBuffer> index_buffer = 
@@ -67,8 +65,17 @@ Cuboid::Cuboid(D3DGFX& gfx, float length, float height, float width)
 	add_bindable(std::move(pixel_shader));
 	add_bindable(std::move(topology));
 
+	vertex_cbuffer = std::make_unique<VertexConstantBuffer<DirectX::XMMATRIX>>(gfx);
+	
 }
 
 void Cuboid::update(float dt)
 {
+	// Update the constant buffer
+	vertex_cbuffer->update(
+		DirectX::XMMatrixTranspose(
+			get_transformation_matrix() *
+			DirectX::XMLoadFloat4x4(&perspective_matrix)));
+	// and manually bind it
+	vertex_cbuffer->bind();
 }

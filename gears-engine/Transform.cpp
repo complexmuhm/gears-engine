@@ -14,6 +14,13 @@ void Transform::set_position(float x, float y, float z)
 	pz = z;
 }
 
+void Transform::move(float dx, float dy, float dz)
+{
+	px += dx;
+	py += dy;
+	pz += dz;
+}
+
 void Transform::set_scale(float x, float y, float z)
 {
 	sx = x;
@@ -26,6 +33,13 @@ void Transform::set_rotation(float pitch, float yaw, float roll)
 	this->pitch = pitch;
 	this->yaw = yaw;
 	this->roll = roll;
+}
+
+void Transform::rotate(float dpitch, float dyaw, float droll)
+{
+	pitch += dpitch;
+	yaw += dyaw;
+	roll += droll;
 }
 
 void Transform::get_position(float& x, float& y, float& z) const

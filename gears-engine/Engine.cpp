@@ -40,7 +40,8 @@ void Engine::render()
 {
 	gfx.start(0.f, 0.f, 0.f, 1.0f);
 
-	gfx.test();
+	Vector2i mouse_pos = window.mouse.get_position();
+	gfx.test((float)mouse_pos.x, (float)mouse_pos.y);
 	
 	gfx.end();
 }

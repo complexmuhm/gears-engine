@@ -140,22 +140,19 @@ void D3DGFX::end()
 	swap_chain->Present(1u, 0);
 }
 
-void D3DGFX::test()
+void D3DGFX::test(float x, float y)
 {
 	static float theta = 0.0f;
 	theta += 0.005f;
 
 	const float aspr = 720.f / 1280.f;
-	static Cuboid c(*this, 1.0f, 1.0f, 1.0f);
-	c.set_scale(1.0f, 1.0f, 1.0f);
-	c.set_rotation(theta, theta * 0.5f, 0);
-	c.set_position(0.f, 0.f, 10.0f);
-
-	DirectX::XMMATRIX transposed = 
-		DirectX::XMMatrixTranspose(
-			c.get_transformation_matrix() *
-		DirectX::XMMatrixPerspectiveLH(1.f, aspr, 1.0f, 100.f));
-	VertexConstantBuffer<DirectX::XMMATRIX> vertex_cbuffer(*this, transposed);
+	static Cuboid c(*this, 1.0f, 1.0f, 1.0f, aspr, 0.5f, 100.f);
+	float s = 0.5f;
+	c.set_scale(s, s, s);
+	c.set_rotation(theta, theta * 0.5f, theta * 0.5f * 0.5f);
+	float ndc_x = (x / 1280.f * 2.f) - 1.f;
+	float ndc_y = -(y / 720.f * 2.f) + 1.f;
+	c.set_position(ndc_x, ndc_y, 1.0f);
 
 	struct cPixelBuffer
 	{
@@ -168,24 +165,33 @@ void D3DGFX::test()
 	cPixelBuffer cpixbuf =
 	{
 		{
-			{1.0f, 0.0f, 1.0f, 1.0f},
 			{1.0f, 0.0f, 0.0f, 1.0f},
 			{0.0f, 1.0f, 0.0f, 1.0f},
 			{0.0f, 0.0f, 1.0f, 1.0f},
 			{1.0f, 1.0f, 0.0f, 1.0f},
-			{0.0f, 1.0f, 1.0f, 1.0f}
+			{0.0f, 1.0f, 1.0f, 1.0f},
+			{1.0f, 0.0f, 1.0f, 1.0f}
 		}
 	};
 
 	PixelConstantBuffer<cPixelBuffer> pixel_cbuffer(*this, cpixbuf);
 
 	std::vector<Bindable*> list;
-	list.push_back(&vertex_cbuffer);
-	list.push_back(&pixel_cbuffer);
+	//list.push_back(&pixel_cbuffer);
 
 	for (auto& x : list)
 		x->bind();
 
+	c.update(0.0f);
+
+	wrl::ComPtr<ID3D11RasterizerState> rasterizer_state;
+	D3D11_RASTERIZER_DESC rasterizer_desc = {};
+	rasterizer_desc.FillMode = D3D11_FILL_WIREFRAME;
+	rasterizer_desc.CullMode = D3D11_CULL_NONE;
+	rasterizer_desc.DepthClipEnable = true;
+	
+	device->CreateRasterizerState(&rasterizer_desc, &rasterizer_state);
+	device_context->RSSetState(rasterizer_state.Get());
 	c.draw(*this);
 }
 
