@@ -20,6 +20,8 @@ public:
 
 	void set_title(const std::wstring& title);
 
+	float get_aspect_ratio() const;
+	Vector2i get_size() const;
 	bool is_done() const;
 
 	void close();

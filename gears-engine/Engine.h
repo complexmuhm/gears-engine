@@ -1,6 +1,7 @@
 #pragma once
 #include "Window.h"
 #include "D3DGFX.h"
+#include "EdgeCuboid.h"
 
 class Engine
 {
@@ -16,5 +17,7 @@ private:
 private:
 	Window window;
 	D3DGFX gfx;
+
+	std::unique_ptr<EdgeCuboid> edge_cuboid;
 };
 

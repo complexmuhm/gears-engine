@@ -48,6 +48,16 @@ void Window::set_title(const std::wstring& title)
 	SetWindowTextW(handle, title.c_str());
 }
 
+float Window::get_aspect_ratio() const
+{
+	return (float)(size.x) / (float)(size.y);
+}
+
+Vector2i Window::get_size() const
+{
+	return size;
+}
+
 bool Window::is_done() const
 {
 	return done;

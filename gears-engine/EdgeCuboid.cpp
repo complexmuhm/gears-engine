@@ -1,28 +1,19 @@
-#include "Cuboid.h"
+#include "EdgeCuboid.h"
 
-Cuboid::Cuboid(D3DGFX& gfx, 
-	float length, float height, float width, 
+EdgeCuboid::EdgeCuboid(D3DGFX& gfx,
+	float length, float height, float width,
 	float inv_aspr, float z_near, float z_far)
-	: length(length), height(height), width(width) 
+	: length(length), height(height), width(width)
 {
 	DirectX::XMStoreFloat4x4(
-		&perspective_matrix, 
+		&perspective_matrix,
 		DirectX::XMMatrixPerspectiveLH(1.0f, inv_aspr, z_near, z_far));
 
 	std::vector<UINT> indices =
 	{
-		0, 1, 2,
-		0, 2, 3,
-		1, 5, 6,
-		1, 6, 2,
-		5, 4, 7,
-		5, 7, 6,
-		4, 0, 3,
-		4, 3, 7,
-		4, 5, 1,
-		4, 1, 0,
-		3, 2, 6,
-		3, 6, 7
+		0, 1,   1, 2,   2, 3,   3, 0,
+		4, 5,   5, 6,   6, 7,   7, 4,
+		0, 4,   1, 5,   2, 6,   3, 7,
 	};
 
 	float hlength = length / 2.f;
@@ -42,20 +33,20 @@ Cuboid::Cuboid(D3DGFX& gfx,
 	};
 
 	const wchar_t* vertex_shader_binary = L"VertexShader.cso";
-	const wchar_t* pixel_shader_binary = L"PixelShader.cso";
-	D3D11_PRIMITIVE_TOPOLOGY top = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	const wchar_t* pixel_shader_binary = L"WireFrame.cso";
+	D3D11_PRIMITIVE_TOPOLOGY top = D3D11_PRIMITIVE_TOPOLOGY_LINELIST;
 
-	std::unique_ptr<IndexBuffer> index_buffer = 
+	std::unique_ptr<IndexBuffer> index_buffer =
 		std::make_unique<IndexBuffer>(gfx, indices);
 	std::unique_ptr<VertexBuffer> vertex_buffer =
 		std::make_unique<VertexBuffer>(gfx, vertices);
 	std::unique_ptr<VertexShader> vertex_shader =
 		std::make_unique<VertexShader>(gfx, vertex_shader_binary);
-	std::unique_ptr<InputLayout> input_layout = 
+	std::unique_ptr<InputLayout> input_layout =
 		std::make_unique<InputLayout>(gfx, vertex_shader->get_compiled_shader());
-	std::unique_ptr<PixelShader> pixel_shader = 
+	std::unique_ptr<PixelShader> pixel_shader =
 		std::make_unique<PixelShader>(gfx, pixel_shader_binary);
-	std::unique_ptr<Topology> topology = 
+	std::unique_ptr<Topology> topology =
 		std::make_unique<Topology>(gfx, top);
 
 	add_index_buffer(std::move(index_buffer));
@@ -66,10 +57,10 @@ Cuboid::Cuboid(D3DGFX& gfx,
 	add_bindable(std::move(topology));
 
 	vertex_cbuffer = std::make_unique<VertexConstantBuffer<DirectX::XMMATRIX>>(gfx);
-	
+
 }
 
-void Cuboid::update(float dt)
+void EdgeCuboid::update(float dt)
 {
 	// Update the constant buffer
 	vertex_cbuffer->update(

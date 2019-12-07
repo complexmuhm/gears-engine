@@ -5,6 +5,10 @@ Engine::Engine(Vector2i size, const std::wstring& title)
 	: window(size, title)
 	, gfx(window.get_handle())
 {
+	edge_cuboid = std::make_unique<EdgeCuboid>(
+		gfx,
+		1.0f, 1.0f, 1.0f,
+		1.f / window.get_aspect_ratio(), 0.5f, 100.f);
 }
 
 void Engine::run()
@@ -34,14 +38,19 @@ void Engine::process_events()
 
 void Engine::update()
 {
+	static float theta = 0.0f;
+	theta += 0.005f;
+
+	edge_cuboid->set_rotation(theta, theta * 0.5f, theta * 0.5f * 0.5f);
+	edge_cuboid->set_position(0.f, 0.f, 2.0f);
+	edge_cuboid->update(0.f);
 }
 
 void Engine::render()
 {
 	gfx.start(0.f, 0.f, 0.f, 1.0f);
 
-	Vector2i mouse_pos = window.mouse.get_position();
-	gfx.test((float)mouse_pos.x, (float)mouse_pos.y);
+	edge_cuboid->draw(gfx);
 	
 	gfx.end();
 }

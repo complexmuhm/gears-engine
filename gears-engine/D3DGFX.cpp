@@ -7,6 +7,7 @@
 
 #include "ConstantBuffer.h"
 #include "Cuboid.h"
+#include "EdgeCuboid.h"
 
 D3DGFX::D3DGFX(HWND hwnd)
 	: hwnd(hwnd)
@@ -142,56 +143,11 @@ void D3DGFX::end()
 
 void D3DGFX::test(float x, float y)
 {
-	static float theta = 0.0f;
-	theta += 0.005f;
-
-	const float aspr = 720.f / 1280.f;
-	static Cuboid c(*this, 1.0f, 1.0f, 1.0f, aspr, 0.5f, 100.f);
-	float s = 0.5f;
-	c.set_scale(s, s, s);
-	c.set_rotation(theta, theta * 0.5f, theta * 0.5f * 0.5f);
-	float ndc_x = (x / 1280.f * 2.f) - 1.f;
-	float ndc_y = -(y / 720.f * 2.f) + 1.f;
-	c.set_position(ndc_x, ndc_y, 1.0f);
-
-	struct cPixelBuffer
-	{
-		struct
-		{
-			float r, g, b, a;
-		} face_colors[6];
-	};
-
-	cPixelBuffer cpixbuf =
-	{
-		{
-			{1.0f, 0.0f, 0.0f, 1.0f},
-			{0.0f, 1.0f, 0.0f, 1.0f},
-			{0.0f, 0.0f, 1.0f, 1.0f},
-			{1.0f, 1.0f, 0.0f, 1.0f},
-			{0.0f, 1.0f, 1.0f, 1.0f},
-			{1.0f, 0.0f, 1.0f, 1.0f}
-		}
-	};
-
-	PixelConstantBuffer<cPixelBuffer> pixel_cbuffer(*this, cpixbuf);
-
-	std::vector<Bindable*> list;
-	//list.push_back(&pixel_cbuffer);
-
-	for (auto& x : list)
-		x->bind();
-
-	c.update(0.0f);
-
-	wrl::ComPtr<ID3D11RasterizerState> rasterizer_state;
-	D3D11_RASTERIZER_DESC rasterizer_desc = {};
-	rasterizer_desc.FillMode = D3D11_FILL_WIREFRAME;
-	rasterizer_desc.CullMode = D3D11_CULL_NONE;
-	rasterizer_desc.DepthClipEnable = true;
-	
-	device->CreateRasterizerState(&rasterizer_desc, &rasterizer_state);
-	device_context->RSSetState(rasterizer_state.Get());
-	c.draw(*this);
+	//D3D11_RASTERIZER_DESC rasterizer_desc = {};
+	//rasterizer_desc.FillMode = D3D11_FILL_WIREFRAME;
+	//rasterizer_desc.CullMode = D3D11_CULL_NONE;
+	//rasterizer_desc.DepthClipEnable = true;
+	//device->CreateRasterizerState(&rasterizer_desc, &rasterizer_state);
+	//device_context->RSSetState(rasterizer_state.Get());
 }
 
