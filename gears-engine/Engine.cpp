@@ -33,7 +33,7 @@ void Engine::update()
 
 void Engine::render()
 {
-	gfx.start({0.f, 0.f, 0.f, 1.0f });
+	gfx.start(0.f, 0.f, 0.f, 1.0f);
 
 	gfx.test();
 	

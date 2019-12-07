@@ -1,8 +1,7 @@
 #pragma once
 
 // target Windows 7 or later
-#define _WIN_VER 0x0501
-#define _WIN32_WINNT 0x0601
+#define _WIN32_WINNT _WIN32_WINNT_WIN7
 #include <sdkddkver.h>
 // The following #defines disable a bunch of unused windows stuff. If you 
 // get weird errors when trying to do some windows stuff, try removing some

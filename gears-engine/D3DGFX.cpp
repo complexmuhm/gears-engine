@@ -1,18 +1,18 @@
 #include "D3DGFX.h"
-#include <sstream>
-#include <d3dcompiler.h>
+#include "D3DException.h"
+#include <DirectXMath.h>
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "D3Dcompiler.lib")
 
-#define GFX_EXCEPTION(x) if(FAILED(x)){throw D3DGFX::D3DException(__LINE__, __FILE__, x);}
-
+#include "ConstantBuffer.h"
+#include "Cuboid.h"
 
 D3DGFX::D3DGFX(HWND hwnd)
 	: hwnd(hwnd)
 {
 	HRESULT result = 0;
-	//description of EVERYTHING the swap chain offers
+	// description of EVERYTHING the swap chain offers
 	DXGI_SWAP_CHAIN_DESC swap_chain_description = {};
 	swap_chain_description.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
 	swap_chain_description.BufferDesc.Width = 0;
@@ -34,7 +34,7 @@ D3DGFX::D3DGFX(HWND hwnd)
 #ifndef NDEBUG
 	flags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
-	//Create the device + device context and swap chain to write to
+	// Create the device + device context and swap chain to write to
 	result = D3D11CreateDeviceAndSwapChain(
 		nullptr, D3D_DRIVER_TYPE_HARDWARE,
 		0, flags, nullptr, 0,
@@ -43,113 +43,69 @@ D3DGFX::D3DGFX(HWND hwnd)
 		&swap_chain,
 		&device, nullptr,
 		&device_context);
-	GFX_EXCEPTION(result);
+	D3D_EXCEPTION(result);
 
-	//Get the render target view to the back buffer to clear it
+	// Get the render target view to the back buffer to clear it
 	wrl::ComPtr<ID3D11Resource> resource = nullptr;
 	result = swap_chain->GetBuffer(0, __uuidof(ID3D11Resource), &resource);
-	GFX_EXCEPTION(result);
+	D3D_EXCEPTION(result);
 
 	D3D11_RENDER_TARGET_VIEW_DESC view_desc = {};
-	result = device->CreateRenderTargetView(resource.Get(), nullptr, &target_view);
-	GFX_EXCEPTION(result);
+	result = device->CreateRenderTargetView(resource.Get(), nullptr, &render_view);
+	D3D_EXCEPTION(result);
 
+	// Create depth stencil state, (depth buffer)
+	D3D11_DEPTH_STENCIL_DESC depth_stencil_desc = {};
+	depth_stencil_desc.DepthEnable = true;
+	depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS;
 
-}
+	wrl::ComPtr<ID3D11DepthStencilState> depth_stencil_state;
+	result = device->CreateDepthStencilState(
+		&depth_stencil_desc, &depth_stencil_state);
+	D3D_EXCEPTION(result);
 
-D3DGFX::~D3DGFX()
-{
-}
+	device_context->OMSetDepthStencilState(
+		depth_stencil_state.Get(), 1u);
 
-void D3DGFX::start(Vector4f color)
-{
-	device_context->ClearRenderTargetView(target_view.Get(), reinterpret_cast<float*>(&color));	
-}
-
-void D3DGFX::end()
-{
-	//TODO: check on DXGI_ERROR_DEVICE_REMOVED and try to recover from it
-	swap_chain->Present(1u, 0);
-}
-
-void D3DGFX::test()
-{
-	HRESULT result;
-	struct Vertex
-	{
-		float x, y, z;
-		float r, g, b, a;
-	};
-
-	const Vertex v[] = {
-		{ -0.5f, -0.5f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f },
-		{  0.0f,  0.5f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f },
-		{  0.5f, -0.5f,  0.0f, 0.0f, 0.0f, 1.0f, 1.0f }
-	};
-
-	//Create the buffer
-	D3D11_BUFFER_DESC vertex_buffer_desc = {};
-	vertex_buffer_desc.Usage = D3D11_USAGE_DEFAULT;
-	vertex_buffer_desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vertex_buffer_desc.ByteWidth = sizeof(v);
-	vertex_buffer_desc.StructureByteStride = sizeof(Vertex);
-	vertex_buffer_desc.CPUAccessFlags = 0;
-	vertex_buffer_desc.MiscFlags = 0;
-
-	D3D11_SUBRESOURCE_DATA vertex_buffer_data = {};
-	vertex_buffer_data.pSysMem = v;
-
-	wrl::ComPtr<ID3D11Buffer> vertex_buffer;
-	result = device->CreateBuffer(&vertex_buffer_desc, &vertex_buffer_data, &vertex_buffer);
-
-	//Set the pipeline state
-	const UINT stride = sizeof(Vertex);
-	const UINT offset = 0;
-	device_context->IASetVertexBuffers(0, 1, vertex_buffer.GetAddressOf(), &stride, &offset);
-	//Set the topology
-	device_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	
-	//Get the compiled vertex shader and set it in the pipeline
-	wrl::ComPtr<ID3DBlob> compiled_shader;
-	D3DReadFileToBlob(L"VertexShader.cso", &compiled_shader);
-
-	wrl::ComPtr<ID3D11VertexShader> vertex_shader;
-	device->CreateVertexShader(
-		compiled_shader->GetBufferPointer(), 
-		compiled_shader->GetBufferSize(), 
-		nullptr, &vertex_shader);
-	device_context->VSSetShader(vertex_shader.Get(), nullptr, 0u);
-
-	//Set the input layout for the vertex shader
-	wrl::ComPtr<ID3D11InputLayout> input_layout;
-	const D3D11_INPUT_ELEMENT_DESC input_element_desc[] =
-	{
-		{"Position", 0u, DXGI_FORMAT_R32G32B32_FLOAT, 0u, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0u},
-		{"Color", 0u, DXGI_FORMAT_R32G32B32A32_FLOAT, 0u, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0u}
-	};
-	device->CreateInputLayout(
-		input_element_desc, (UINT)std::size(input_element_desc), 
-		compiled_shader->GetBufferPointer(), compiled_shader->GetBufferSize(),
-		&input_layout);
-	device_context->IASetInputLayout(input_layout.Get());
-
-	//Get the compiled pixel shader and set it in the pipeline
-	D3DReadFileToBlob(L"PixelShader.cso", &compiled_shader);
-	wrl::ComPtr<ID3D11PixelShader> pixel_shader;
-	device->CreatePixelShader(
-		compiled_shader->GetBufferPointer(),
-		compiled_shader->GetBufferSize(),
-		nullptr, &pixel_shader);
-	device_context->PSSetShader(pixel_shader.Get(), nullptr, 0u);
-	
-	device_context->OMSetRenderTargets(1u, target_view.GetAddressOf(), nullptr);
-
-	//Create the viewport
 	RECT rect = {};
 	GetClientRect(hwnd, &rect);
 	long width = rect.right - rect.left;
 	long height = rect.bottom - rect.top;
 
+	// Create the depth texture2d 
+	wrl::ComPtr<ID3D11Texture2D> texture2d;
+	D3D11_TEXTURE2D_DESC texture2d_desc = {};
+	texture2d_desc.Width = width;
+	texture2d_desc.Height = height;
+	texture2d_desc.MipLevels = 1u;
+	texture2d_desc.ArraySize = 1u;
+	texture2d_desc.Format = DXGI_FORMAT_D32_FLOAT; //D for depth
+	texture2d_desc.SampleDesc.Count = 1u;
+	texture2d_desc.SampleDesc.Quality = 0u;
+	texture2d_desc.Usage = D3D11_USAGE_DEFAULT;
+	texture2d_desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+
+	result = device->CreateTexture2D(
+		&texture2d_desc, nullptr, &texture2d);
+	D3D_EXCEPTION(result);
+
+	// Create the depth view
+	D3D11_DEPTH_STENCIL_VIEW_DESC depth_stencil_view_desc = {};
+	depth_stencil_view_desc.Format = DXGI_FORMAT_D32_FLOAT;
+	depth_stencil_view_desc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	depth_stencil_view_desc.Texture2D.MipSlice = 0u;
+
+	result = device->CreateDepthStencilView(
+		texture2d.Get(), &depth_stencil_view_desc,
+		&depth_view);
+	D3D_EXCEPTION(result);
+
+	// Bind the depth stencil view and the render target view	
+	device_context->OMSetRenderTargets(
+		1u, render_view.GetAddressOf(), depth_view.Get());
+
+	// Create the viewport
 	D3D11_VIEWPORT viewport = {};
 	viewport.Width = (float)width;
 	viewport.Height = (float)height;
@@ -158,71 +114,72 @@ void D3DGFX::test()
 	viewport.MinDepth = 0;
 	viewport.MaxDepth = 1;
 	device_context->RSSetViewports(1u, &viewport);
-
-
-	device_context->Draw((UINT)std::size(v), 0);
 }
 
-
-//EXCEPTION=============================================================================
-D3DGFX::D3DException::D3DException(
-	int line, const char* file, 
-	HRESULT result, std::vector<std::string> msgs) noexcept
-	: BaseException(line, file)
-	, result(result)
+D3DGFX::~D3DGFX()
 {
-	if (!msgs.empty())
+}
+
+void D3DGFX::start(float r, float g, float b, float a)
+{
+	float color[] = { r, g, b, a };
+	device_context->ClearRenderTargetView(
+		render_view.Get(), color);	
+	device_context->ClearDepthStencilView(
+		depth_view.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
+}
+
+void D3DGFX::draw_indexed(UINT index_count)
+{
+	device_context->DrawIndexed(index_count, 0u, 0u);
+}
+
+void D3DGFX::end()
+{
+	// TODO: check on DXGI_ERROR_DEVICE_REMOVED and try to recover from it
+	swap_chain->Present(1u, 0);
+}
+
+void D3DGFX::test()
+{
+	static float theta = 0.0f;
+	theta += 0.005f;
+	static Cuboid c(*this, 1.0f, 1.0f, 1.0f);
+	c.set_rotation(theta, theta, 0);
+	c.set_position(0.f, 0.f, 1.0f);
+
+	DirectX::XMMATRIX transposed = DirectX::XMMatrixTranspose(c.get_transformation_matrix());
+	VertexConstantBuffer<DirectX::XMMATRIX> vertex_cbuffer(*this, transposed);
+
+	struct cPixelBuffer
 	{
-		//Form a chain out of the messages
-		for (const auto& m : msgs)
+		struct
 		{
-			info += m;
-			info.push_back('\n');
-		}
-		info.pop_back();
-	}
-}
+			float r, g, b, a;
+		} face_colors[6];
+	};
 
-const char* D3DGFX::D3DException::what() const noexcept
-{
-	std::stringstream ss;
-	ss << "[" << result << "] " << get_error() << "\n";
-	ss << "[Error] " << get_error() << "\n";
-	ss << "[Description] " << get_error_description() << "\n";
-	if (!info.empty())
+	cPixelBuffer cpixbuf =
 	{
-		ss << "\n[Info]\n" << get_error_info() << "\n";
-	}
-	ss << "\n" << get_content();
-	what_buffer = ss.str();
-	return what_buffer.c_str();
+		{
+			{1.0f, 0.0f, 1.0f, 1.0f},
+			{1.0f, 0.0f, 0.0f, 1.0f},
+			{0.0f, 1.0f, 0.0f, 1.0f},
+			{0.0f, 0.0f, 1.0f, 1.0f},
+			{1.0f, 1.0f, 0.0f, 1.0f},
+			{0.0f, 1.0f, 1.0f, 1.0f}
+		}
+	};
+
+	PixelConstantBuffer<cPixelBuffer> pixel_cbuffer(*this, cpixbuf);
+
+	std::vector<Bindable*> list;
+	list.push_back(&vertex_cbuffer);
+	list.push_back(&pixel_cbuffer);
+
+	for (auto& x : list)
+		x->bind();
+
+	c.draw(*this);
 }
 
-const char* D3DGFX::D3DException::get_type() const noexcept
-{
-	return "DirectX Exception";
-}
-
-HRESULT D3DGFX::D3DException::get_error_code() const noexcept
-{
-	return result;
-}
-
-std::string D3DGFX::D3DException::get_error() const noexcept
-{
-	//return DXGetErrorStringA(result);
-	return "lol";
-}
-
-std::string D3DGFX::D3DException::get_error_description() const noexcept
-{
-	//char buffer[1024];
-	//DXGetErrorDescriptionA(result, buffer, sizeof(buffer));
-	//return buffer;
-	return "double lol";
-}
-
-std::string D3DGFX::D3DException::get_error_info() const noexcept
-{
-	return info;
-}
