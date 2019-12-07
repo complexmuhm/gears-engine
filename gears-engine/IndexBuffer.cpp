@@ -23,7 +23,7 @@ void IndexBuffer::bind()
 	get_device_context()->IASetIndexBuffer(index_buffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 }
 
-UINT IndexBuffer::size()
+UINT IndexBuffer::count() const
 {
 	return index_size;
 }

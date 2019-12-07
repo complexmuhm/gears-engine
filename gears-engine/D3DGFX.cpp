@@ -6,12 +6,7 @@
 #pragma comment(lib, "D3Dcompiler.lib")
 
 #include "ConstantBuffer.h"
-#include "IndexBuffer.h"
-#include "VertexBuffer.h"
-#include "InputLayout.h"
-#include "VertexShader.h"
-#include "PixelShader.h"
-#include "Topology.h"
+#include "Cuboid.h"
 
 D3DGFX::D3DGFX(HWND hwnd)
 	: hwnd(hwnd)
@@ -106,9 +101,19 @@ D3DGFX::D3DGFX(HWND hwnd)
 		&depth_view);
 	D3D_EXCEPTION(result);
 
-	// Bind it
+	// Bind the depth stencil view and the render target view	
 	device_context->OMSetRenderTargets(
 		1u, render_view.GetAddressOf(), depth_view.Get());
+
+	// Create the viewport
+	D3D11_VIEWPORT viewport = {};
+	viewport.Width = (float)width;
+	viewport.Height = (float)height;
+	viewport.TopLeftX = 0;
+	viewport.TopLeftY = 0;
+	viewport.MinDepth = 0;
+	viewport.MaxDepth = 1;
+	device_context->RSSetViewports(1u, &viewport);
 }
 
 D3DGFX::~D3DGFX()
@@ -124,6 +129,11 @@ void D3DGFX::start(float r, float g, float b, float a)
 		depth_view.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 }
 
+void D3DGFX::draw_indexed(UINT index_count)
+{
+	device_context->DrawIndexed(index_count, 0u, 0u);
+}
+
 void D3DGFX::end()
 {
 	// TODO: check on DXGI_ERROR_DEVICE_REMOVED and try to recover from it
@@ -132,59 +142,14 @@ void D3DGFX::end()
 
 void D3DGFX::test()
 {
-	IndexBuffer index_buffer(*this, {
-			0, 1, 2,
-			0, 2, 3,
-			1, 5, 6,
-			1, 6, 2,
-			5, 4, 7,
-			5, 7, 6,
-			4, 0, 3,
-			4, 3, 7,
-			4, 5, 1,
-			4, 1, 0,
-			3, 2, 6,
-			3, 6, 7
-		});
-	VertexBuffer vertex_buffer(*this, {
-		{ -0.5f,  0.5f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f},
-		{  0.5f,  0.5f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f},
-		{  0.5f, -0.5f,  0.0f, 0.0f, 0.0f, 1.0f, 1.0f},
-		{ -0.5f, -0.5f,  0.0f, 0.5f, 0.5f, 0.5f, 1.0f},
-		{ -0.5f,  0.5f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f},
-		{  0.5f,  0.5f,  1.0f, 0.0f, 1.0f, 0.0f, 1.0f},
-		{  0.5f, -0.5f,  1.0f, 0.0f, 0.0f, 1.0f, 1.0f},
-		{ -0.5f, -0.5f,  1.0f, 0.5f, 0.5f, 0.5f, 1.0f}
-		});
-	VertexShader vertex_shader(*this, L"VertexShader.cso");
-	InputLayout input_layout(*this, vertex_shader.get_compiled_shader());
-	PixelShader pixel_shader(*this, L"PixelShader.cso");
-	Topology topology(*this, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	RECT rect = {};
-	GetClientRect(hwnd, &rect);
-	long width = rect.right - rect.left;
-	long height = rect.bottom - rect.top;
-	float aspr = (float)(height) / (float)(width);
-
 	static float theta = 0.0f;
 	theta += 0.005f;
+	static Cuboid c(*this, 1.0f, 1.0f, 1.0f);
+	c.set_rotation(theta, theta, 0);
+	c.set_position(0.f, 0.f, 1.0f);
 
-	struct cVertexBuffer
-	{
-		DirectX::XMMATRIX transformation;
-	};
-
-	cVertexBuffer cverbuf =
-	{
-		DirectX::XMMatrixTranspose(
-		DirectX::XMMatrixRotationZ(theta) *
-		DirectX::XMMatrixRotationX(theta) *
-		DirectX::XMMatrixTranslation(0.0f, 0.0f, 4.0f) *
-		DirectX::XMMatrixPerspectiveLH(1.0f, aspr, 0.5f, 10.f))
-	};
-
-	VertexConstantBuffer<cVertexBuffer> vertex_cbuffer(*this, cverbuf);
+	DirectX::XMMATRIX transposed = DirectX::XMMatrixTranspose(c.get_transformation_matrix());
+	VertexConstantBuffer<DirectX::XMMATRIX> vertex_cbuffer(*this, transposed);
 
 	struct cPixelBuffer
 	{
@@ -209,30 +174,12 @@ void D3DGFX::test()
 	PixelConstantBuffer<cPixelBuffer> pixel_cbuffer(*this, cpixbuf);
 
 	std::vector<Bindable*> list;
-	list.push_back(&index_buffer);
-	list.push_back(&vertex_buffer);
-	list.push_back(&vertex_shader);
-	list.push_back(&input_layout);
-	list.push_back(&pixel_shader);
-	list.push_back(&topology);
 	list.push_back(&vertex_cbuffer);
 	list.push_back(&pixel_cbuffer);
 
 	for (auto& x : list)
 		x->bind();
 
-	// Create the viewport
-
-	D3D11_VIEWPORT viewport = {};
-	viewport.Width = (float)width;
-	viewport.Height = (float)height;
-	viewport.TopLeftX = 0;
-	viewport.TopLeftY = 0;
-	viewport.MinDepth = 0;
-	viewport.MaxDepth = 1;
-	device_context->RSSetViewports(1u, &viewport);
-	
-
-	device_context->DrawIndexed(index_buffer.size(), 0u, 0u);
+	c.draw(*this);
 }
 

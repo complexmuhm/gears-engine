@@ -10,7 +10,7 @@ public:
 
 	void bind() override;
 	
-	UINT size();
+	UINT count() const;
 private:
 	UINT index_size;
 	wrl::ComPtr<ID3D11Buffer> index_buffer;

@@ -18,6 +18,7 @@ public:
 	~D3DGFX();
 
 	void start(float r, float g, float b, float a);
+	void draw_indexed(UINT index_count);
 	void end();
 
 	void test();

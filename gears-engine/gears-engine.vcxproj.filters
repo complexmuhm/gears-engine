@@ -34,6 +34,12 @@
     <Filter Include="Quelldateien\D3DGFX Components">
       <UniqueIdentifier>{b1835581-8713-49fe-8e7d-f2b6f66ed883}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\Primitives">
+      <UniqueIdentifier>{d2551361-f5f8-438d-9eb9-b14434e32fe3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Primitives">
+      <UniqueIdentifier>{d5cebbc1-dda6-4b63-9404-ea4f8b0a1c1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -93,6 +99,15 @@
     <ClInclude Include="Topology.h">
       <Filter>Headerdateien\D3DGFX Components</Filter>
     </ClInclude>
+    <ClInclude Include="Drawable.h">
+      <Filter>Headerdateien\D3DGFX Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Cuboid.h">
+      <Filter>Headerdateien\Primitives</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="D3DGFX.cpp">
@@ -148,6 +163,15 @@
     </ClCompile>
     <ClCompile Include="InputLayout.cpp">
       <Filter>Quelldateien\D3DGFX Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Drawable.cpp">
+      <Filter>Quelldateien\D3DGFX Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Cuboid.cpp">
+      <Filter>Quelldateien\Primitives</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
