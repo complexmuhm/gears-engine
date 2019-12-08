@@ -8,7 +8,7 @@ Texture::Texture(D3DGFX& gfx, const std::string& filename)
 {
 	HRESULT result;
 
-	// TODO: load the bmp file and create a shader resource view
+	// load and decode png file and store it in the out vector 
 	std::vector<unsigned char> filebuffer, out;
 	loadFile(filebuffer, filename);
 	unsigned long width, height;

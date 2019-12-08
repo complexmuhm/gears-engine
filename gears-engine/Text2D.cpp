@@ -195,8 +195,7 @@ void Text2D::draw(D3DGFX& gfx) const
 		DirectX::XMLoadFloat4x4(ortho);
 
 	vertex_cbuffer->update(
-		DirectX::XMMatrixTranspose(
-		 result));
+		DirectX::XMMatrixTranspose(result));
 	vertex_cbuffer->bind();
 
 	gfx.draw_indexed(cindex_buffer->count());

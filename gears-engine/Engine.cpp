@@ -15,7 +15,7 @@ Engine::Engine(Vector2i size, const std::wstring& title)
 		1.0f, 1.0f, 1.0f,
 		window.get_aspect_ratio(), z_near, z_far);
 	label = std::make_unique<Text2D>(gfx, 0.0f, 0.0f, "Testing THIS text.", &ortho);
-	label->set_scale(0.25f, 0.25f);
+	//label->set_scale(0.25f, 0.25f);
 }
 
 void Engine::run()
