@@ -12,6 +12,7 @@ const std::vector<ASCIICharUVCoord>& get_font_array()
 	{
 		const unsigned int ascii_range = 0x7F - 0x20; // ASCII range
 		result.reserve(ascii_range); 
+		// Use fontdata7x9 for all text
 		const std::string fontdata_file = "fontdata7x9";
 		std::ifstream fontdata(fontdata_file);
 
@@ -45,69 +46,6 @@ Text2D::Text2D(D3DGFX& gfx,
 	px = x; py = y;
 	set_text(text);
 
-	//indices.clear();
-	//vertices.clear();
-
-	//ASCIICharUVCoord character = get_font_array()['H' - 32];
-
-	//float du = character.u_end - character.u_start;
-	//float dv = character.v_end - character.v_start;
-
-
-	//float startX = px, startY = py, temp_z = 0.0f;
-	//vertices.emplace_back(
-	//	startX, startY, temp_z, 1.0f, 1.0f, 1.0f, 1.0f,
-	//	character.u_start, character.v_start);
-	//vertices.emplace_back(
-	//	startX + du, startY, temp_z, 1.0f, 1.0f, 1.0f, 1.0f,
-	//	character.u_end, character.v_start);
-	//vertices.emplace_back(
-	//	startX + du, startY + dv, temp_z, 1.0f, 1.0f, 1.0f, 1.0f,
-	//	character.u_end, character.v_end);
-	//vertices.emplace_back(
-	//	startX, startY + dv, temp_z, 1.0f, 1.0f, 1.0f, 1.0f,
-	//	character.u_start, character.v_end);
-
-	//// setup the belongin indices
-	//int i = 0;
-	//indices.emplace_back(i + 3);
-	//indices.emplace_back(i + 2);
-	//indices.emplace_back(i);
-	//indices.emplace_back(i + 2);
-	//indices.emplace_back(i + 1);
-	//indices.emplace_back(i);
-	
-	//float hlength = 0.5f, hheight = 0.5f, hwidth = 0.0f;
-	//indices =
-	//{
-	//	0, 1, 2,
-	//	0, 2, 3,
-	//	1, 5, 6,
-	//	1, 6, 2,
-	//	5, 4, 7,
-	//	5, 7, 6,
-	//	4, 0, 3,
-	//	4, 3, 7,
-	//	4, 5, 1,
-	//	4, 1, 0,
-	//	3, 2, 6,
-	//	3, 6, 7
-	//};
-	//vertices =
-	//{
-	//	{ -hlength,  hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
-	//	{  hlength,  hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f},
-	//	{  hlength, -hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f},
-	//	{ -hlength, -hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f},
-	//	{ -hlength,  hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
-	//	{  hlength,  hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
-	//	{  hlength, -hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
-	//	{ -hlength, -hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
-	//};
-	//
-
-	init_bindables();
-
 	vertex_cbuffer = std::make_unique<VertexConstantBuffer<DirectX::XMMATRIX>>(gfx);
 }
 
@@ -129,7 +67,7 @@ void Text2D::set_text(const std::string& text)
 	indices.reserve(4 * text.size());
 
 	float startX = px, startY = py;
-	float temp_z = 0.0f;
+	float temp_z = 0.5f;
 	for (int i = 0; i < text.size(); ++i)
 	{
 		// ascii range is [0x20, 0x7F), clamp it if it goes beyond
@@ -138,6 +76,8 @@ void Text2D::set_text(const std::string& text)
 
 		float du = character.u_end - character.u_start;
 		float dv = character.v_end - character.v_start;
+		//float du = 7;
+		//float dv = 9;
 
 		// Setup vertices and tex coords
 		vertices.emplace_back(
@@ -164,6 +104,7 @@ void Text2D::set_text(const std::string& text)
 
 		startX += du;
 	}
+	init_bindables();
 }
 
 void Text2D::update(float dt)
@@ -191,7 +132,7 @@ void Text2D::draw(D3DGFX& gfx) const
 
 	DirectX::XMMATRIX result = 
 		get_transformation_matrix() *
-		DirectX::XMMatrixTranslation(0.f, 0.f, 1.0f) *
+		m *
 		DirectX::XMLoadFloat4x4(ortho);
 
 	vertex_cbuffer->update(

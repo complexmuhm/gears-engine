@@ -5,16 +5,15 @@ Engine::Engine(Vector2i size, const std::wstring& title)
 	: window(size, title)
 	, gfx(window.get_handle())
 {
-	DirectX::XMStoreFloat4x4(
-		&ortho, 
+	DirectX::XMStoreFloat4x4(&orthoGUI, 
 		DirectX::XMMatrixOrthographicLH(
 			window.get_aspect_ratio(), 1.0f, 
-			z_near, z_far));
+			z_nearGUI, z_farGUI));
 	edge_cuboid = std::make_unique<EdgeCuboid>(
 		gfx,
 		1.0f, 1.0f, 1.0f,
 		window.get_aspect_ratio(), z_near, z_far);
-	label = std::make_unique<Text2D>(gfx, 0.0f, 0.0f, "Testing THIS text.", &ortho);
+	label = std::make_unique<Text2D>(gfx, -0.4f, 0.0f, "Testing THIS text.", &orthoGUI);
 	//label->set_scale(0.25f, 0.25f);
 }
 
@@ -50,8 +49,9 @@ void Engine::update()
 	theta += 0.005f;
 
 	edge_cuboid->set_rotation(theta, theta * 0.5f, theta * 0.5f * 0.5f);
-	edge_cuboid->set_position(0.f, 0.f, 5.f);
+	edge_cuboid->set_position(0.f, 0.f, 10.f - theta);
 	//label->set_rotation(theta);
+	label->set_text(std::to_string(theta));
 }
 
 void Engine::render()
