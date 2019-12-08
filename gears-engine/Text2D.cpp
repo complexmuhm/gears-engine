@@ -67,17 +67,17 @@ void Text2D::set_text(const std::string& text)
 	indices.reserve(4 * text.size());
 
 	float startX = px, startY = py;
-	float temp_z = 0.5f;
+	float temp_z = 0.1f;
 	for (int i = 0; i < text.size(); ++i)
 	{
 		// ascii range is [0x20, 0x7F), clamp it if it goes beyond
 		int char_pos = min(int(text[i] - 32), 0x7F - 0x20);
 		ASCIICharUVCoord character = fontdata[char_pos];
 
-		float du = character.u_end - character.u_start;
-		float dv = character.v_end - character.v_start;
-		//float du = 7;
-		//float dv = 9;
+		//float du = character.u_end - character.u_start;
+		//float dv = character.v_end - character.v_start;
+		float du = 7;
+		float dv = 9;
 
 		// Setup vertices and tex coords
 		vertices.emplace_back(
@@ -118,21 +118,9 @@ void Text2D::draw(D3DGFX& gfx) const
 		b->bind();
 	}
 
-	DirectX::XMFLOAT4 pos = DirectX::XMFLOAT4(0.0f, 0.0f, -1.0f, 0.0f);
-	DirectX::XMFLOAT4 focus = DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 0.0f);
-	DirectX::XMFLOAT4 up = DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 0.0f);
-	DirectX::XMMATRIX m =
-		DirectX::XMMatrixLookAtLH(
-			DirectX::XMLoadFloat4(&pos),
-			DirectX::XMLoadFloat4(&focus),
-			DirectX::XMLoadFloat4(&up));
-
-	DirectX::XMMATRIX proj = DirectX::XMMatrixPerspectiveLH(1280, 720, 0.5f, 100.f);
-	DirectX::XMMATRIX id = DirectX::XMMatrixIdentity();
-
+	DirectX::XMMATRIX transformation_matrix = get_transformation_matrix();
 	DirectX::XMMATRIX result = 
-		get_transformation_matrix() *
-		m *
+		transformation_matrix * 
 		DirectX::XMLoadFloat4x4(ortho);
 
 	vertex_cbuffer->update(

@@ -2,13 +2,10 @@
 
 EdgeCuboid::EdgeCuboid(D3DGFX& gfx,
 	float length, float height, float width,
-	float aspr, float z_near, float z_far)
+	DirectX::XMFLOAT4X4* persp_matrix)
 	: length(length), height(height), width(width)
+	, perspective_matrix(persp_matrix)
 {
-	DirectX::XMStoreFloat4x4(
-		&perspective_matrix,
-		DirectX::XMMatrixPerspectiveLH(aspr, 1.0f, z_near, z_far));
-
 	std::vector<UINT> indices =
 	{
 		0, 1,   1, 2,   2, 3,   3, 0,
@@ -70,10 +67,11 @@ void EdgeCuboid::draw(D3DGFX& gfx) const
 		b->bind();
 
 	// Update the constant buffer
+	DirectX::XMMATRIX transformation_matrix = get_transformation_matrix();
 	vertex_cbuffer->update(
 		DirectX::XMMatrixTranspose(
-			get_transformation_matrix() *
-			DirectX::XMLoadFloat4x4(&perspective_matrix)));
+			transformation_matrix *
+			DirectX::XMLoadFloat4x4(perspective_matrix)));
 	// and manually bind it
 	vertex_cbuffer->bind();
 

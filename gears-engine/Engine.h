@@ -19,10 +19,11 @@ private:
 	Window window;
 	D3DGFX gfx;
 
-	const float z_near = 1.f;
+	const float FOV = 100.f;
+	const float z_near = 0.5f;
 	const float z_far = 1000.f;
 
-	const float z_nearGUI = 0.5f;
+	const float z_nearGUI = 0.0f;
 	const float z_farGUI = 100.f;
 
 	DirectX::XMFLOAT4X4 orthoGUI;

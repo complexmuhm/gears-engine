@@ -7,14 +7,16 @@ Engine::Engine(Vector2i size, const std::wstring& title)
 {
 	DirectX::XMStoreFloat4x4(&orthoGUI, 
 		DirectX::XMMatrixOrthographicLH(
-			window.get_aspect_ratio(), 1.0f, 
+			size.x, size.y, 
 			z_nearGUI, z_farGUI));
-	edge_cuboid = std::make_unique<EdgeCuboid>(
-		gfx,
-		1.0f, 1.0f, 1.0f,
-		window.get_aspect_ratio(), z_near, z_far);
-	label = std::make_unique<Text2D>(gfx, -0.4f, 0.0f, "Testing THIS text.", &orthoGUI);
-	//label->set_scale(0.25f, 0.25f);
+	DirectX::XMStoreFloat4x4(&proj,
+		DirectX::XMMatrixPerspectiveFovLH(
+			FOV, window.get_aspect_ratio(),
+			z_near, z_far));
+	edge_cuboid = std::make_unique<EdgeCuboid>(gfx, 1.0f, 1.0f, 1.0f, &proj);
+	edge_cuboid->set_scale(10.f, 10.f, 10.f);
+	label = std::make_unique<Text2D>(gfx, -30.f, -30.f, "Testing THIS text.", &orthoGUI);
+	label->set_scale(1.f, 1.f);
 }
 
 void Engine::run()
@@ -49,9 +51,10 @@ void Engine::update()
 	theta += 0.005f;
 
 	edge_cuboid->set_rotation(theta, theta * 0.5f, theta * 0.5f * 0.5f);
-	edge_cuboid->set_position(0.f, 0.f, 10.f - theta);
+	edge_cuboid->set_position(0.f, 0.f, 100.f - theta);
 	//label->set_rotation(theta);
-	label->set_text(std::to_string(theta));
+	label->set_text(std::to_string(theta * 10));
+	label->set_position(theta * 10, theta * 10);
 }
 
 void Engine::render()
