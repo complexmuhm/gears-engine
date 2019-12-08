@@ -12,7 +12,7 @@
 #include "ConstantBuffer.h"
 #include <memory>
 
-class Cuboid : public Drawable, public Transform
+class Cuboid : public Drawable, public Transform3D
 {
 public:
 	Cuboid(D3DGFX& gfx, 

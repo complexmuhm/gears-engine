@@ -19,10 +19,12 @@ public:
 
 	virtual void update(float dt) = 0;
 	// TODO: maybe save a reference to gfx object in ctor?
-	void draw(D3DGFX& gfx) const;
+	virtual void draw(D3DGFX& gfx) const;
+	// TODO: implement a not so expensive way of changing the pipeline
+	void reset();
 
-private:
-	const IndexBuffer* index_buffer;
+protected:
+	const IndexBuffer* cindex_buffer;
 	std::vector<std::unique_ptr<Bindable>> bindables;
 
 };

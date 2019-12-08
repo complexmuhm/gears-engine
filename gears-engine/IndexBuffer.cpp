@@ -1,6 +1,6 @@
 #include "IndexBuffer.h"
 
-IndexBuffer::IndexBuffer(D3DGFX& gfx, std::vector<UINT> indices)
+IndexBuffer::IndexBuffer(D3DGFX& gfx, const std::vector<UINT>& indices)
 	: Bindable(gfx)
 	, index_size((UINT)indices.size())
 {

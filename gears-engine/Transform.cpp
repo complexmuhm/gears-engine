@@ -1,69 +1,69 @@
 #include "Transform.h"
 
-Transform::Transform()
+Transform3D::Transform3D()
 	: sx(1.f), sy(1.f), sz(1.f)
 	, pitch(0.f), yaw(0.f), roll(0.f)
 	, px(0.f), py(0.f), pz(0.f)
 {
 }
 
-void Transform::set_position(float x, float y, float z)
+void Transform3D::set_position(float x, float y, float z)
 {
 	px = x;
 	py = y;
 	pz = z;
 }
 
-void Transform::move(float dx, float dy, float dz)
+void Transform3D::move(float dx, float dy, float dz)
 {
 	px += dx;
 	py += dy;
 	pz += dz;
 }
 
-void Transform::set_scale(float x, float y, float z)
+void Transform3D::set_scale(float x, float y, float z)
 {
 	sx = x;
 	sy = y;
 	sz = z;
 }
 
-void Transform::set_rotation(float pitch, float yaw, float roll)
+void Transform3D::set_rotation(float pitch, float yaw, float roll)
 {
 	this->pitch = pitch;
 	this->yaw = yaw;
 	this->roll = roll;
 }
 
-void Transform::rotate(float dpitch, float dyaw, float droll)
+void Transform3D::rotate(float dpitch, float dyaw, float droll)
 {
 	pitch += dpitch;
 	yaw += dyaw;
 	roll += droll;
 }
 
-void Transform::get_position(float& x, float& y, float& z) const
+void Transform3D::get_position(float& x, float& y, float& z) const
 {
 	x = px;
 	y = py;
 	z = pz;
 }
 
-void Transform::get_scale(float& x, float& y, float& z) const
+void Transform3D::get_scale(float& x, float& y, float& z) const
 {
 	x = sx;
 	y = sy;
 	z = sz;
 }
 
-void Transform::get_rotation(float& pitch, float& yaw, float& roll) const
+void Transform3D::get_rotation(float& pitch, float& yaw, float& roll) const
 {
 	pitch = this->pitch;
 	yaw = this->yaw;
 	roll = roll;
 }
 
-DirectX::XMMATRIX Transform::get_transformation_matrix()
+DirectX::XMMATRIX Transform3D::get_transformation_matrix() const
 {
 	return
 		DirectX::XMMatrixScaling(
@@ -72,4 +72,69 @@ DirectX::XMMATRIX Transform::get_transformation_matrix()
 			pitch, yaw, roll) *
 		DirectX::XMMatrixTranslation(
 			px, py, pz);
+}
+
+Transform2D::Transform2D()
+	: sx(1.f), sy(1.f)
+	, angle(0.f)
+	, px(0.f), py(0.f)
+{
+}
+
+void Transform2D::set_position(float x, float y)
+{
+	px = x;
+	py = y;
+}
+
+void Transform2D::move(float dx, float dy)
+{
+	px += dx;
+	py += dy;
+}
+
+void Transform2D::set_scale(float x, float y)
+{
+	sx = x;
+	sy = y;
+}
+
+void Transform2D::set_rotation(float angle)
+{
+	this->angle = angle;
+}
+
+void Transform2D::rotate(float dangle)
+{
+	angle += dangle;
+}
+
+void Transform2D::get_position(float& x, float& y) const
+{
+	x = px;
+	y = py;
+}
+
+void Transform2D::get_scale(float& x, float& y) const
+{
+	x = sx;
+	y = sy;
+}
+
+void Transform2D::get_rotation(float& angle) const
+{
+	angle = this->angle;
+}
+
+DirectX::XMMATRIX Transform2D::get_transformation_matrix() const
+{
+	// TODO: maybe choose another z position?
+
+	return
+		DirectX::XMMatrixScaling(
+			sx, sy, 1.0f) *
+		DirectX::XMMatrixRotationRollPitchYaw(
+			0.0f, 0.0f, angle) *
+		DirectX::XMMatrixTranslation(
+			px, py, 0.0f);
 }

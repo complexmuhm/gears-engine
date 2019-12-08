@@ -2,12 +2,12 @@
 
 EdgeCuboid::EdgeCuboid(D3DGFX& gfx,
 	float length, float height, float width,
-	float inv_aspr, float z_near, float z_far)
+	float aspr, float z_near, float z_far)
 	: length(length), height(height), width(width)
 {
 	DirectX::XMStoreFloat4x4(
 		&perspective_matrix,
-		DirectX::XMMatrixPerspectiveLH(1.0f, inv_aspr, z_near, z_far));
+		DirectX::XMMatrixPerspectiveLH(aspr, 1.0f, z_near, z_far));
 
 	std::vector<UINT> indices =
 	{
@@ -22,14 +22,14 @@ EdgeCuboid::EdgeCuboid(D3DGFX& gfx,
 
 	std::vector<Vertex> vertices =
 	{
-		{ -hlength,  hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
-		{  hlength,  hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
-		{  hlength, -hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
-		{ -hlength, -hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
-		{ -hlength,  hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
-		{  hlength,  hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
-		{  hlength, -hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
-		{ -hlength, -hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
+		{ -hlength,  hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
+		{  hlength,  hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
+		{  hlength, -hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
+		{ -hlength, -hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
+		{ -hlength,  hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
+		{  hlength,  hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
+		{  hlength, -hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
+		{ -hlength, -hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
 	};
 
 	const wchar_t* vertex_shader_binary = L"VertexShader.cso";
@@ -62,6 +62,13 @@ EdgeCuboid::EdgeCuboid(D3DGFX& gfx,
 
 void EdgeCuboid::update(float dt)
 {
+}
+
+void EdgeCuboid::draw(D3DGFX& gfx) const
+{
+	for (auto& b : bindables)
+		b->bind();
+
 	// Update the constant buffer
 	vertex_cbuffer->update(
 		DirectX::XMMatrixTranspose(
@@ -69,4 +76,6 @@ void EdgeCuboid::update(float dt)
 			DirectX::XMLoadFloat4x4(&perspective_matrix)));
 	// and manually bind it
 	vertex_cbuffer->bind();
+
+	gfx.draw_indexed(cindex_buffer->count());
 }

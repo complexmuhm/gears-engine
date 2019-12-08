@@ -21,8 +21,6 @@ public:
 	void draw_indexed(UINT index_count);
 	void end();
 
-	void test(float x, float y);
-
 private:
 	HWND hwnd;
 #ifndef NDEBUG

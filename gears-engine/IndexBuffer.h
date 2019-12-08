@@ -6,7 +6,7 @@
 class IndexBuffer : public Bindable
 {
 public:
-	IndexBuffer(D3DGFX& gfx, std::vector<UINT> indices);
+	IndexBuffer(D3DGFX& gfx, const std::vector<UINT>& indices);
 
 	void bind() override;
 	

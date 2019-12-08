@@ -1,23 +1,13 @@
 #pragma once
 #include <DirectXMath.h>
 
-struct Position
-{
-	float x, y, z;
-};
-
-struct Rotation
-{
-	float pitch, yaw, roll;
-};
-
-class Transform
+class Transform3D
 {
 public:
-	Transform();
-	Transform(const Transform&) = delete;
-	Transform& operator=(const Transform&) = delete;
-	virtual ~Transform() = default;
+	Transform3D();
+	Transform3D(const Transform3D&) = delete;
+	Transform3D& operator=(const Transform3D&) = delete;
+	virtual ~Transform3D() = default;
 
 	virtual void set_position(float x, float y, float z);
 	virtual void move(float dx, float dy, float dz);
@@ -29,7 +19,7 @@ public:
 	virtual void get_scale(float& x, float& y, float& z) const;
 	virtual void get_rotation(float& pitch, float& yaw, float& roll) const;
 
-	virtual DirectX::XMMATRIX get_transformation_matrix();
+	virtual DirectX::XMMATRIX get_transformation_matrix() const;
 	
 protected:
 	// s ... Scale
@@ -40,3 +30,32 @@ protected:
 	float px, py, pz;
 };
 
+class Transform2D
+{
+public:
+	Transform2D();
+	Transform2D(const Transform2D&) = delete;
+	Transform2D& operator=(const Transform2D&) = delete;
+	virtual ~Transform2D() = default;
+
+	virtual void set_position(float x, float y);
+	virtual void move(float dx, float dy);
+	virtual void set_scale(float x, float y);
+	virtual void set_rotation(float angle);
+	virtual void rotate(float dangle);
+
+	virtual void get_position(float& x, float& y) const;
+	virtual void get_scale(float& x, float& y) const;
+	virtual void get_rotation(float& angle) const;
+
+	virtual DirectX::XMMATRIX get_transformation_matrix() const;
+	
+protected:
+	// s ... Scale
+	float sx, sy;
+	// ... yeah
+	float angle;
+	// p ... Position
+	float px, py;
+
+};

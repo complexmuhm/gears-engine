@@ -31,14 +31,14 @@ Cuboid::Cuboid(D3DGFX& gfx,
 
 	std::vector<Vertex> vertices =
 	{
-		{ -hlength,  hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
-		{  hlength,  hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
-		{  hlength, -hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
-		{ -hlength, -hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
-		{ -hlength,  hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
-		{  hlength,  hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
-		{  hlength, -hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
-		{ -hlength, -hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f},
+		{ -hlength,  hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
+		{  hlength,  hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
+		{  hlength, -hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
+		{ -hlength, -hheight,  -hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
+		{ -hlength,  hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
+		{  hlength,  hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
+		{  hlength, -hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
+		{ -hlength, -hheight,   hwidth, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f},
 	};
 
 	const wchar_t* vertex_shader_binary = L"VertexShader.cso";

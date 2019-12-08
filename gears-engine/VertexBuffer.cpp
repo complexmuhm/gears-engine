@@ -1,7 +1,7 @@
 #include "VertexBuffer.h"
 #include <cassert>
 
-VertexBuffer::VertexBuffer(D3DGFX& gfx, std::vector<Vertex> vertices)
+VertexBuffer::VertexBuffer(D3DGFX& gfx, const std::vector<Vertex>& vertices)
 	: Bindable(gfx)
 {
 	assert(!vertices.empty());

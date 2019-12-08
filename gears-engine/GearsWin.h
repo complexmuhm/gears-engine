@@ -1,7 +1,7 @@
 #pragma once
 
 // target Windows 7 or later
-#define _WIN32_WINNT _WIN32_WINNT_WIN7
+//#define _WIN32_WINNT _WIN32_WINNT_WIN7
 #include <sdkddkver.h>
 // The following #defines disable a bunch of unused windows stuff. If you 
 // get weird errors when trying to do some windows stuff, try removing some
@@ -40,6 +40,6 @@
 #define NOPROXYSTUB
 #define NOTAPE
 
-#define STRICT
+//#define STRICT
 
 #include <Windows.h>

@@ -43,6 +43,12 @@
     <Filter Include="Data">
       <UniqueIdentifier>{ed233a71-e35a-4087-829d-63902c595bd6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\Extern">
+      <UniqueIdentifier>{e5936d5f-c5e9-49ac-ad34-0442398f57bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Extern">
+      <UniqueIdentifier>{7e4f5f8b-cea6-4038-b659-a916b8fa5741}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -114,6 +120,21 @@
     <ClInclude Include="EdgeCuboid.h">
       <Filter>Headerdateien\Primitives</Filter>
     </ClInclude>
+    <ClInclude Include="Text2D.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions.h">
+      <Filter>Headerdateien\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="Sampler.h">
+      <Filter>Headerdateien\D3DGFX Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Headerdateien\D3DGFX Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Extern\picopng.h">
+      <Filter>Headerdateien\Extern</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="D3DGFX.cpp">
@@ -182,6 +203,21 @@
     <ClCompile Include="EdgeCuboid.cpp">
       <Filter>Quelldateien\Primitives</Filter>
     </ClCompile>
+    <ClCompile Include="Text2D.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Exceptions.cpp">
+      <Filter>Quelldateien\Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="Sampler.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Extern\picopng.cpp">
+      <Filter>Quelldateien\Extern</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="gears-engine.rc">
@@ -192,7 +228,13 @@
     <Image Include="data\img\engine_logo.ico">
       <Filter>Ressourcendateien</Filter>
     </Image>
-    <Image Include="ascii_bmp_7x9.dds">
+    <Image Include="ascii_bmp_7x9.bmp">
+      <Filter>Data</Filter>
+    </Image>
+    <Image Include="ascii_bmp_14x18.bmp">
+      <Filter>Data</Filter>
+    </Image>
+    <Image Include="ascii_bmp_7x9.png">
       <Filter>Data</Filter>
     </Image>
   </ItemGroup>
@@ -206,9 +248,18 @@
     <FxCompile Include="WireFrame.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="FontVertexShader.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="FontPixelShader.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="fontdata">
+    <None Include="fontdata7x9">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="fontdata14x18">
       <Filter>Data</Filter>
     </None>
   </ItemGroup>

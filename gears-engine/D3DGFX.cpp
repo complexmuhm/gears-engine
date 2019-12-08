@@ -141,7 +141,7 @@ void D3DGFX::end()
 	swap_chain->Present(1u, 0);
 }
 
-void D3DGFX::test(float x, float y)
+void test(float x, float y)
 {
 	//D3D11_RASTERIZER_DESC rasterizer_desc = {};
 	//rasterizer_desc.FillMode = D3D11_FILL_WIREFRAME;

@@ -12,14 +12,15 @@
 #include "ConstantBuffer.h"
 #include <memory>
 
-class EdgeCuboid : public Drawable, public Transform
+class EdgeCuboid : public Drawable, public Transform3D
 {
 public:
 	EdgeCuboid(D3DGFX& gfx,
 		float length, float height, float width,
-		float inv_aspr, float z_near, float z_far);
+		float aspr, float z_near, float z_far);
 
 	void update(float dt) override;
+	virtual void draw(D3DGFX& gfx) const override;
 
 private:
 	float length, width, height;

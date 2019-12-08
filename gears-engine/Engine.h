@@ -2,6 +2,7 @@
 #include "Window.h"
 #include "D3DGFX.h"
 #include "EdgeCuboid.h"
+#include "Text2D.h"
 
 class Engine
 {
@@ -18,6 +19,14 @@ private:
 	Window window;
 	D3DGFX gfx;
 
+	const float z_near = 0.5f;
+	const float z_far = 1000.f;
+
+	DirectX::XMFLOAT4X4 ortho;
+	DirectX::XMFLOAT4X4 proj;
+	DirectX::XMFLOAT4X4 view;
+
+	std::unique_ptr<Text2D> label;
 	std::unique_ptr<EdgeCuboid> edge_cuboid;
 };
 
