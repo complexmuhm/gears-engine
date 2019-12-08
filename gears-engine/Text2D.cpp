@@ -61,12 +61,12 @@ void Text2D::set_text(const std::string& text)
 	// clear the vertex buffer and reserver the amount of
 	// vertices needed for the new text
 	vertices.clear();
-	//vertices.reserve(4 * text.size());
+	vertices.reserve(4 * text.size());
 	// the same for indices
 	indices.clear();
 	indices.reserve(4 * text.size());
 
-	float startX = px, startY = py;
+	float startX = 0.f, startY = 0.f;
 	float temp_z = 0.1f;
 	for (int i = 0; i < text.size(); ++i)
 	{
@@ -76,8 +76,8 @@ void Text2D::set_text(const std::string& text)
 
 		//float du = character.u_end - character.u_start;
 		//float dv = character.v_end - character.v_start;
-		float du = 7;
-		float dv = 9;
+		float du = 7; //char width
+		float dv = 9; //char height
 
 		// Setup vertices and tex coords
 		vertices.emplace_back(
@@ -119,9 +119,10 @@ void Text2D::draw(D3DGFX& gfx) const
 	}
 
 	DirectX::XMMATRIX transformation_matrix = get_transformation_matrix();
+	DirectX::XMMATRIX orthogr_matrix = DirectX::XMLoadFloat4x4(ortho);
 	DirectX::XMMATRIX result = 
 		transformation_matrix * 
-		DirectX::XMLoadFloat4x4(ortho);
+		orthogr_matrix;
 
 	vertex_cbuffer->update(
 		DirectX::XMMatrixTranspose(result));
