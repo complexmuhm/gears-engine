@@ -1,5 +1,6 @@
 #pragma once
 #include <DirectXMath.h>
+#include "Vector.h"
 
 class Transform3D
 {
@@ -127,25 +128,32 @@ public:
 		float length, float height);
 
 	virtual void set_position(float x, float y, RELPOS relative_pos = RELPOS::TOP_LEFT);
-	virtual void move(float dx, float dy);
+	void set_position(const Vector2f& pos, RELPOS relative_pos = RELPOS::TOP_LEFT);
+	void move(float dx, float dy);
+	void move(const Vector2f& dpos);
 	virtual void set_scale(float x, float y);
+	void set_scale(const Vector2f& scale);
 	virtual void set_rotation(float angle);
-	virtual void rotate(float dangle);
+	void rotate(float dangle);
 	virtual void set_dimension(float length, float height);
-	virtual void dimension(float dlength, float dheight);
+	void set_dimension(const Vector2f& dimension);
+	void dimension(float dlength, float dheight);
 
 	virtual void get_position(float& x, float& y) const;
+	virtual Vector2f get_position(RELPOS relative_pos = RELPOS::TOP_LEFT) const;
 	virtual float get_position_x() const;
 	virtual float get_position_y() const;
 
 	virtual void get_scale(float& x, float& y) const;
+	virtual Vector2f get_scale() const;
 	virtual float get_scale_x() const;
 	virtual float get_scale_y() const;
 	
 	virtual void get_rotation(float& angle) const;
-	virtual float get_angle() const;
+	virtual float get_rotation() const;
 
 	virtual void get_dimension(float& length, float& height) const;
+	virtual Vector2f get_dimension() const;
 	virtual float get_length() const;
 	virtual float get_height() const;
 

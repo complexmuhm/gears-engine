@@ -118,6 +118,11 @@ void Text2D::set_color(float r, float g, float b, float a)
 	color = { r, g, b, a };
 }
 
+void Text2D::set_color(const Vector4f color)
+{
+	set_color(color.y, color.y, color.z, color.w);
+}
+
 std::string Text2D::get_text() const
 {
 	return text;

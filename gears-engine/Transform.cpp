@@ -250,10 +250,20 @@ void Transform2D::set_position(float x, float y, RELPOS relative_pos)
 	recalculate_model_matrix();
 }
 
+void Transform2D::set_position(const Vector2f& pos, RELPOS relative_pos)
+{
+	set_position(pos.x, pos.y, relative_pos);
+}
+
 void Transform2D::move(float dx, float dy)
 {
 	set_position(px + dx, py + dy);
 	recalculate_model_matrix();
+}
+
+void Transform2D::move(const Vector2f& dpos)
+{
+	move(dpos.x, dpos.y);
 }
 
 void Transform2D::set_scale(float x, float y)
@@ -261,6 +271,11 @@ void Transform2D::set_scale(float x, float y)
 	sx = x;
 	sy = y;
 	recalculate_model_matrix();
+}
+
+void Transform2D::set_scale(const Vector2f& scale)
+{
+	set_scale(scale.x, scale.y);
 }
 
 void Transform2D::set_rotation(float angle)
@@ -281,9 +296,53 @@ void Transform2D::set_dimension(float length, float height)
 	this->height = height;
 }
 
+void Transform2D::set_dimension(const Vector2f& dimension)
+{
+	set_dimension(dimension.x, dimension.y);
+}
+
 void Transform2D::dimension(float dlength, float dheight)
 {
 	set_dimension(length + dlength, height + dheight);
+}
+
+Vector2f Transform2D::get_position(RELPOS relative_pos) const
+{
+	// result x and y
+	float res_x = px;
+	float res_y = py;
+
+	float real_length = length * sx;
+	float real_height = height * sy;
+
+	// Modify res_x and y to match the wanted translation
+	if (RELPOS::TOP_LEFT == (relative_pos & 0b11))
+	{
+	}
+	else if (RELPOS::CENTER_LEFT == (relative_pos & 0b11))
+	{
+		float hheight = real_height / 2.f;
+		res_y += hheight;
+	}
+	else if (RELPOS::BOTTOM_LEFT == (relative_pos & 0b11))
+	{
+		res_y += real_height;
+	}
+
+	if (RELPOS::TOP_LEFT == (relative_pos & 0b1100))
+	{
+	}
+	else if (RELPOS::TOP_CENTER == (relative_pos & 0b1100))
+	{
+		float hlength = real_length / 2.0f;
+		res_x += hlength;
+	}
+	else if (RELPOS::TOP_RIGHT == (relative_pos & 0b1100))
+	{
+		res_x += real_length;
+	}
+
+	return { res_x, res_y };
 }
 
 void Transform2D::get_position(float& x, float& y) const
@@ -308,6 +367,11 @@ void Transform2D::get_scale(float& x, float& y) const
 	y = sy;
 }
 
+Vector2f Transform2D::get_scale() const
+{
+	return { sx, sy };
+}
+
 float Transform2D::get_scale_x() const
 {
 	return sx;
@@ -323,7 +387,7 @@ void Transform2D::get_rotation(float& angle) const
 	angle = this->angle;
 }
 
-float Transform2D::get_angle() const
+float Transform2D::get_rotation() const
 {
 	return angle;
 }
@@ -332,6 +396,11 @@ void Transform2D::get_dimension(float& length, float& height) const
 {
 	length = this->length;
 	height = this->height;
+}
+
+Vector2f Transform2D::get_dimension() const
+{
+	return { length, height };
 }
 
 float Transform2D::get_length() const

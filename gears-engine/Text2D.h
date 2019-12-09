@@ -39,6 +39,7 @@ public:
 
 	void set_text(const std::string& text);
 	void set_color(float r, float g, float b, float a);
+	void set_color(const Vector4f color);
 
 	std::string get_text() const;
 

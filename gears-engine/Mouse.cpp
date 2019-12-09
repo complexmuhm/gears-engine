@@ -90,7 +90,7 @@ void Mouse::trim_buffer()
 
 Mouse::Mouse()
 	: position({ 0, 0 })
-	, l_pressed(false), r_pressed(false)
+	, l_pressed(false), r_pressed(false), m_pressed(false)
 	, delta(0)
 	, focused(false)
 {
