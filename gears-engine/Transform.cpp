@@ -104,10 +104,43 @@ Transform2D::Transform2D()
 {
 }
 
-void Transform2D::set_position(float x, float y)
+void Transform2D::set_position(float x, float y, RELPOS relative_pos)
 {
-	px = x;
-	py = y;
+	// result x and y
+	float res_x = x;
+	float res_y = y;
+
+	float real_length = length * sx;
+	float real_height = height * sy;
+
+	// Modify res_x and y to match the wanted translation
+	if (RELPOS::TOP_LEFT == (relative_pos & 0b11))
+	{
+	}
+	else if (RELPOS::CENTER_LEFT == (relative_pos & 0b11))
+	{
+		float hheight = real_height / 2.f;
+		res_y += hheight;
+	}
+	else if (RELPOS::BOTTOM_LEFT == (relative_pos & 0b11))
+	{
+		res_y += real_height;
+	}
+
+	if (RELPOS::TOP_LEFT == (relative_pos & 0b1100))
+	{
+	}
+	else if (RELPOS::TOP_CENTER == (relative_pos & 0b1100))
+	{
+		float hlength = real_length / 2.0f;
+		res_x -= hlength;
+	}
+	else if (RELPOS::TOP_RIGHT == (relative_pos & 0b1100))
+	{
+		res_x -= real_length;
+	}
+	px = res_x;
+	py = res_y;
 }
 
 void Transform2D::move(float dx, float dy)

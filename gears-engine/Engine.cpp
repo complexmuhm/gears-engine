@@ -17,7 +17,6 @@ Engine::Engine(Vector2i size, const std::wstring& title)
 	edge_cuboid->set_scale(10.f, 10.f, 10.f);
 	label = std::make_unique<Text2D>(gfx, 0.f, 0.f, "Testing THIS text.", &orthoGUI);
 	label->set_scale(2.f, 2.f);
-	label->set_position(-640.f, 360.f);
 }
 
 void Engine::run()
@@ -51,6 +50,27 @@ void Engine::update()
 	static float dt = 0.0f;
 	theta += 0.005f;
 
+	static Transform2D::RELPOS s = Transform2D::TOP_LEFT;
+
+	if (window.keybd.is_key_pressed('Q'))
+		s = Transform2D::TOP_LEFT;
+	if (window.keybd.is_key_pressed('W'))
+		s = Transform2D::TOP_CENTER;
+	if (window.keybd.is_key_pressed('E'))
+		s = Transform2D::TOP_RIGHT;
+	if (window.keybd.is_key_pressed('A'))
+		s = Transform2D::CENTER_LEFT;
+	if (window.keybd.is_key_pressed('S'))
+		s = Transform2D::CENTER_CENTER;
+	if (window.keybd.is_key_pressed('D'))
+		s = Transform2D::CENTER_RIGHT;
+	if (window.keybd.is_key_pressed('Y'))
+		s = Transform2D::BOTTOM_LEFT;
+	if (window.keybd.is_key_pressed('X'))
+		s = Transform2D::BOTTOM_CENTER;
+	if (window.keybd.is_key_pressed('C'))
+		s = Transform2D::BOTTOM_RIGHT;
+
 	if (window.keybd.is_key_pressed(VK_SPACE))
 		theta = 0.f;
 
@@ -58,6 +78,8 @@ void Engine::update()
 	edge_cuboid->set_position(0.f, 0.f, 100.f - theta);
 
 	label->set_text(std::to_string(theta) + " s");
+	label->set_position(0.f, 0.f, s);
+	//label->set_position(-640.f, 360.f, s);
 }
 
 void Engine::render()

@@ -26,7 +26,7 @@ void Mouse::on_left_released(Vector2i position)
 void Mouse::on_right_pressed(Vector2i position)
 {
 	this->position = position;
-	r_pressed = false;
+	r_pressed = true;
 	event_buffer.emplace(Mouse::Event::Type::RMouseButtonReleased, position, false, true, 0);
 	trim_buffer();
 }
