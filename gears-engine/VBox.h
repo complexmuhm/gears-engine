@@ -15,6 +15,8 @@ public:
 	};
 
 	VBox(
+		D3DGFX& gfx,
+		const std::string& text,
 		const DirectX::XMFLOAT4X4* view,
 		const DirectX::XMFLOAT4X4* ortho);
 

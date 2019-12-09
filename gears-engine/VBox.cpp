@@ -1,4 +1,52 @@
 #include "VBox.h"
+#include "Label.h"
+
+// TODO: maybe set the label always as the first element and provide text input for the label name
+VBox::VBox(
+	D3DGFX& gfx,
+	const std::string& text,
+	const DirectX::XMFLOAT4X4* view, 
+	const DirectX::XMFLOAT4X4* ortho)
+	: Widget(view, ortho)
+{
+	auto label = std::make_unique<Label>(gfx, text, view, ortho);
+	add_widget(std::move(label));
+}
+
+void VBox::process_events(Keyboard::Event key_event, Mouse::Event mouse_event)
+{
+	if (mouse_event.type == Mouse::Event::Type::Move)
+	{
+		old_mpos = new_mpos;
+		new_mpos = mouse_event.position;
+		if (widgets.front()->pressed())
+		{
+			Vector2f diff = Vector2f(new_mpos - old_mpos);
+			move(diff);
+		}
+	}
+	Widget::process_events(key_event, mouse_event);
+	for (auto& w : widgets)
+	{
+		w->process_events(key_event, mouse_event);
+	}
+}
+
+void VBox::update(float dt)
+{
+	for (auto& w : widgets)
+	{
+		w->update(dt);
+	}
+}
+
+void VBox::draw(D3DGFX& gfx)
+{
+	for (auto& w : widgets)
+	{
+		w->draw(gfx);
+	}
+}
 
 void VBox::add_widget(std::unique_ptr<Widget> widget)
 {
@@ -44,47 +92,6 @@ void VBox::set_dimension(float length, float height)
 		w->set_dimension(length, height);
 	}
 	adjust_widgets();
-}
-
-// TODO: maybe set the label always as the first element and provide text input for the label name
-VBox::VBox(const DirectX::XMFLOAT4X4* view, const DirectX::XMFLOAT4X4* ortho)
-	: Widget(view, ortho)
-{
-}
-
-void VBox::process_events(Keyboard::Event key_event, Mouse::Event mouse_event)
-{
-	if (mouse_event.type == Mouse::Event::Type::Move)
-	{
-		old_mpos = new_mpos;
-		new_mpos = mouse_event.position;
-		if (widgets.front()->pressed())
-		{
-			Vector2f diff = Vector2f(new_mpos - old_mpos);
-			move(diff);
-		}
-	}
-	Widget::process_events(key_event, mouse_event);
-	for (auto& w : widgets)
-	{
-		w->process_events(key_event, mouse_event);
-	}
-}
-
-void VBox::update(float dt)
-{
-	for (auto& w : widgets)
-	{
-		w->update(dt);
-	}
-}
-
-void VBox::draw(D3DGFX& gfx)
-{
-	for (auto& w : widgets)
-	{
-		w->draw(gfx);
-	}
 }
 
 void VBox::adjust_widgets()
