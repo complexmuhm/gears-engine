@@ -37,7 +37,7 @@ public:
 
 	void set_text(const std::string& text);
 
-	float get_width() const;
+	float get_length() const;
 	float get_height() const;
 	std::string get_text() const;
 
@@ -51,7 +51,6 @@ private:
 
 private:
 	std::string text;
-	float width, height;
 
 	D3DGFX& gfx;
 	const DirectX::XMFLOAT4X4* ortho;

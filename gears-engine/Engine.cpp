@@ -7,7 +7,7 @@ Engine::Engine(Vector2i size, const std::wstring& title)
 {
 	DirectX::XMStoreFloat4x4(&orthoGUI, 
 		DirectX::XMMatrixOrthographicLH(
-			size.x, size.y, 
+			(float)size.x, (float)size.y, 
 			z_nearGUI, z_farGUI));
 	DirectX::XMStoreFloat4x4(&proj,
 		DirectX::XMMatrixPerspectiveFovLH(
