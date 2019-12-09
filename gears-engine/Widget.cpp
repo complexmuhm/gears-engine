@@ -13,8 +13,8 @@ void Widget::process_events(Keyboard::Event key_event, Mouse::Event mouse_event)
 {
     if (mouse_event.type == Mouse::Event::Type::Move)
     {
-        float posx = mouse_event.position.x;
-        float posy = mouse_event.position.y;
+        float posx = (float)mouse_event.position.x;
+        float posy = (float)mouse_event.position.y;
         if (contains(posx, posy))
         {
             if(!hasEntered)
@@ -165,7 +165,6 @@ void Widget::on_left_clicked()
     {
         left_callback();
     }
-    reset_buttons();
 }
 void Widget::on_right_pressed()
 {
@@ -185,7 +184,6 @@ void Widget::on_right_clicked()
     {
         right_callback();
     }
-    reset_buttons();
 }
 void Widget::on_middle_pressed()
 {
@@ -205,7 +203,6 @@ void Widget::on_middle_clicked()
     {
         middle_callback();
     }
-    reset_buttons();
 }
 void Widget::reset_state()
 {

@@ -1,6 +1,11 @@
 Texture2D tex;
 SamplerState smplr;
 
+cbuffer cbuf
+{
+	float4 text_color;
+};
+
 struct VertexOut
 {
 	float4 position : SV_POSITION;
@@ -13,11 +18,11 @@ float4 main(VertexOut input) : SV_TARGET
 	float4 color = tex.Sample(smplr, input.texcoord);
 	if (color.r == 0.0f)
 	{
-		color = float4(0.f, 0.f, 0.f, 0.f);
+		color = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 	else
 	{
-		color = input.color;
+		color = text_color;
 	}
 	return color;
 }

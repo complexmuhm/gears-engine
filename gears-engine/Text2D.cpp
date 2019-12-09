@@ -44,11 +44,13 @@ Text2D::Text2D(D3DGFX& gfx,
 	const DirectX::XMFLOAT4X4* ortho)
 	: Transform2D(view, ortho)
 	, gfx(gfx), ortho(ortho)
+	, color({1.0f, 1.0f, 1.0f, 1.0f})
 {
 	px = x; py = y;
 	set_text(text);
 
 	vertex_cbuffer = std::make_unique<VertexConstantBuffer<DirectX::XMMATRIX>>(gfx);
+	pixel_cbuffer = std::make_unique<PixelConstantBuffer<Vector4f>>(gfx, color);
 }
 
 void Text2D::set_text(const std::string& text)
@@ -111,6 +113,11 @@ void Text2D::set_text(const std::string& text)
 	init_bindables();
 }
 
+void Text2D::set_color(float r, float g, float b, float a)
+{
+	color = { r, g, b, a };
+}
+
 std::string Text2D::get_text() const
 {
 	return text;
@@ -130,6 +137,9 @@ void Text2D::draw(D3DGFX& gfx) const
 	DirectX::XMMATRIX result = get_transformation_matrix();
 	vertex_cbuffer->update(DirectX::XMMatrixTranspose(result));
 	vertex_cbuffer->bind();
+
+	pixel_cbuffer->update(color);
+	pixel_cbuffer->bind();
 
 	gfx.draw_indexed(cindex_buffer->count());
 

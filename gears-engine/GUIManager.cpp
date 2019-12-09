@@ -15,6 +15,7 @@ GUIManager::GUIManager(
 	elements.front()->bind_middle([]() { OutputDebugStringA("Middle.\n"); });
 
 	elements.front()->set_scale(4.f, 4.f);
+	elements.front()->set_position(640, 360, Transform2D::CENTER_CENTER);
 }
 
 void GUIManager::process_events(Keyboard::Event key_event, Mouse::Event mouse_event)

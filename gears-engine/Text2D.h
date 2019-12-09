@@ -2,6 +2,7 @@
 
 #include "Drawable.h"
 #include "Transform.h"
+#include "Vector.h"
 
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
@@ -37,6 +38,7 @@ public:
 	Text2D& operator=(const Text2D&) = delete;
 
 	void set_text(const std::string& text);
+	void set_color(float r, float g, float b, float a);
 
 	std::string get_text() const;
 
@@ -50,6 +52,7 @@ private:
 
 private:
 	std::string text;
+	Vector4f color;
 
 	D3DGFX& gfx;
 	const DirectX::XMFLOAT4X4* ortho;
@@ -57,6 +60,7 @@ private:
 	std::vector<Vertex> vertices;
 
 	std::unique_ptr<VertexConstantBuffer<DirectX::XMMATRIX>> vertex_cbuffer;
+	std::unique_ptr<PixelConstantBuffer<Vector4f>> pixel_cbuffer;
 
 };
 

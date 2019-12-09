@@ -131,7 +131,13 @@ bool Mouse::is_middle_pressed() const
 
 Mouse::Event Mouse::pop()
 {
-	Mouse::Event e = event_buffer.front();
+	Mouse::Event e(Mouse::Event::Type::Invalid, { 0, 0 }, 0, 0, 0, 0);
+	if (event_buffer.empty())
+	{
+		return e;
+	}
+
+	e = event_buffer.front();
 	event_buffer.pop();
 	return e;
 }
