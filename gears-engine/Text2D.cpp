@@ -56,6 +56,7 @@ void Text2D::set_text(const std::string& text)
 	// TODO: add maybe another bindable type that allows editing of vertices and indices
 	reset();
 	this->text = text;
+	width = 0.f; height = 0.f;
 	const auto& fontdata = get_font_array();
 
 	// clear the vertex buffer and reserver the amount of
@@ -68,16 +69,15 @@ void Text2D::set_text(const std::string& text)
 
 	float startX = 0.f, startY = 0.f;
 	float temp_z = 0.1f;
+
+	float du = 7; //char width
+	float dv = 9; //char height
+
 	for (int i = 0; i < text.size(); ++i)
 	{
 		// ascii range is [0x20, 0x7F), clamp it if it goes beyond
 		int char_pos = min(int(text[i] - 32), 0x7F - 0x20);
 		ASCIICharUVCoord character = fontdata[char_pos];
-
-		//float du = character.u_end - character.u_start;
-		//float dv = character.v_end - character.v_start;
-		float du = 7; //char width
-		float dv = 9; //char height
 
 		// Setup vertices and tex coords
 		vertices.emplace_back(
@@ -103,8 +103,25 @@ void Text2D::set_text(const std::string& text)
 		indices.emplace_back(base + 3);
 
 		startX += du;
+		width += du;
 	}
+	height += dv;
 	init_bindables();
+}
+
+float Text2D::get_width() const
+{
+	return sx * width;
+}
+
+float Text2D::get_height() const
+{
+	return sy * height;
+}
+
+std::string Text2D::get_text() const
+{
+	return text;
 }
 
 void Text2D::update(float dt)

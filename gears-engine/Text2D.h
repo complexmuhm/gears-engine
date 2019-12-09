@@ -37,6 +37,10 @@ public:
 
 	void set_text(const std::string& text);
 
+	float get_width() const;
+	float get_height() const;
+	std::string get_text() const;
+
 	virtual void update(float dt) override;
 	virtual void draw(D3DGFX& gfx) const override;
 
@@ -46,9 +50,11 @@ private:
 	void init_bindables();
 
 private:
+	std::string text;
+	float width, height;
+
 	D3DGFX& gfx;
 	const DirectX::XMFLOAT4X4* ortho;
-	std::string text;
 	std::vector<UINT> indices;
 	std::vector<Vertex> vertices;
 

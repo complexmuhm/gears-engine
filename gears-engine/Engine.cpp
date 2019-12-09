@@ -16,8 +16,7 @@ Engine::Engine(Vector2i size, const std::wstring& title)
 	edge_cuboid = std::make_unique<EdgeCuboid>(gfx, 1.0f, 1.0f, 1.0f, &proj);
 	edge_cuboid->set_scale(10.f, 10.f, 10.f);
 	label = std::make_unique<Text2D>(gfx, 0.f, 0.f, "Testing THIS text.", &orthoGUI);
-	label->set_scale(1.f, 1.f);
-	label->set_text(std::to_string(0.0005f));
+	label->set_scale(2.f, 2.f);
 	label->set_position(-640.f, 360.f);
 }
 
@@ -58,7 +57,7 @@ void Engine::update()
 	edge_cuboid->set_rotation(theta, theta * 0.5f, theta * 0.5f * 0.5f);
 	edge_cuboid->set_position(0.f, 0.f, 100.f - theta);
 
-	label->set_text(std::to_string(theta));
+	label->set_text(std::to_string(theta) + " s");
 }
 
 void Engine::render()
