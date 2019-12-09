@@ -52,6 +52,7 @@ private:
 	void init_bindables();
 
 private:
+	float char_length, char_height;
 	std::string text;
 	Vector4f color;
 

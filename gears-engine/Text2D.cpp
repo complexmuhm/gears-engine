@@ -45,6 +45,7 @@ Text2D::Text2D(D3DGFX& gfx,
 	: Transform2D(view, ortho)
 	, gfx(gfx), ortho(ortho)
 	, color({1.0f, 1.0f, 1.0f, 1.0f})
+	, char_length(7.f), char_height(9.f)
 {
 	px = x; py = y;
 	set_text(text);
@@ -74,8 +75,8 @@ void Text2D::set_text(const std::string& text)
 	float startX = 0.f, startY = 0.f;
 	float temp_z = 0.1f;
 
-	float du = 7; //char width
-	float dv = 9; //char height
+	float du = char_length; //char length 
+	float dv = char_height; //char height
 
 	for (int i = 0; i < text.size(); ++i)
 	{

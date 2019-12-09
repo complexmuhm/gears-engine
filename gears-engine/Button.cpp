@@ -1,12 +1,16 @@
 #include "Button.h"
 
 Button::Button(
-	D3DGFX& gfx, 
-	const std::string& text, 
-	const DirectX::XMFLOAT4X4* view, 
+	D3DGFX& gfx,
+	const std::string& text,
+	const DirectX::XMFLOAT4X4* view,
 	const DirectX::XMFLOAT4X4* ortho)
 	: Widget(view, ortho)
 	, text(gfx, 0.f, 0.f, text, view, ortho)
+	, color_current({ 1.0f, 1.0f, 1.0f, 1.0f })
+	, color_normal({ 1.0f, 1.0f, 1.0f, 1.0f })
+	, color_hover({ 0.7f, 0.7f, 0.7f, 1.0f })
+	, color_pressed({ 0.4f, 0.4f, 0.4f, 1.0f })
 {
 	synchronize();
 }
