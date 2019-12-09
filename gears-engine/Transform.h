@@ -49,9 +49,24 @@ public:
 	virtual void dimension(float dlength, float dheight, float dwidth);
 
 	virtual void get_position(float& x, float& y, float& z) const;
+	virtual float get_position_x() const;
+	virtual float get_position_y() const;
+	virtual float get_position_z() const;
+
 	virtual void get_scale(float& x, float& y, float& z) const;
+	virtual float get_scale_x() const;
+	virtual float get_scale_y() const;
+	virtual float get_scale_z() const;
+
 	virtual void get_rotation(float& pitch, float& yaw, float& roll) const;
+	virtual float get_pitch() const;
+	virtual float get_yaw() const;
+	virtual float get_roll() const;
+
 	virtual void get_dimension(float& length, float& height, float& width) const;
+	virtual float get_length() const;
+	virtual float get_height() const;
+	virtual float get_width() const;
 
 	virtual DirectX::XMMATRIX get_transformation_matrix() const;
 	
@@ -95,9 +110,19 @@ public:
 	virtual void dimension(float dlength, float dheight);
 
 	virtual void get_position(float& x, float& y) const;
+	virtual float get_position_x() const;
+	virtual float get_position_y() const;
+
 	virtual void get_scale(float& x, float& y) const;
+	virtual float get_scale_x() const;
+	virtual float get_scale_y() const;
+	
 	virtual void get_rotation(float& angle) const;
+	virtual float get_angle() const;
+
 	virtual void get_dimension(float& length, float& height) const;
+	virtual float get_length() const;
+	virtual float get_height() const;
 
 	virtual DirectX::XMMATRIX get_transformation_matrix() const;
 	

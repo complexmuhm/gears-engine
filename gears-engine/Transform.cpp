@@ -64,11 +64,41 @@ void Transform3D::get_position(float& x, float& y, float& z) const
 	z = pz;
 }
 
+float Transform3D::get_position_x() const
+{
+	return px;
+}
+
+float Transform3D::get_position_y() const
+{
+	return py;
+}
+
+float Transform3D::get_position_z() const
+{
+	return pz;
+}
+
 void Transform3D::get_scale(float& x, float& y, float& z) const
 {
 	x = sx;
 	y = sy;
 	z = sz;
+}
+
+float Transform3D::get_scale_x() const
+{
+	return sx;
+}
+
+float Transform3D::get_scale_y() const
+{
+	return sy;
+}
+
+float Transform3D::get_scale_z() const
+{
+	return sz;
 }
 
 void Transform3D::get_rotation(float& pitch, float& yaw, float& roll) const
@@ -78,11 +108,41 @@ void Transform3D::get_rotation(float& pitch, float& yaw, float& roll) const
 	roll = roll;
 }
 
+float Transform3D::get_pitch() const
+{
+	return pitch;
+}
+
+float Transform3D::get_yaw() const
+{
+	return yaw;
+}
+
+float Transform3D::get_roll() const
+{
+	return roll;
+}
+
 void Transform3D::get_dimension(float& length, float& height, float& width) const
 {
 	length = this->length;
 	height = this->height;
 	width = this->width;
+}
+
+float Transform3D::get_length() const
+{
+	return length;
+}
+
+float Transform3D::get_height() const
+{
+	return height;
+}
+
+float Transform3D::get_width() const
+{
+	return width;
 }
 
 DirectX::XMMATRIX Transform3D::get_transformation_matrix() const
@@ -183,10 +243,30 @@ void Transform2D::get_position(float& x, float& y) const
 	y = py;
 }
 
+float Transform2D::get_position_x() const
+{
+	return px;
+}
+
+float Transform2D::get_position_y() const
+{
+	return py;
+}
+
 void Transform2D::get_scale(float& x, float& y) const
 {
 	x = sx;
 	y = sy;
+}
+
+float Transform2D::get_scale_x() const
+{
+	return sx;
+}
+
+float Transform2D::get_scale_y() const
+{
+	return sy;
 }
 
 void Transform2D::get_rotation(float& angle) const
@@ -194,10 +274,25 @@ void Transform2D::get_rotation(float& angle) const
 	angle = this->angle;
 }
 
+float Transform2D::get_angle() const
+{
+	return angle;
+}
+
 void Transform2D::get_dimension(float& length, float& height) const
 {
 	length = this->length;
 	height = this->height;
+}
+
+float Transform2D::get_length() const
+{
+	return length;
+}
+
+float Transform2D::get_height() const
+{
+	return height;
 }
 
 DirectX::XMMATRIX Transform2D::get_transformation_matrix() const

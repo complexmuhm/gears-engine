@@ -37,8 +37,6 @@ public:
 
 	void set_text(const std::string& text);
 
-	float get_length() const;
-	float get_height() const;
 	std::string get_text() const;
 
 	virtual void update(float dt) override;
