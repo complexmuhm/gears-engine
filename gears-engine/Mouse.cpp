@@ -3,7 +3,7 @@
 void Mouse::on_move(Vector2i position)
 {
 	this->position = position;
-	event_buffer.emplace(Mouse::Event::Type::Move, position, false, false, 0);
+	event_buffer.emplace(Mouse::Event::Type::Move, position, false, false, false, 0);
 	trim_buffer();
 }
 
@@ -11,7 +11,7 @@ void Mouse::on_left_pressed(Vector2i position)
 {
 	this->position = position;
 	l_pressed = true;
-	event_buffer.emplace(Mouse::Event::Type::LMouseButtonPressed, position, true, false, 0);
+	event_buffer.emplace(Mouse::Event::Type::LMouseButtonPressed, position, true, false, false, 0);
 	trim_buffer();
 }
 
@@ -19,7 +19,7 @@ void Mouse::on_left_released(Vector2i position)
 {
 	this->position = position;
 	l_pressed = false;
-	event_buffer.emplace(Mouse::Event::Type::LMouseButtonReleased, position, false, false, 0);
+	event_buffer.emplace(Mouse::Event::Type::LMouseButtonReleased, position, false, false, false, 0);
 	trim_buffer();
 }
 
@@ -27,7 +27,7 @@ void Mouse::on_right_pressed(Vector2i position)
 {
 	this->position = position;
 	r_pressed = true;
-	event_buffer.emplace(Mouse::Event::Type::RMouseButtonReleased, position, false, true, 0);
+	event_buffer.emplace(Mouse::Event::Type::RMouseButtonReleased, position, false, true, false, 0);
 	trim_buffer();
 }
 
@@ -35,8 +35,22 @@ void Mouse::on_right_released(Vector2i position)
 {
 	this->position = position;
 	r_pressed = false;
-	event_buffer.emplace(Mouse::Event::Type::RMouseButtonReleased, position, false, false, 0);
+	event_buffer.emplace(Mouse::Event::Type::RMouseButtonReleased, position, false, false, false, 0);
 	trim_buffer();
+}
+
+void Mouse::on_middle_pressed(Vector2i position)
+{
+	this->position = position;
+	m_pressed = true;
+	event_buffer.emplace(Mouse::Event::Type::MMouseButtonPressed, position, false, false, true, 0);
+}
+
+void Mouse::on_middle_release(Vector2i position)
+{
+	this->position = position;
+	m_pressed = false;
+	event_buffer.emplace(Mouse::Event::Type::MMouseButtonReleased, position, false, false, false, 0);
 }
 
 void Mouse::on_scroll(Vector2i position, int delta)
@@ -52,14 +66,14 @@ void Mouse::on_enter(Vector2i position)
 {
 	this->position = position;
 	focused = true;
-	event_buffer.emplace(Mouse::Event::Type::Enter, position, false, false, 0);
+	event_buffer.emplace(Mouse::Event::Type::Enter, position, false, false, false, 0);
 }
 
 void Mouse::on_leave(Vector2i position)
 {
 	this->position = position;
 	focused = false;
-	event_buffer.emplace(Mouse::Event::Type::Leave, position, false, false, 0);
+	event_buffer.emplace(Mouse::Event::Type::Leave, position, false, false, false, 0);
 }
 
 void Mouse::trim_buffer()
@@ -106,6 +120,11 @@ bool Mouse::is_right_pressed() const
 	return r_pressed;
 }
 
+bool Mouse::is_middle_pressed() const
+{
+	return m_pressed;
+}
+
 Mouse::Event Mouse::pop()
 {
 	Mouse::Event e = event_buffer.front();
@@ -113,7 +132,7 @@ Mouse::Event Mouse::pop()
 	return e;
 }
 
-bool Mouse::is_empty() const
+bool Mouse::empty() const
 {
 	return event_buffer.empty();
 }
@@ -123,5 +142,6 @@ void Mouse::clear_state()
 	position = { 0, 0 };
 	l_pressed = false;
 	r_pressed = false;
+	m_pressed = false;
 	delta = 0;
 }

@@ -22,7 +22,7 @@ bool Keyboard::is_autorepeat_set() const
 	return autorepeat;
 }
 
-bool Keyboard::is_key_empty()
+bool Keyboard::empty()
 {
 	return event_buffer.empty();
 }

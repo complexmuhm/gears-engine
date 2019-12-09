@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Transform.h"
+#include "Keyboard.h"
+#include "Mouse.h"
 #include <functional>
 
 using GUICallback = std::function<void()>;
@@ -14,9 +16,9 @@ public:
         const DirectX::XMFLOAT4X4* view,
         const DirectX::XMFLOAT4X4* ortho);
 
-    virtual void process_events();
+    virtual void process_events(Keyboard::Event key_event, Mouse::Event mouse_event);
     virtual void update(float dt) = 0;
-    virtual void render(D3DGFX& gfx) = 0;
+    virtual void draw(D3DGFX& gfx) = 0;
 
     void bind_enter(GUICallback callback_func);
     void bind_leave(GUICallback callback_func);

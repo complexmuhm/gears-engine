@@ -147,6 +147,9 @@
     <ClInclude Include="Button.h">
       <Filter>Headerdateien\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="GUIManager.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="D3DGFX.cpp">
@@ -235,6 +238,9 @@
     </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>Quelldateien\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIManager.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

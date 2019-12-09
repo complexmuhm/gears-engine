@@ -39,7 +39,7 @@ public:
 
 	bool is_key_pressed(unsigned char key) const;
 	bool is_autorepeat_set() const;
-	bool is_key_empty();
+	bool empty();
 	bool is_char_empty();
 
 	Keyboard::Event pop();

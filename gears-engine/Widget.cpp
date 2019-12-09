@@ -9,6 +9,84 @@ Widget::Widget(
     reset_buttons();
 }
 
+void Widget::process_events(Keyboard::Event key_event, Mouse::Event mouse_event)
+{
+    if (mouse_event.type == Mouse::Event::Type::Move)
+    {
+        float posx = mouse_event.position.x;
+        float posy = mouse_event.position.y;
+        if (contains(posx, posy))
+        {
+            on_enter();
+        }
+        else
+        {
+            if (hasEntered)
+                on_leave();
+            return;
+        }
+    }
+
+    switch (key_event.type)
+    {
+    case Keyboard::Event::Type::Pressed:
+    {
+
+        break;
+    }
+    case Keyboard::Event::Type::Released:
+    {
+        break;
+    }
+    }
+
+    switch (mouse_event.type)
+    {
+    case Mouse::Event::Type::LMouseButtonPressed:
+	{
+        on_left_pressed();
+		break;
+	}
+    case Mouse::Event::Type::LMouseButtonReleased:
+	{
+        if (isLeftPressed)
+        {
+            on_left_clicked();
+        }
+        on_left_released();
+		break;
+	}
+    case Mouse::Event::Type::RMouseButtonPressed:
+	{
+        on_right_pressed();
+		break;
+	}
+    case Mouse::Event::Type::RMouseButtonReleased:
+	{
+        if (isRightPressed)
+        {
+            on_right_clicked();
+        }
+        on_right_released();
+		break;
+	}
+    case Mouse::Event::Type::MMouseButtonPressed:
+	{
+        on_middle_pressed();
+		break;
+	}
+    case Mouse::Event::Type::MMouseButtonReleased:
+	{
+        if (isMiddlePressed)
+        {
+            on_middle_clicked();
+        }
+        on_middle_released();
+		break;
+	}
+    }
+}
+
 void Widget::bind_enter(GUICallback callback_func)
 {
     enter_callback = callback_func;
@@ -39,6 +117,7 @@ void Widget::on_enter()
     {
         enter_callback();
     }
+    on_hover();
 }
 void Widget::on_hover()
 {

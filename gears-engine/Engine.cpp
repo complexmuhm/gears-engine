@@ -40,8 +40,13 @@ void Engine::process_events()
 		DispatchMessageW(&msg);
 	}
 
-	Keyboard::Event key_event = window.keybd.pop();
-	Mouse::Event mouse_event = window.mouse.pop();
+
+	while (!window.keybd.empty() || !window.mouse.empty())
+	{
+		Keyboard::Event key_event = window.keybd.pop();
+		Mouse::Event mouse_event = window.mouse.pop();
+
+	}
 
 	if (window.keybd.is_key_pressed(VK_ESCAPE))
 	{

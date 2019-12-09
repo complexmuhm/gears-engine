@@ -149,6 +149,7 @@ public:
 	virtual float get_length() const;
 	virtual float get_height() const;
 
+	virtual bool contains(float x, float y) const;
 	virtual DirectX::XMMATRIX get_transformation_matrix() const;
 	
 protected:

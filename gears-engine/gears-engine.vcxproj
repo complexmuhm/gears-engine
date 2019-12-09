@@ -171,6 +171,7 @@
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="Extern\picopng.h" />
     <ClInclude Include="GearsWin.h" />
+    <ClInclude Include="GUIManager.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="InputLayout.h" />
     <ClInclude Include="Keyboard.h" />
@@ -202,6 +203,7 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Exceptions.cpp" />
     <ClCompile Include="Extern\picopng.cpp" />
+    <ClCompile Include="GUIManager.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputLayout.cpp" />
     <ClCompile Include="Keyboard.cpp" />

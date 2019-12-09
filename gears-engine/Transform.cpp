@@ -352,6 +352,20 @@ float Transform2D::get_height() const
 	return height;
 }
 
+bool Transform2D::contains(float x, float y) const
+{
+	float top = py;
+	float bottom = py + height;
+	float left = px;
+	float right = px + length;
+	if (x >= left && x <= right &&
+		y >= top && y <= bottom)
+	{
+		return true;
+	}
+	return false;
+}
+
 DirectX::XMMATRIX Transform2D::get_transformation_matrix() const
 {
 	// TODO: maybe choose another z position?
