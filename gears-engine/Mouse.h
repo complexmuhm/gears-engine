@@ -8,7 +8,7 @@ class Mouse
 public:
 	struct Event
 	{
-		enum class Type
+		enum Type
 		{
 			LMouseButtonPressed,
 			LMouseButtonReleased,

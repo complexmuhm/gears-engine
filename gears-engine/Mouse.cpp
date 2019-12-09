@@ -3,7 +3,7 @@
 void Mouse::on_move(Vector2i position)
 {
 	this->position = position;
-	event_buffer.emplace(Mouse::Event::Type::Move, position, false, false, 0);
+	event_buffer.emplace(Mouse::Event::Move, position, false, false, 0);
 	trim_buffer();
 }
 
@@ -11,7 +11,7 @@ void Mouse::on_left_pressed(Vector2i position)
 {
 	this->position = position;
 	l_pressed = true;
-	event_buffer.emplace(Mouse::Event::Type::LMouseButtonPressed, position, true, false, 0);
+	event_buffer.emplace(Mouse::Event::LMouseButtonPressed, position, true, false, 0);
 	trim_buffer();
 }
 
@@ -19,7 +19,7 @@ void Mouse::on_left_released(Vector2i position)
 {
 	this->position = position;
 	l_pressed = false;
-	event_buffer.emplace(Mouse::Event::Type::LMouseButtonReleased, position, false, false, 0);
+	event_buffer.emplace(Mouse::Event::LMouseButtonReleased, position, false, false, 0);
 	trim_buffer();
 }
 
@@ -27,7 +27,7 @@ void Mouse::on_right_pressed(Vector2i position)
 {
 	this->position = position;
 	r_pressed = true;
-	event_buffer.emplace(Mouse::Event::Type::RMouseButtonReleased, position, false, true, 0);
+	event_buffer.emplace(Mouse::Event::RMouseButtonReleased, position, false, true, 0);
 	trim_buffer();
 }
 
@@ -35,7 +35,7 @@ void Mouse::on_right_released(Vector2i position)
 {
 	this->position = position;
 	r_pressed = false;
-	event_buffer.emplace(Mouse::Event::Type::RMouseButtonReleased, position, false, false, 0);
+	event_buffer.emplace(Mouse::Event::RMouseButtonReleased, position, false, false, 0);
 	trim_buffer();
 }
 
@@ -43,7 +43,7 @@ void Mouse::on_scroll(Vector2i position, int delta)
 {
 	this->position = position;
 	this->delta = delta;
-	Mouse::Event::Type t = delta < 0 ? Mouse::Event::Type::WheelDown : Mouse::Event::Type::WheelUp;
+	Mouse::Event::Type t = delta < 0 ? Mouse::Event::WheelDown : Mouse::Event::WheelUp;
 	event_buffer.emplace(t, position, false, false, delta);
 	trim_buffer();
 }
@@ -52,14 +52,14 @@ void Mouse::on_enter(Vector2i position)
 {
 	this->position = position;
 	focused = true;
-	event_buffer.emplace(Mouse::Event::Type::Enter, position, false, false, 0);
+	event_buffer.emplace(Mouse::Event::Enter, position, false, false, 0);
 }
 
 void Mouse::on_leave(Vector2i position)
 {
 	this->position = position;
 	focused = false;
-	event_buffer.emplace(Mouse::Event::Type::Leave, position, false, false, 0);
+	event_buffer.emplace(Mouse::Event::Leave, position, false, false, 0);
 }
 
 void Mouse::trim_buffer()

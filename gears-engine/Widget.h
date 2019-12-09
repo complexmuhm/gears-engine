@@ -14,9 +14,9 @@ public:
         const DirectX::XMFLOAT4X4* view,
         const DirectX::XMFLOAT4X4* ortho);
 
-    void process_events();
-    void update(float dt);
-    void render(D3DGFX& gfx);
+    virtual void process_events();
+    virtual void update(float dt) = 0;
+    virtual void render(D3DGFX& gfx) = 0;
 
     void bind_enter(GUICallback callback_func);
     void bind_leave(GUICallback callback_func);

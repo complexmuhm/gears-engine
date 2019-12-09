@@ -6,9 +6,10 @@ class Keyboard
 {
 	friend class Window;
 
+public:
 	struct Event
 	{
-		enum class Type
+		enum Type
 		{
 			Pressed,
 			Released,

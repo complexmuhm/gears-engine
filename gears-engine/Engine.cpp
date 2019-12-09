@@ -40,6 +40,8 @@ void Engine::process_events()
 		DispatchMessageW(&msg);
 	}
 
+	
+
 	if (window.keybd.is_key_pressed(VK_ESCAPE))
 	{
 		window.close();
