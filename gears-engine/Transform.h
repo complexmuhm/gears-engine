@@ -39,6 +39,11 @@ public:
 	};
 
 	Transform3D();
+	Transform3D(
+		float px, float py, float pz,
+		float sx, float sy, float sz,
+		float pitch, float yaw, float roll,
+		float length, float height, float width);
 
 	virtual void set_position(float x, float y, float z);
 	virtual void move(float dx, float dy, float dz);
@@ -71,12 +76,12 @@ public:
 	virtual DirectX::XMMATRIX get_transformation_matrix() const;
 	
 protected:
+	// p ... Position
+	float px, py, pz;
 	// s ... Scale
 	float sx, sy, sz;
 	// ... yeah
 	float pitch, yaw, roll;
-	// p ... Position
-	float px, py, pz;
 	// ... yeah
 	float length, height, width;
 };
@@ -100,6 +105,11 @@ public:
 	};
 
 	Transform2D();
+	Transform2D(
+		float px, float py,
+		float sx, float sy,
+		float angle,
+		float length, float height);
 
 	virtual void set_position(float x, float y, RELPOS relative_pos = RELPOS::TOP_LEFT);
 	virtual void move(float dx, float dy);
@@ -127,12 +137,12 @@ public:
 	virtual DirectX::XMMATRIX get_transformation_matrix() const;
 	
 protected:
+	// p ... Position
+	float px, py;
 	// s ... Scale
 	float sx, sy;
 	// ... yeah
 	float angle;
-	// p ... Position
-	float px, py;
 	// ... yeah
 	float length, height;
 

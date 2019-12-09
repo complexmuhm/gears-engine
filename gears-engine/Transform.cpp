@@ -8,6 +8,18 @@ Transform3D::Transform3D()
 {
 }
 
+Transform3D::Transform3D(
+	float px, float py, float pz, 
+	float sx, float sy, float sz, 
+	float pitch, float yaw, float roll, 
+	float length, float height, float width)
+	: px(px), py(py), pz(pz)
+	, sx(sx), sy(sy), sz(sz)
+	, pitch(pitch), yaw(yaw), roll(roll)
+	, length(length), height(height), width(width)
+{
+}
+
 void Transform3D::set_position(float x, float y, float z)
 {
 	px = x;
@@ -161,6 +173,18 @@ Transform2D::Transform2D()
 	, angle(0.f)
 	, px(0.f), py(0.f)
 	, length(0.f), height(0.f)
+{
+}
+
+Transform2D::Transform2D(
+	float px, float py, 
+	float sx, float sy, 
+	float angle, 
+	float length, float height)
+	: px(px), py(py)
+	, sx(sx), sy(sy)
+	, angle(angle)
+	, length(length), height(height)
 {
 }
 

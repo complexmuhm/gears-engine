@@ -17,14 +17,13 @@ class Cuboid : public Drawable, public Transform3D
 public:
 	Cuboid(D3DGFX& gfx, 
 		float length, float height, float width, 
-		float inv_aspr, float z_near, float z_far);
+		const DirectX::XMFLOAT4X4* pers);
 
 	void update(float dt) override;
 
 private:
-	float length, width, height;
 	std::unique_ptr<VertexConstantBuffer<DirectX::XMMATRIX>> vertex_cbuffer;
-	DirectX::XMFLOAT4X4 perspective_matrix;
+	const DirectX::XMFLOAT4X4* perspective_matrix;
 
 };
 

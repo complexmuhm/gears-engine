@@ -52,23 +52,23 @@ void Engine::update()
 
 	static Transform2D::RELPOS s = Transform2D::TOP_LEFT;
 
-	if (window.keybd.is_key_pressed('Q'))
+	if (window.keybd.is_key_pressed('E'))
 		s = Transform2D::TOP_LEFT;
 	if (window.keybd.is_key_pressed('W'))
 		s = Transform2D::TOP_CENTER;
-	if (window.keybd.is_key_pressed('E'))
+	if (window.keybd.is_key_pressed('Q'))
 		s = Transform2D::TOP_RIGHT;
-	if (window.keybd.is_key_pressed('A'))
+	if (window.keybd.is_key_pressed('D'))
 		s = Transform2D::CENTER_LEFT;
 	if (window.keybd.is_key_pressed('S'))
 		s = Transform2D::CENTER_CENTER;
-	if (window.keybd.is_key_pressed('D'))
+	if (window.keybd.is_key_pressed('A'))
 		s = Transform2D::CENTER_RIGHT;
-	if (window.keybd.is_key_pressed('Y'))
+	if (window.keybd.is_key_pressed('C'))
 		s = Transform2D::BOTTOM_LEFT;
 	if (window.keybd.is_key_pressed('X'))
 		s = Transform2D::BOTTOM_CENTER;
-	if (window.keybd.is_key_pressed('C'))
+	if (window.keybd.is_key_pressed('Y'))
 		s = Transform2D::BOTTOM_RIGHT;
 
 	if (window.keybd.is_key_pressed(VK_SPACE))

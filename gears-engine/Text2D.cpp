@@ -109,16 +109,6 @@ void Text2D::set_text(const std::string& text)
 	init_bindables();
 }
 
-float Text2D::get_length() const
-{
-	return sx * length;
-}
-
-float Text2D::get_height() const
-{
-	return sy * height;
-}
-
 std::string Text2D::get_text() const
 {
 	return text;

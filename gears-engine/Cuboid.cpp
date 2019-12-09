@@ -2,12 +2,12 @@
 
 Cuboid::Cuboid(D3DGFX& gfx, 
 	float length, float height, float width, 
-	float inv_aspr, float z_near, float z_far)
-	: length(length), height(height), width(width) 
+	const DirectX::XMFLOAT4X4* pers)
+	: perspective_matrix(pers)
 {
-	DirectX::XMStoreFloat4x4(
-		&perspective_matrix, 
-		DirectX::XMMatrixPerspectiveLH(1.0f, inv_aspr, z_near, z_far));
+	this->length = length;
+	this->height = height;
+	this->width = width;
 
 	std::vector<UINT> indices =
 	{
@@ -75,7 +75,7 @@ void Cuboid::update(float dt)
 	vertex_cbuffer->update(
 		DirectX::XMMatrixTranspose(
 			get_transformation_matrix() *
-			DirectX::XMLoadFloat4x4(&perspective_matrix)));
+			DirectX::XMLoadFloat4x4(perspective_matrix)));
 	// and manually bind it
 	vertex_cbuffer->bind();
 }

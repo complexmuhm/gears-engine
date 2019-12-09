@@ -2,10 +2,13 @@
 
 EdgeCuboid::EdgeCuboid(D3DGFX& gfx,
 	float length, float height, float width,
-	DirectX::XMFLOAT4X4* persp_matrix)
-	: length(length), height(height), width(width)
-	, perspective_matrix(persp_matrix)
+	const DirectX::XMFLOAT4X4* persp_matrix)
+	: perspective_matrix(persp_matrix)
 {
+	this->length = length;
+	this->height = height;
+	this->width = width;
+
 	std::vector<UINT> indices =
 	{
 		0, 1,   1, 2,   2, 3,   3, 0,
