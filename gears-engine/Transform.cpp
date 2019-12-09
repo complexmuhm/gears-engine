@@ -419,8 +419,8 @@ bool Transform2D::contains(float x, float y) const
 	float bottom = py + height * sy;
 	float left = px;
 	float right = px + length * sx;
-	if (x >= left && x <= right &&
-		y >= top && y <= bottom)
+	if (x >= left && x < right &&
+		y >= top && y < bottom)
 	{
 		return true;
 	}
