@@ -9,7 +9,7 @@ class Keyboard
 public:
 	struct Event
 	{
-		enum Type
+		enum class Type
 		{
 			Pressed,
 			Released,
@@ -42,7 +42,7 @@ public:
 	bool is_key_empty();
 	bool is_char_empty();
 
-	Keyboard::Event pop_key();
+	Keyboard::Event pop();
 	char pop_char();
 
 	void clear_events();

@@ -32,9 +32,10 @@ bool Keyboard::is_char_empty()
 	return char_buffer.empty();
 }
 
-Keyboard::Event Keyboard::pop_key()
+Keyboard::Event Keyboard::pop()
 {
-	Event e;
+	Event e = {};
+	e.type = Event::Type::Invalid;
 	if (event_buffer.empty())
 	{
 		return e;
@@ -73,14 +74,14 @@ void Keyboard::set_autorepeat(bool state)
 void Keyboard::on_key_pressed(unsigned char key)
 {
 	keys[key] = true;
-	event_buffer.push(Event(Event::Pressed, key));
+	event_buffer.push(Event(Event::Type::Pressed, key));
 	trim_buffer(event_buffer);
 }
 
 void Keyboard::on_key_released(unsigned char key)
 {
 	keys[key] = false;
-	event_buffer.push(Event(Event::Released, key));
+	event_buffer.push(Event(Event::Type::Released, key));
 	trim_buffer(event_buffer);
 }
 
