@@ -19,7 +19,7 @@ public:
 	void draw(D3DGFX& gfx);
 
 private:
-	std::vector<std::unique_ptr<Widget>> elements;
+	std::vector<std::unique_ptr<Widget>> widgets;
 
 };
 

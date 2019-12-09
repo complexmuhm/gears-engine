@@ -153,6 +153,9 @@
     <ClInclude Include="Label.h">
       <Filter>Headerdateien\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="VBox.h">
+      <Filter>Headerdateien\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="D3DGFX.cpp">
@@ -246,6 +249,9 @@
       <Filter>Quelldateien\GUI</Filter>
     </ClCompile>
     <ClCompile Include="Label.cpp">
+      <Filter>Quelldateien\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="VBox.cpp">
       <Filter>Quelldateien\GUI</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,54 +1,54 @@
 #include "GUIManager.h"
 #include "Label.h"
 #include "Button.h"
+#include "VBox.h"
 
 GUIManager::GUIManager(
 	D3DGFX& gfx,
 	const DirectX::XMFLOAT4X4* view,
 	const DirectX::XMFLOAT4X4* ortho)
 {
-	elements.emplace_back(std::make_unique<Label>(gfx, "Hello", view, ortho));
-	elements.back()->set_scale(2.f, 2.f);
-	elements.back()->set_position(0.f, 0.f, Transform2D::TOP_LEFT);
+	auto v_box = std::make_unique<VBox>(view, ortho);
 
-	float label_x = elements.back()->get_position(Transform2D::CENTER_CENTER).x;
+	auto label = std::make_unique<Label>(gfx, "EPS", view, ortho);
+	std::vector<std::unique_ptr<Button>> buttons;
+	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
+	buttons.back()->bind_left([]() {});
+	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
+	buttons.back()->bind_left([]() {});
+	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
+	buttons.back()->bind_left([]() {});
+	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
+	buttons.back()->bind_left([]() {});
+	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
+	buttons.back()->bind_left([]() {});
+	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
+	buttons.back()->bind_left([]() {});
+	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
+	buttons.back()->bind_left([]() {});
 
-	elements.emplace_back(std::make_unique<Button>(gfx, "Test", view, ortho));
-	elements.back()->set_scale(2.0f, 2.0f);
-	elements.back()->set_position(label_x, elements[elements.size() - 2]->get_position(Transform2D::BOTTOM_LEFT).y, Transform2D::TOP_CENTER);
-	elements.emplace_back(std::make_unique<Button>(gfx, "Test", view, ortho));
-	elements.back()->set_scale(2.0f, 2.0f);
-	elements.back()->set_position(label_x, elements[elements.size() - 2]->get_position(Transform2D::BOTTOM_LEFT).y, Transform2D::TOP_CENTER);
-	elements.emplace_back(std::make_unique<Button>(gfx, "Test", view, ortho));
-	elements.back()->set_scale(2.0f, 2.0f);
-	elements.back()->set_position(label_x, elements[elements.size() - 2]->get_position(Transform2D::BOTTOM_LEFT).y, Transform2D::TOP_CENTER);
-	elements.emplace_back(std::make_unique<Button>(gfx, "Test", view, ortho));
-	elements.back()->set_scale(2.0f, 2.0f);
-	elements.back()->set_position(label_x, elements[elements.size() - 2]->get_position(Transform2D::BOTTOM_LEFT).y, Transform2D::TOP_CENTER);
-	elements.emplace_back(std::make_unique<Button>(gfx, "Test", view, ortho));
-	elements.back()->set_scale(2.0f, 2.0f);
-	elements.back()->set_position(label_x, elements[elements.size() - 2]->get_position(Transform2D::BOTTOM_LEFT).y, Transform2D::TOP_CENTER);
-	elements.emplace_back(std::make_unique<Button>(gfx, "Test", view, ortho));
-	elements.back()->set_scale(2.0f, 2.0f);
-	elements.back()->set_position(label_x, elements[elements.size() - 2]->get_position(Transform2D::BOTTOM_LEFT).y, Transform2D::TOP_CENTER);
-	elements.emplace_back(std::make_unique<Button>(gfx, "Test", view, ortho));
-	elements.back()->set_scale(2.0f, 2.0f);
-	elements.back()->set_position(label_x, elements[elements.size() - 2]->get_position(Transform2D::BOTTOM_LEFT).y, Transform2D::TOP_CENTER);
+	v_box->add_widget(std::move(label));
+	for (auto& b : buttons)
+		v_box->add_widget(std::move(b));
+
+	v_box->set_scale(2.0f, 2.0f);
+	widgets.emplace_back(std::move(v_box));
+	widgets.back()->set_position(0.f, 0.f);
 }
 
 void GUIManager::process_events(Keyboard::Event key_event, Mouse::Event mouse_event)
 {
-	for (auto& x : elements)
+	for (auto& w : widgets)
 	{
-		x->process_events(key_event, mouse_event);
+		w->process_events(key_event, mouse_event);
 	}
 }
 
 void GUIManager::update(float dt)
 {
-	for (auto& x : elements)
+	for (auto& w : widgets)
 	{
-		x->update(dt);
+		w->update(dt);
 	}
 }
 
@@ -57,9 +57,9 @@ void GUIManager::update(float dt)
 void GUIManager::draw(D3DGFX& gfx)
 {
 	auto start = std::chrono::system_clock::now();
-	for (auto& x : elements)
+	for (auto& w : widgets)
 	{
-		x->draw(gfx);
+		w->draw(gfx);
 	}
 	auto end = std::chrono::system_clock::now();
 

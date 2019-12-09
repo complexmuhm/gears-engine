@@ -14,7 +14,7 @@ public:
 	void update(float dt) override;
 	void draw(D3DGFX& gfx) override;
 
-	virtual void set_position(float x, float y, RELPOS relative_pos = RELPOS::TOP_LEFT) override;
+	virtual void set_position(float x, float y, Transform2D::RELPOS relative_pos = Transform2D::TOP_LEFT) override;
 	virtual void set_scale(float x, float y) override;
 	virtual void set_rotation(float angle) override;
 	virtual void set_dimension(float length, float height) override;

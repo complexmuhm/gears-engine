@@ -127,8 +127,8 @@ public:
 		float angle,
 		float length, float height);
 
-	virtual void set_position(float x, float y, RELPOS relative_pos = RELPOS::TOP_LEFT);
-	void set_position(const Vector2f& pos, RELPOS relative_pos = RELPOS::TOP_LEFT);
+	virtual void set_position(float x, float y, Transform2D::RELPOS relative_pos = Transform2D::TOP_LEFT);
+	void set_position(const Vector2f& pos, Transform2D::RELPOS relative_pos = Transform2D::TOP_LEFT);
 	void move(float dx, float dy);
 	void move(const Vector2f& dpos);
 	virtual void set_scale(float x, float y);
@@ -140,7 +140,7 @@ public:
 	void dimension(float dlength, float dheight);
 
 	virtual void get_position(float& x, float& y) const;
-	virtual Vector2f get_position(RELPOS relative_pos = RELPOS::TOP_LEFT) const;
+	virtual Vector2f get_position(Transform2D::RELPOS relative_pos = Transform2D::TOP_LEFT) const;
 	virtual float get_position_x() const;
 	virtual float get_position_y() const;
 
@@ -156,6 +156,11 @@ public:
 	virtual Vector2f get_dimension() const;
 	virtual float get_length() const;
 	virtual float get_height() const;
+
+	virtual void get_real_dimension(float& length, float& height) const;
+	virtual Vector2f get_real_dimension() const;
+	virtual float get_real_length() const;
+	virtual float get_real_height() const;
 
 	virtual bool contains(float x, float y) const;
 	virtual DirectX::XMMATRIX get_transformation_matrix() const;

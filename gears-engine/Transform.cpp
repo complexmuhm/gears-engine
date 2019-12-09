@@ -210,7 +210,7 @@ Transform2D::Transform2D(
 	recalculate_model_matrix();
 }
 
-void Transform2D::set_position(float x, float y, RELPOS relative_pos)
+void Transform2D::set_position(float x, float y, Transform2D::RELPOS relative_pos)
 {
 	// result x and y
 	float res_x = x;
@@ -250,7 +250,7 @@ void Transform2D::set_position(float x, float y, RELPOS relative_pos)
 	recalculate_model_matrix();
 }
 
-void Transform2D::set_position(const Vector2f& pos, RELPOS relative_pos)
+void Transform2D::set_position(const Vector2f& pos, Transform2D::RELPOS relative_pos)
 {
 	set_position(pos.x, pos.y, relative_pos);
 }
@@ -306,7 +306,7 @@ void Transform2D::dimension(float dlength, float dheight)
 	set_dimension(length + dlength, height + dheight);
 }
 
-Vector2f Transform2D::get_position(RELPOS relative_pos) const
+Vector2f Transform2D::get_position(Transform2D::RELPOS relative_pos) const
 {
 	// result x and y
 	float res_x = px;
@@ -411,6 +411,27 @@ float Transform2D::get_length() const
 float Transform2D::get_height() const
 {
 	return height;
+}
+
+void Transform2D::get_real_dimension(float& length, float& height) const
+{
+	length = this->length * sx;
+	height = this->height * sy;
+}
+
+Vector2f Transform2D::get_real_dimension() const
+{
+	return { length * sx, height * sy };
+}
+
+float Transform2D::get_real_length() const
+{
+	return length * sx;
+}
+
+float Transform2D::get_real_height() const
+{
+	return height * sy;
 }
 
 bool Transform2D::contains(float x, float y) const

@@ -27,6 +27,12 @@ public:
     void bind_right(GUICallback callback_func);
     void bind_middle(GUICallback callback_func);
 
+    bool entered();
+    bool hovering();
+    bool pressed();
+    bool released();
+    bool left();
+
 protected:
     void on_enter();
     void on_hover();
@@ -50,18 +56,18 @@ protected:
     void reset_buttons();
 
 protected:
-    bool hasEntered;
-    bool isHovering;
-    bool hasPressed;
-    bool hasReleased;
-    bool hasLeft;
+    bool has_entered;
+    bool is_hovering;
+    bool has_pressed;
+    bool has_released;
+    bool has_left;
 
-    bool isLeftPressed;
-    bool isLeftReleased;
-    bool isRightPressed;
-    bool isRightReleased;
-    bool isMiddlePressed;
-    bool isMiddleReleased;
+    bool is_left_pressed;
+    bool is_left_released;
+    bool is_right_pressed;
+    bool is_right_released;
+    bool is_middle_pressed;
+    bool is_middle_released;
 
     GUICallback enter_callback;
     GUICallback leave_callback;

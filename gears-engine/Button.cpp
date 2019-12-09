@@ -17,11 +17,11 @@ Button::Button(
 
 void Button::update(float dt)
 {
-	if (!hasEntered)
+	if (!has_entered)
 		color_current = color_normal;
-	if (isHovering)
+	if (is_hovering)
 		color_current = color_hover;
-	if (hasPressed)
+	if (has_pressed)
 		color_current = color_pressed;
 
 	text.set_color(color_current);
@@ -33,7 +33,7 @@ void Button::draw(D3DGFX& gfx)
 	text.draw(gfx);
 }
 
-void Button::set_position(float x, float y, RELPOS relative_pos)
+void Button::set_position(float x, float y, Transform2D::RELPOS relative_pos)
 {
 	Transform2D::set_position(x, y, relative_pos);
 	text.set_position(x, y, relative_pos);

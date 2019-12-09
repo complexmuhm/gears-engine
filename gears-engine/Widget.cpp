@@ -17,12 +17,12 @@ void Widget::process_events(Keyboard::Event key_event, Mouse::Event mouse_event)
         float posy = (float)mouse_event.position.y;
         if (contains(posx, posy))
         {
-            if(!hasEntered)
+            if(!has_entered)
                 on_enter();
         }
         else
         {
-            if (hasEntered)
+            if (has_entered)
                 on_leave();
             return;
         }
@@ -41,7 +41,7 @@ void Widget::process_events(Keyboard::Event key_event, Mouse::Event mouse_event)
     }
     }
 
-    if (hasEntered)
+    if (has_entered)
     {
 		switch (mouse_event.type)
 		{
@@ -52,7 +52,7 @@ void Widget::process_events(Keyboard::Event key_event, Mouse::Event mouse_event)
 		}
 		case Mouse::Event::Type::LMouseButtonReleased:
 		{
-			if (isLeftPressed)
+			if (is_left_pressed)
 			{
 				on_left_clicked();
 			}
@@ -66,7 +66,7 @@ void Widget::process_events(Keyboard::Event key_event, Mouse::Event mouse_event)
 		}
 		case Mouse::Event::Type::RMouseButtonReleased:
 		{
-			if (isRightPressed)
+			if (is_right_pressed)
 			{
 				on_right_clicked();
 			}
@@ -80,7 +80,7 @@ void Widget::process_events(Keyboard::Event key_event, Mouse::Event mouse_event)
 		}
 		case Mouse::Event::Type::MMouseButtonReleased:
 		{
-			if (isMiddlePressed)
+			if (is_middle_pressed)
 			{
 				on_middle_clicked();
 			}
@@ -112,11 +112,36 @@ void Widget::bind_middle(GUICallback callback_func)
     middle_callback = callback_func;
 }
 
+bool Widget::entered()
+{
+    return has_entered;
+}
+
+bool Widget::hovering()
+{
+    return is_hovering;
+}
+
+bool Widget::pressed()
+{
+    return has_pressed;
+}
+
+bool Widget::released()
+{
+    return has_released;
+}
+
+bool Widget::left()
+{
+    return has_left;
+}
+
 void Widget::on_enter()
 {
     reset_state();
     reset_buttons();
-    hasEntered = true;
+    has_entered = true;
     if (enter_callback)
     {
         enter_callback();
@@ -125,17 +150,17 @@ void Widget::on_enter()
 }
 void Widget::on_hover()
 {
-    isHovering = true;
+    is_hovering = true;
 }
 void Widget::on_pressed()
 {
-    hasPressed = true;
-    hasReleased = false;
+    has_pressed = true;
+    has_released = false;
 }
 void Widget::on_released()
 {
-    hasReleased = true;
-    hasPressed = false;
+    has_released = true;
+    has_pressed = false;
 }
 void Widget::on_leave()
 {
@@ -150,14 +175,14 @@ void Widget::on_left_pressed()
 {
     reset_buttons();
     on_pressed();
-    isLeftPressed = true;
+    is_left_pressed = true;
 
 }
 void Widget::on_left_released()
 {
     reset_buttons();
     on_released();
-    isLeftReleased = true;
+    is_left_released = true;
 }
 void Widget::on_left_clicked()
 {
@@ -170,13 +195,13 @@ void Widget::on_right_pressed()
 {
     reset_buttons();
     on_pressed();
-    isRightPressed = true;
+    is_right_pressed = true;
 }
 void Widget::on_right_released()
 {
     reset_buttons();
     on_released();
-    isRightReleased = true;
+    is_right_released = true;
 }
 void Widget::on_right_clicked()
 {
@@ -189,13 +214,13 @@ void Widget::on_middle_pressed()
 {
     reset_buttons();
     on_pressed();
-    isMiddlePressed = true;
+    is_middle_pressed = true;
 }
 void Widget::on_middle_released()
 {
     reset_buttons();
     on_released();
-    isMiddleReleased = true;
+    is_middle_released = true;
 }
 void Widget::on_middle_clicked()
 {
@@ -206,17 +231,17 @@ void Widget::on_middle_clicked()
 }
 void Widget::reset_state()
 {
-    hasEntered = false;
-    isHovering = false;
-    hasPressed = false;
-    hasReleased = false;
+    has_entered = false;
+    is_hovering = false;
+    has_pressed = false;
+    has_released = false;
 }
 void Widget::reset_buttons()
 {
-    isLeftPressed = false;
-    isLeftReleased = false;
-    isRightPressed = false;
-    isRightReleased = false;
-    isMiddlePressed = false;
-    isMiddleReleased = false;
+    is_left_pressed = false;
+    is_left_released = false;
+    is_right_pressed = false;
+    is_right_released = false;
+    is_middle_pressed = false;
+    is_middle_released = false;
 }
