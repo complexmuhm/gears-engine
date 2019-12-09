@@ -148,7 +148,10 @@
       <Filter>Headerdateien\GUI</Filter>
     </ClInclude>
     <ClInclude Include="GUIManager.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Label.h">
+      <Filter>Headerdateien\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -240,7 +243,10 @@
       <Filter>Quelldateien\GUI</Filter>
     </ClCompile>
     <ClCompile Include="GUIManager.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Label.cpp">
+      <Filter>Quelldateien\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

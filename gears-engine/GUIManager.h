@@ -6,7 +6,11 @@
 class GUIManager
 {
 public:
-	GUIManager();
+	GUIManager(
+		D3DGFX& gfx,
+		const DirectX::XMFLOAT4X4* view,
+		const DirectX::XMFLOAT4X4* ortho);
+
 	GUIManager(const GUIManager&) = delete;
 	GUIManager& operator=(const GUIManager&) = delete;
 

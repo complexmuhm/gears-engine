@@ -17,7 +17,8 @@ void Widget::process_events(Keyboard::Event key_event, Mouse::Event mouse_event)
         float posy = mouse_event.position.y;
         if (contains(posx, posy))
         {
-            on_enter();
+            if(!hasEntered)
+                on_enter();
         }
         else
         {
@@ -40,50 +41,53 @@ void Widget::process_events(Keyboard::Event key_event, Mouse::Event mouse_event)
     }
     }
 
-    switch (mouse_event.type)
+    if (hasEntered)
     {
-    case Mouse::Event::Type::LMouseButtonPressed:
-	{
-        on_left_pressed();
-		break;
-	}
-    case Mouse::Event::Type::LMouseButtonReleased:
-	{
-        if (isLeftPressed)
-        {
-            on_left_clicked();
-        }
-        on_left_released();
-		break;
-	}
-    case Mouse::Event::Type::RMouseButtonPressed:
-	{
-        on_right_pressed();
-		break;
-	}
-    case Mouse::Event::Type::RMouseButtonReleased:
-	{
-        if (isRightPressed)
-        {
-            on_right_clicked();
-        }
-        on_right_released();
-		break;
-	}
-    case Mouse::Event::Type::MMouseButtonPressed:
-	{
-        on_middle_pressed();
-		break;
-	}
-    case Mouse::Event::Type::MMouseButtonReleased:
-	{
-        if (isMiddlePressed)
-        {
-            on_middle_clicked();
-        }
-        on_middle_released();
-		break;
-	}
+		switch (mouse_event.type)
+		{
+		case Mouse::Event::Type::LMouseButtonPressed:
+		{
+			on_left_pressed();
+			break;
+		}
+		case Mouse::Event::Type::LMouseButtonReleased:
+		{
+			if (isLeftPressed)
+			{
+				on_left_clicked();
+			}
+			on_left_released();
+			break;
+		}
+		case Mouse::Event::Type::RMouseButtonPressed:
+		{
+			on_right_pressed();
+			break;
+		}
+		case Mouse::Event::Type::RMouseButtonReleased:
+		{
+			if (isRightPressed)
+			{
+				on_right_clicked();
+			}
+			on_right_released();
+			break;
+		}
+		case Mouse::Event::Type::MMouseButtonPressed:
+		{
+			on_middle_pressed();
+			break;
+		}
+		case Mouse::Event::Type::MMouseButtonReleased:
+		{
+			if (isMiddlePressed)
+			{
+				on_middle_clicked();
+			}
+			on_middle_released();
+			break;
+		}
+		}
     }
 }
 

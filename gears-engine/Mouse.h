@@ -59,7 +59,7 @@ private:
 	void on_right_pressed(Vector2i position);
 	void on_right_released(Vector2i position);
 	void on_middle_pressed(Vector2i position);
-	void on_middle_release(Vector2i position);
+	void on_middle_released(Vector2i position);
 	void on_scroll(Vector2i position, int delta);
 	void on_enter(Vector2i position);
 	void on_leave(Vector2i position);

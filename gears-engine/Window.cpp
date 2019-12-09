@@ -156,6 +156,18 @@ LRESULT Window::callback_function(HWND hwnd, UINT msg, WPARAM w_param, LPARAM l_
 		mouse.on_right_released({ pos.x, pos.y });
 		break;
 	}	
+	case WM_MBUTTONDOWN:
+	{
+		POINTS pos = MAKEPOINTS(l_param);
+		mouse.on_middle_pressed({ pos.x, pos.y });
+		break;
+	}
+	case WM_MBUTTONUP:
+	{
+		POINTS pos = MAKEPOINTS(l_param);
+		mouse.on_middle_released({ pos.x, pos.y });
+		break;
+	}
 	case WM_MOUSEWHEEL:
 	{
 		POINTS pos = MAKEPOINTS(l_param);

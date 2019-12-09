@@ -2,7 +2,7 @@
 #include "Window.h"
 #include "D3DGFX.h"
 #include "EdgeCuboid.h"
-#include "Text2D.h"
+#include "GUIManager.h"
 
 class Engine
 {
@@ -18,6 +18,7 @@ private:
 private:
 	Window window;
 	D3DGFX gfx;
+	std::unique_ptr<GUIManager> gui_manager;
 
 	const float FOV = 100.f;
 	const float z_near = 0.5f;
@@ -30,7 +31,6 @@ private:
 	DirectX::XMFLOAT4X4 ortho;
 	DirectX::XMFLOAT4X4 proj;
 
-	std::unique_ptr<Text2D> label;
 	std::unique_ptr<EdgeCuboid> edge_cuboid;
 };
 

@@ -38,9 +38,7 @@ void Transform3D::set_position(float x, float y, float z)
 
 void Transform3D::move(float dx, float dy, float dz)
 {
-	px += dx;
-	py += dy;
-	pz += dz;
+	set_position(px + dx, py + dy, pz + dz);
 	recalculate_model_matrix();
 }
 
@@ -62,9 +60,7 @@ void Transform3D::set_rotation(float pitch, float yaw, float roll)
 
 void Transform3D::rotate(float dpitch, float dyaw, float droll)
 {
-	pitch += dpitch;
-	yaw += dyaw;
-	roll += droll;
+	set_rotation(pitch + dpitch, yaw + dyaw, roll + droll);
 	recalculate_model_matrix();
 }
 
@@ -77,9 +73,7 @@ void Transform3D::set_dimension(float length, float height, float width)
 
 void Transform3D::dimension(float dlength, float dheight, float dwidth)
 {
-	length += dlength;
-	height += dheight;
-	width += dwidth;
+	set_dimension(length + dlength, height + dheight, width + dwidth);
 }
 
 void Transform3D::get_position(float& x, float& y, float& z) const
@@ -258,8 +252,7 @@ void Transform2D::set_position(float x, float y, RELPOS relative_pos)
 
 void Transform2D::move(float dx, float dy)
 {
-	px += dx;
-	py += dy;
+	set_position(px + dx, py + dy);
 	recalculate_model_matrix();
 }
 
@@ -278,7 +271,7 @@ void Transform2D::set_rotation(float angle)
 
 void Transform2D::rotate(float dangle)
 {
-	angle += dangle;
+	set_rotation(angle + dangle);
 	recalculate_model_matrix();
 }
 
@@ -290,8 +283,7 @@ void Transform2D::set_dimension(float length, float height)
 
 void Transform2D::dimension(float dlength, float dheight)
 {
-	length += dlength;
-	height += dheight;
+	set_dimension(length + dlength, height + dheight);
 }
 
 void Transform2D::get_position(float& x, float& y) const
@@ -355,9 +347,9 @@ float Transform2D::get_height() const
 bool Transform2D::contains(float x, float y) const
 {
 	float top = py;
-	float bottom = py + height;
+	float bottom = py + height * sy;
 	float left = px;
-	float right = px + length;
+	float right = px + length * sx;
 	if (x >= left && x <= right &&
 		y >= top && y <= bottom)
 	{
