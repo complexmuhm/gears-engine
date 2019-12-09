@@ -4,6 +4,7 @@ Transform3D::Transform3D()
 	: sx(1.f), sy(1.f), sz(1.f)
 	, pitch(0.f), yaw(0.f), roll(0.f)
 	, px(0.f), py(0.f), pz(0.f)
+	, length(0.f), height(0.f), width(0.f)
 {
 }
 
@@ -42,6 +43,20 @@ void Transform3D::rotate(float dpitch, float dyaw, float droll)
 	roll += droll;
 }
 
+void Transform3D::set_dimension(float length, float height, float width)
+{
+	this->length = length;
+	this->height = height;
+	this->width = width;
+}
+
+void Transform3D::dimension(float dlength, float dheight, float dwidth)
+{
+	length += dlength;
+	height += dheight;
+	width += dwidth;
+}
+
 void Transform3D::get_position(float& x, float& y, float& z) const
 {
 	x = px;
@@ -63,6 +78,13 @@ void Transform3D::get_rotation(float& pitch, float& yaw, float& roll) const
 	roll = roll;
 }
 
+void Transform3D::get_dimension(float& length, float& height, float& width) const
+{
+	length = this->length;
+	height = this->height;
+	width = this->width;
+}
+
 DirectX::XMMATRIX Transform3D::get_transformation_matrix() const
 {
 	return
@@ -78,6 +100,7 @@ Transform2D::Transform2D()
 	: sx(1.f), sy(1.f)
 	, angle(0.f)
 	, px(0.f), py(0.f)
+	, length(0.f), height(0.f)
 {
 }
 
@@ -109,6 +132,18 @@ void Transform2D::rotate(float dangle)
 	angle += dangle;
 }
 
+void Transform2D::set_dimension(float length, float height)
+{
+	this->length = length;
+	this->height = height;
+}
+
+void Transform2D::dimension(float dlength, float dheight)
+{
+	length += dlength;
+	height += dheight;
+}
+
 void Transform2D::get_position(float& x, float& y) const
 {
 	x = px;
@@ -124,6 +159,12 @@ void Transform2D::get_scale(float& x, float& y) const
 void Transform2D::get_rotation(float& angle) const
 {
 	angle = this->angle;
+}
+
+void Transform2D::get_dimension(float& length, float& height) const
+{
+	length = this->length;
+	height = this->height;
 }
 
 DirectX::XMMATRIX Transform2D::get_transformation_matrix() const
