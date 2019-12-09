@@ -40,8 +40,10 @@ const std::vector<ASCIICharUVCoord>& get_font_array()
 
 Text2D::Text2D(D3DGFX& gfx,
 	float x, float y, const std::string& text,
+	const DirectX::XMFLOAT4X4* view,
 	const DirectX::XMFLOAT4X4* ortho)
-	: gfx(gfx), ortho(ortho)
+	: Transform2D(view, ortho)
+	, gfx(gfx), ortho(ortho)
 {
 	px = x; py = y;
 	set_text(text);
@@ -125,14 +127,8 @@ void Text2D::draw(D3DGFX& gfx) const
 		b->bind();
 	}
 
-	DirectX::XMMATRIX transformation_matrix = get_transformation_matrix();
-	DirectX::XMMATRIX orthogr_matrix = DirectX::XMLoadFloat4x4(ortho);
-	DirectX::XMMATRIX result = 
-		transformation_matrix * 
-		orthogr_matrix;
-
-	vertex_cbuffer->update(
-		DirectX::XMMatrixTranspose(result));
+	DirectX::XMMATRIX result = get_transformation_matrix();
+	vertex_cbuffer->update(DirectX::XMMatrixTranspose(result));
 	vertex_cbuffer->bind();
 
 	gfx.draw_indexed(cindex_buffer->count());

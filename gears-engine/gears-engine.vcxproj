@@ -160,6 +160,7 @@
   <ItemGroup>
     <ClInclude Include="BaseException.h" />
     <ClInclude Include="Bindable.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Cuboid.h" />
     <ClInclude Include="D3DException.h" />
@@ -184,12 +185,14 @@
     <ClInclude Include="Vector.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexShader.h" />
+    <ClInclude Include="Widget.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WinException.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseException.cpp" />
     <ClCompile Include="Bindable.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="Cuboid.cpp" />
     <ClCompile Include="D3DException.cpp" />
@@ -212,6 +215,7 @@
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexShader.cpp" />
+    <ClCompile Include="Widget.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinException.cpp" />
     <ClCompile Include="WinMain.cpp" />

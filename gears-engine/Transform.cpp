@@ -1,23 +1,31 @@
 #include "Transform.h"
 
-Transform3D::Transform3D()
+Transform3D::Transform3D(
+	const DirectX::XMFLOAT4X4* view,
+	const DirectX::XMFLOAT4X4* persp)
 	: sx(1.f), sy(1.f), sz(1.f)
 	, pitch(0.f), yaw(0.f), roll(0.f)
 	, px(0.f), py(0.f), pz(0.f)
 	, length(0.f), height(0.f), width(0.f)
+	, view_matrix(view), perspective_matrix(persp)
 {
+	recalculate_model_matrix();
 }
 
 Transform3D::Transform3D(
 	float px, float py, float pz, 
 	float sx, float sy, float sz, 
 	float pitch, float yaw, float roll, 
-	float length, float height, float width)
+	float length, float height, float width,
+	const DirectX::XMFLOAT4X4* view,
+	const DirectX::XMFLOAT4X4* persp)
 	: px(px), py(py), pz(pz)
 	, sx(sx), sy(sy), sz(sz)
 	, pitch(pitch), yaw(yaw), roll(roll)
 	, length(length), height(height), width(width)
+	, view_matrix(view), perspective_matrix(persp)
 {
+	recalculate_model_matrix();
 }
 
 void Transform3D::set_position(float x, float y, float z)
@@ -25,6 +33,7 @@ void Transform3D::set_position(float x, float y, float z)
 	px = x;
 	py = y;
 	pz = z;
+	recalculate_model_matrix();
 }
 
 void Transform3D::move(float dx, float dy, float dz)
@@ -32,6 +41,7 @@ void Transform3D::move(float dx, float dy, float dz)
 	px += dx;
 	py += dy;
 	pz += dz;
+	recalculate_model_matrix();
 }
 
 void Transform3D::set_scale(float x, float y, float z)
@@ -39,6 +49,7 @@ void Transform3D::set_scale(float x, float y, float z)
 	sx = x;
 	sy = y;
 	sz = z;
+	recalculate_model_matrix();
 }
 
 void Transform3D::set_rotation(float pitch, float yaw, float roll)
@@ -46,6 +57,7 @@ void Transform3D::set_rotation(float pitch, float yaw, float roll)
 	this->pitch = pitch;
 	this->yaw = yaw;
 	this->roll = roll;
+	recalculate_model_matrix();
 }
 
 void Transform3D::rotate(float dpitch, float dyaw, float droll)
@@ -53,6 +65,7 @@ void Transform3D::rotate(float dpitch, float dyaw, float droll)
 	pitch += dpitch;
 	yaw += dyaw;
 	roll += droll;
+	recalculate_model_matrix();
 }
 
 void Transform3D::set_dimension(float length, float height, float width)
@@ -159,24 +172,37 @@ float Transform3D::get_width() const
 
 DirectX::XMMATRIX Transform3D::get_transformation_matrix() const
 {
-	return
+	return DirectX::XMLoadFloat4x4(&model_matrix) *
+		DirectX::XMLoadFloat4x4(view_matrix) *
+		DirectX::XMLoadFloat4x4(perspective_matrix);
+}
+
+void Transform3D::recalculate_model_matrix()
+{
+	DirectX::XMStoreFloat4x4(&model_matrix,
 		DirectX::XMMatrixScaling(
 			sx, sy, sz) *
 		DirectX::XMMatrixRotationRollPitchYaw(
 			pitch, yaw, roll) *
 		DirectX::XMMatrixTranslation(
-			px, py, pz);
+			px, py, pz));
 }
 
-Transform2D::Transform2D()
+Transform2D::Transform2D(
+	const DirectX::XMFLOAT4X4* view_matrix, 
+	const DirectX::XMFLOAT4X4* ortho_matrix)
 	: sx(1.f), sy(1.f)
 	, angle(0.f)
 	, px(0.f), py(0.f)
 	, length(0.f), height(0.f)
+	, view_matrix(view_matrix), ortho_matrix(ortho_matrix)
 {
+	recalculate_model_matrix();
 }
 
 Transform2D::Transform2D(
+	const DirectX::XMFLOAT4X4* view_matrix, 
+	const DirectX::XMFLOAT4X4* ortho_matrix,
 	float px, float py, 
 	float sx, float sy, 
 	float angle, 
@@ -185,7 +211,9 @@ Transform2D::Transform2D(
 	, sx(sx), sy(sy)
 	, angle(angle)
 	, length(length), height(height)
+	, view_matrix(view_matrix), ortho_matrix(ortho_matrix)
 {
+	recalculate_model_matrix();
 }
 
 void Transform2D::set_position(float x, float y, RELPOS relative_pos)
@@ -204,11 +232,11 @@ void Transform2D::set_position(float x, float y, RELPOS relative_pos)
 	else if (RELPOS::CENTER_LEFT == (relative_pos & 0b11))
 	{
 		float hheight = real_height / 2.f;
-		res_y += hheight;
+		res_y -= hheight;
 	}
 	else if (RELPOS::BOTTOM_LEFT == (relative_pos & 0b11))
 	{
-		res_y += real_height;
+		res_y -= real_height;
 	}
 
 	if (RELPOS::TOP_LEFT == (relative_pos & 0b1100))
@@ -225,28 +253,33 @@ void Transform2D::set_position(float x, float y, RELPOS relative_pos)
 	}
 	px = res_x;
 	py = res_y;
+	recalculate_model_matrix();
 }
 
 void Transform2D::move(float dx, float dy)
 {
 	px += dx;
 	py += dy;
+	recalculate_model_matrix();
 }
 
 void Transform2D::set_scale(float x, float y)
 {
 	sx = x;
 	sy = y;
+	recalculate_model_matrix();
 }
 
 void Transform2D::set_rotation(float angle)
 {
 	this->angle = angle;
+	recalculate_model_matrix();
 }
 
 void Transform2D::rotate(float dangle)
 {
 	angle += dangle;
+	recalculate_model_matrix();
 }
 
 void Transform2D::set_dimension(float length, float height)
@@ -324,10 +357,32 @@ DirectX::XMMATRIX Transform2D::get_transformation_matrix() const
 	// TODO: maybe choose another z position?
 
 	return
+		DirectX::XMLoadFloat4x4(&model_matrix) *
+		DirectX::XMLoadFloat4x4(view_matrix) *
+		DirectX::XMLoadFloat4x4(ortho_matrix);
+}
+
+void Transform2D::recalculate_model_matrix()
+{
+	union
+	{
+		__m128 vector;
+		float m[4];
+	} matrix[4];
+
+	DirectX::XMMATRIX ortho_m = DirectX::XMLoadFloat4x4(ortho_matrix);
+	matrix[0].vector = ortho_m.r[0];
+	matrix[1].vector = ortho_m.r[1];
+
+	// find out the screen width and height from the ortho matrix
+	screen_half_width = 1.f / matrix[0].m[0];
+	screen_half_height = 1.f / matrix[1].m[1];
+
+	DirectX::XMStoreFloat4x4(&model_matrix,
 		DirectX::XMMatrixScaling(
 			sx, sy, 1.0f) *
 		DirectX::XMMatrixRotationRollPitchYaw(
 			0.0f, 0.0f, angle) *
 		DirectX::XMMatrixTranslation(
-			px, py, 0.0f);
+			px - screen_half_width, screen_half_height - py, 0.0f));
 }

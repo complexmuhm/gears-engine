@@ -17,14 +17,14 @@ class EdgeCuboid : public Drawable, public Transform3D
 public:
 	EdgeCuboid(D3DGFX& gfx,
 		float length, float height, float width,
-		const DirectX::XMFLOAT4X4* persp_matrix);
+		const DirectX::XMFLOAT4X4* view,
+		const DirectX::XMFLOAT4X4* persp);
 
 	void update(float dt) override;
 	virtual void draw(D3DGFX& gfx) const override;
 
 private:
 	std::unique_ptr<VertexConstantBuffer<DirectX::XMMATRIX>> vertex_cbuffer;
-	const DirectX::XMFLOAT4X4* perspective_matrix;
 
 };
 

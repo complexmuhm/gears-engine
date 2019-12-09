@@ -26,9 +26,9 @@ private:
 	const float z_nearGUI = 0.0f;
 	const float z_farGUI = 100.f;
 
-	DirectX::XMFLOAT4X4 orthoGUI;
-	DirectX::XMFLOAT4X4 proj;
 	DirectX::XMFLOAT4X4 view;
+	DirectX::XMFLOAT4X4 ortho;
+	DirectX::XMFLOAT4X4 proj;
 
 	std::unique_ptr<Text2D> label;
 	std::unique_ptr<EdgeCuboid> edge_cuboid;

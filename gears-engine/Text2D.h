@@ -31,6 +31,7 @@ class Text2D : public Drawable, public Transform2D
 public:
 	Text2D(D3DGFX& gfx, 
 		float x, float y, const std::string& text,
+		const DirectX::XMFLOAT4X4* view,
 		const DirectX::XMFLOAT4X4* ortho);
 	Text2D(const Text2D&) = delete;
 	Text2D& operator=(const Text2D&) = delete;

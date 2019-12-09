@@ -49,6 +49,12 @@
     <Filter Include="Quelldateien\Extern">
       <UniqueIdentifier>{7e4f5f8b-cea6-4038-b659-a916b8fa5741}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\GUI">
+      <UniqueIdentifier>{a66884ef-eb6c-477e-9c99-984f5e77c35b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\GUI">
+      <UniqueIdentifier>{89e59915-8c2b-466d-8f65-5fb630472ab9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -135,6 +141,12 @@
     <ClInclude Include="Extern\picopng.h">
       <Filter>Headerdateien\Extern</Filter>
     </ClInclude>
+    <ClInclude Include="Widget.h">
+      <Filter>Headerdateien\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Headerdateien\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="D3DGFX.cpp">
@@ -217,6 +229,12 @@
     </ClCompile>
     <ClCompile Include="Extern\picopng.cpp">
       <Filter>Quelldateien\Extern</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget.cpp">
+      <Filter>Quelldateien\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Quelldateien\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

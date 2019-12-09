@@ -15,9 +15,10 @@
 class Cuboid : public Drawable, public Transform3D
 {
 public:
-	Cuboid(D3DGFX& gfx, 
-		float length, float height, float width, 
-		const DirectX::XMFLOAT4X4* pers);
+	Cuboid(D3DGFX& gfx,
+		float length, float height, float width,
+		const DirectX::XMFLOAT4X4* view,
+		const DirectX::XMFLOAT4X4* persp);
 
 	void update(float dt) override;
 

@@ -2,8 +2,9 @@
 
 EdgeCuboid::EdgeCuboid(D3DGFX& gfx,
 	float length, float height, float width,
-	const DirectX::XMFLOAT4X4* persp_matrix)
-	: perspective_matrix(persp_matrix)
+	const DirectX::XMFLOAT4X4* view,
+	const DirectX::XMFLOAT4X4* persp)
+	: Transform3D(view, persp)
 {
 	this->length = length;
 	this->height = height;
@@ -70,11 +71,8 @@ void EdgeCuboid::draw(D3DGFX& gfx) const
 		b->bind();
 
 	// Update the constant buffer
-	DirectX::XMMATRIX transformation_matrix = get_transformation_matrix();
-	vertex_cbuffer->update(
-		DirectX::XMMatrixTranspose(
-			transformation_matrix *
-			DirectX::XMLoadFloat4x4(perspective_matrix)));
+	DirectX::XMMATRIX result = get_transformation_matrix();
+	vertex_cbuffer->update(DirectX::XMMatrixTranspose(result));
 	// and manually bind it
 	vertex_cbuffer->bind();
 

@@ -38,12 +38,16 @@ public:
 		BOTTOM_RIGHT_BACK		= 0b00101010,
 	};
 
-	Transform3D();
+	Transform3D(
+		const DirectX::XMFLOAT4X4* view,
+		const DirectX::XMFLOAT4X4* persp);
 	Transform3D(
 		float px, float py, float pz,
 		float sx, float sy, float sz,
 		float pitch, float yaw, float roll,
-		float length, float height, float width);
+		float length, float height, float width,
+		const DirectX::XMFLOAT4X4* view,
+		const DirectX::XMFLOAT4X4* persp);
 
 	virtual void set_position(float x, float y, float z);
 	virtual void move(float dx, float dy, float dz);
@@ -84,6 +88,13 @@ protected:
 	float pitch, yaw, roll;
 	// ... yeah
 	float length, height, width;
+	// matrices
+	DirectX::XMFLOAT4X4 model_matrix;
+	const DirectX::XMFLOAT4X4 *view_matrix, *perspective_matrix;
+
+private:
+	void recalculate_model_matrix();
+
 };
 
 class Transform2D
@@ -104,8 +115,12 @@ public:
 		BOTTOM_RIGHT	= 0b00001010	
 	};
 
-	Transform2D();
 	Transform2D(
+		const DirectX::XMFLOAT4X4* view, 
+		const DirectX::XMFLOAT4X4* ortho);
+	Transform2D(
+		const DirectX::XMFLOAT4X4* view, 
+		const DirectX::XMFLOAT4X4* ortho,
 		float px, float py,
 		float sx, float sy,
 		float angle,
@@ -145,5 +160,15 @@ protected:
 	float angle;
 	// ... yeah
 	float length, height;
+	// matrices
+	DirectX::XMFLOAT4X4 model_matrix;
+	const DirectX::XMFLOAT4X4 *view_matrix, *ortho_matrix;
+
+private:
+	void recalculate_model_matrix();
+
+private:
+	// TODO: this changes whenthe ortho matrix changes --> adjust accordingly
+	float screen_half_width, screen_half_height;
 
 };

@@ -2,8 +2,9 @@
 
 Cuboid::Cuboid(D3DGFX& gfx, 
 	float length, float height, float width, 
-	const DirectX::XMFLOAT4X4* pers)
-	: perspective_matrix(pers)
+	const DirectX::XMFLOAT4X4* view,
+	const DirectX::XMFLOAT4X4* persp)
+	: Transform3D(view, persp)
 {
 	this->length = length;
 	this->height = height;
