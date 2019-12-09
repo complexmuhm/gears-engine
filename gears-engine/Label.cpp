@@ -7,9 +7,7 @@ Label::Label(
 	: Widget(view, ortho)
 	, text(gfx, 0.f, 0.f, text, view, ortho)
 {
-	float length = 0.f, height = 0.f;
-	this->text.get_dimension(length, height);
-	set_dimension(length, height);
+	synchronize();
 }
 
 void Label::update(float dt)
@@ -43,4 +41,17 @@ void Label::set_dimension(float length, float height)
 {
 	Transform2D::set_dimension(length, height);
 	text.set_dimension(length, height);
+}
+
+void Label::set_text(const std::string& text)
+{
+	this->text.set_text(text);
+	synchronize();
+}
+
+void Label::synchronize()
+{
+	float length = 0.f, height = 0.f;
+	this->text.get_dimension(length, height);
+	set_dimension(length, height);
 }

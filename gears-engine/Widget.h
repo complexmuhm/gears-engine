@@ -27,7 +27,7 @@ public:
     void bind_right(GUICallback callback_func);
     void bind_middle(GUICallback callback_func);
 
-private:
+protected:
     void on_enter();
     void on_hover();
     void on_pressed();
@@ -49,7 +49,7 @@ private:
     void reset_state();
     void reset_buttons();
 
-private:
+protected:
     bool hasEntered;
     bool isHovering;
     bool hasPressed;

@@ -19,6 +19,10 @@ public:
 	virtual void set_rotation(float angle) override;
 	virtual void set_dimension(float length, float height) override;
 
+	void set_text(const std::string& text);
+
+private:
+	void synchronize();
 
 private:
 	Text2D text;
