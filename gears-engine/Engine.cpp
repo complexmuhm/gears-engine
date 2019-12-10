@@ -1,6 +1,10 @@
 #include "Engine.h"
 #include <cmath>
 
+
+static float theta = 0.0f;
+static float dt = 0.0f;
+
 Engine::Engine(Vector2i size, const std::wstring& title)
 	: window(size, title)
 	, gfx(window.get_handle())
@@ -17,6 +21,8 @@ Engine::Engine(Vector2i size, const std::wstring& title)
 			z_near, z_far));
 
 	gui_manager = std::make_unique<GUIManager>(gfx, &view, &ortho);
+	GUIManager::WIDGET_TABLE["Button_Close_Window1"]->bind_left(std::bind(&Window::close, &window));
+	GUIManager::WIDGET_TABLE["Button_Close_Window2"]->bind_left(std::bind(&Window::set_title, &window, L"lol"));
 
 	edge_cuboid = std::make_unique<EdgeCuboid>(gfx, 1.0f, 1.0f, 1.0f, &view, &proj);
 	edge_cuboid->set_scale(10.f, 10.f, 10.f);
@@ -60,8 +66,6 @@ void Engine::update()
 {
 	gui_manager->update(0.f);
 
-	static float theta = 0.0f;
-	static float dt = 0.0f;
 	theta += 0.005f;
 
 	if (window.keybd.is_key_pressed(VK_SPACE))

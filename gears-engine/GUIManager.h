@@ -18,10 +18,10 @@ public:
 	void update(float dt);
 	void draw(D3DGFX& gfx);
 
-	Widget* get_widget(size_t GUI_ID); // TODO: implemente register_gui_id() and get_widget() with a unordered_map
+	static void register_gui_id(const std::string& name, Widget* widget);
+	static std::unordered_map<std::string, Widget*> WIDGET_TABLE;
 
 private:
-	void register_gui_id(const std::string& name, size_t GUI_ID);
 
 private:
 	std::vector<std::unique_ptr<Widget>> widgets;

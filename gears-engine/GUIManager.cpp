@@ -34,10 +34,10 @@ GUIManager::GUIManager(
 	buttons.back()->bind_left([]() {});
 	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
 	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
+	buttons.emplace_back(std::make_unique<Button>(gfx, "Close Window 1", view, ortho));
+	register_gui_id("Button_Close_Window1", buttons.back().get());
+	buttons.emplace_back(std::make_unique<Button>(gfx, "ASS ASS ASS", view, ortho));
+	register_gui_id("Button_Close_Window2", buttons.back().get());
 
 	for (auto& b : buttons)
 		v_box->add_widget(std::move(b));
@@ -81,26 +81,9 @@ void GUIManager::draw(D3DGFX& gfx)
 	ofs << diff.count() << "\n";
 }
 
-Widget* GUIManager::get_widget(size_t GUI_ID)
+void GUIManager::register_gui_id(const std::string& name, Widget* widget)
 {
-	if (widgets.empty())
-		return nullptr;
-	return widgets[GUI_ID].get();
+	WIDGET_TABLE.emplace(name, widget);
 }
 
-void GUIManager::register_gui_id(const std::string& name, size_t GUI_ID)
-{
-	static bool initialized = false;
-	static std::ofstream ofs("GUI_ID.h");
-
-	if (!initialized)
-	{
-		ofs << "#pragma once\n"
-			<< "\n"
-			<< "namespace GUI_ID\n"
-			<< "{\n"
-			<< "};\n";
-		initialized = true;
-	}
-
-}
+std::unordered_map<std::string, Widget*> GUIManager::WIDGET_TABLE;
