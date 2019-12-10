@@ -34,8 +34,6 @@ public:
 		float x, float y, const std::string& text,
 		const DirectX::XMFLOAT4X4* view,
 		const DirectX::XMFLOAT4X4* ortho);
-	Text2D(const Text2D&) = delete;
-	Text2D& operator=(const Text2D&) = delete;
 
 	void set_text(const std::string& text);
 	void set_color(float r, float g, float b, float a);

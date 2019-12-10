@@ -156,6 +156,9 @@
     <ClInclude Include="VBox.h">
       <Filter>Headerdateien\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="VMenu.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="D3DGFX.cpp">
@@ -253,6 +256,9 @@
     </ClCompile>
     <ClCompile Include="VBox.cpp">
       <Filter>Quelldateien\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="VMenu.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

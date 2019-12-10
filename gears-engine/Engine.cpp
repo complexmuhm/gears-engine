@@ -22,7 +22,8 @@ Engine::Engine(Vector2i size, const std::wstring& title)
 			z_near, z_far));
 
 	gui_manager = std::make_unique<GUIManager>(gfx, &view, &ortho);
-	Button* var_modifier = dynamic_cast<Button*>(GUIManager::WIDGET_TABLE["Button_Var_Modifier"]);
+	auto var = GUIManager::WIDGET_TABLE.at("Button_Var_Modifier");
+	Button* var_modifier = dynamic_cast<Button*>(var);
 	var_modifier->bind_left(std::bind([](float* theta) { *theta = 0.f; }, &theta));
 	var_modifier->bind_middle(std::bind([](float* theta_inc) { *theta_inc = 0.05f;  }, &theta_inc));
 	var_modifier->bind_right(std::bind([](float* theta_inc) { *theta_inc = 0.005f; }, &theta_inc));

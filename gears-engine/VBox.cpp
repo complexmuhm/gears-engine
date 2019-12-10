@@ -3,8 +3,6 @@
 
 // NOTE: remove gfx, text?
 VBox::VBox(
-	D3DGFX& gfx,
-	const std::string& text,
 	const DirectX::XMFLOAT4X4* view, 
 	const DirectX::XMFLOAT4X4* ortho)
 	: Widget(view, ortho)
@@ -75,6 +73,9 @@ void VBox::set_dimension(float length, float height)
 
 void VBox::adjust_widgets()
 {
+	// if there is nothing return
+	if (widgets.empty())
+		return;
 	// the first widgets top left coords determine
 	// the VBoxes coordinate
 	Vector2f first_top_left = widgets.front()->get_position();

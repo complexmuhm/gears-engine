@@ -5,7 +5,6 @@ GUIManager::GUIManager(
 	const DirectX::XMFLOAT4X4* view,
 	const DirectX::XMFLOAT4X4* ortho)
 {
-	auto v_box = std::make_unique<VBox>(gfx, "EPS Menu", view, ortho);
 	std::vector<std::unique_ptr<Button>> buttons;
 	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
 	buttons.back()->bind_left([]() {});
@@ -36,13 +35,10 @@ GUIManager::GUIManager(
 	buttons.emplace_back(std::make_unique<Button>(gfx, "Close", view, ortho));
 	register_gui_id("Button_Close_Window", buttons.back().get());
 
-	for (auto& b : buttons)
-		v_box->add_widget(b.get());
-	for (auto& b : buttons)
-		widgets.emplace_back(std::move(b));
+	auto v_menu = std::make_unique<VMenu>(gfx, "EPS Menu", std::move(buttons), view, ortho);
+	v_menu->set_scale(2.f, 2.f);
 
-	v_box->set_scale(2.0f, 2.0f);
-	widgets.emplace_back(std::move(v_box));
+	widgets.emplace_back(std::move(v_menu));
 	widgets.back()->set_position(0.f, 0.f);
 }
 

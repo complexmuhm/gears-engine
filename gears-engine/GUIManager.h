@@ -5,6 +5,7 @@
 #include "Label.h"
 #include "Button.h"
 #include "VBox.h"
+#include "VMenu.h"
 
 class GUIManager
 {
@@ -23,8 +24,6 @@ public:
 
 	static void register_gui_id(const std::string& name, Widget* widget);
 	static std::unordered_map<std::string, Widget*> WIDGET_TABLE;
-
-private:
 
 private:
 	std::vector<std::unique_ptr<Widget>> widgets;
