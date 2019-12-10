@@ -1,7 +1,4 @@
 #include "GUIManager.h"
-#include "Label.h"
-#include "Button.h"
-#include "VBox.h"
 
 GUIManager::GUIManager(
 	D3DGFX& gfx,
@@ -34,13 +31,15 @@ GUIManager::GUIManager(
 	buttons.back()->bind_left([]() {});
 	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
 	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Close Window 1", view, ortho));
-	register_gui_id("Button_Close_Window1", buttons.back().get());
-	buttons.emplace_back(std::make_unique<Button>(gfx, "ASS ASS ASS", view, ortho));
-	register_gui_id("Button_Close_Window2", buttons.back().get());
+	buttons.emplace_back(std::make_unique<Button>(gfx, "Modify", view, ortho));
+	register_gui_id("Button_Var_Modifier", buttons.back().get());
+	buttons.emplace_back(std::make_unique<Button>(gfx, "Close", view, ortho));
+	register_gui_id("Button_Close_Window", buttons.back().get());
 
 	for (auto& b : buttons)
-		v_box->add_widget(std::move(b));
+		v_box->add_widget(b.get());
+	for (auto& b : buttons)
+		widgets.emplace_back(std::move(b));
 
 	v_box->set_scale(2.0f, 2.0f);
 	widgets.emplace_back(std::move(v_box));

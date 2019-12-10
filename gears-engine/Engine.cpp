@@ -3,6 +3,7 @@
 
 
 static float theta = 0.0f;
+static float theta_inc = 0.005f;
 static float dt = 0.0f;
 
 Engine::Engine(Vector2i size, const std::wstring& title)
@@ -21,8 +22,11 @@ Engine::Engine(Vector2i size, const std::wstring& title)
 			z_near, z_far));
 
 	gui_manager = std::make_unique<GUIManager>(gfx, &view, &ortho);
-	GUIManager::WIDGET_TABLE["Button_Close_Window1"]->bind_left(std::bind(&Window::close, &window));
-	GUIManager::WIDGET_TABLE["Button_Close_Window2"]->bind_left(std::bind(&Window::set_title, &window, L"lol"));
+	Button* var_modifier = dynamic_cast<Button*>(GUIManager::WIDGET_TABLE["Button_Var_Modifier"]);
+	var_modifier->bind_left(std::bind([](float* theta) { *theta = 0.f; }, &theta));
+	var_modifier->bind_middle(std::bind([](float* theta_inc) { *theta_inc = 0.05f;  }, &theta_inc));
+	var_modifier->bind_right(std::bind([](float* theta_inc) { *theta_inc = 0.005f; }, &theta_inc));
+	GUIManager::WIDGET_TABLE["Button_Close_Window"]->bind_left(std::bind(&Window::close, &window));
 
 	edge_cuboid = std::make_unique<EdgeCuboid>(gfx, 1.0f, 1.0f, 1.0f, &view, &proj);
 	edge_cuboid->set_scale(10.f, 10.f, 10.f);
@@ -66,7 +70,7 @@ void Engine::update()
 {
 	gui_manager->update(0.f);
 
-	theta += 0.005f;
+	theta += theta_inc;
 
 	if (window.keybd.is_key_pressed(VK_SPACE))
 		theta = 0.f;

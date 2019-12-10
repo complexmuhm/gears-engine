@@ -1,7 +1,7 @@
 #include "VBox.h"
 #include "Label.h"
 
-// TODO: maybe set the label always as the first element and provide text input for the label name
+// NOTE: remove gfx, text?
 VBox::VBox(
 	D3DGFX& gfx,
 	const std::string& text,
@@ -9,48 +9,27 @@ VBox::VBox(
 	const DirectX::XMFLOAT4X4* ortho)
 	: Widget(view, ortho)
 {
-	auto label = std::make_unique<Label>(gfx, text, view, ortho);
-	add_widget(std::move(label));
 }
 
 void VBox::process_events(Keyboard::Event key_event, Mouse::Event mouse_event)
 {
-	if (mouse_event.type == Mouse::Event::Type::Move)
-	{
-		old_mpos = new_mpos;
-		new_mpos = mouse_event.position;
-		if (widgets.front()->pressed())
-		{
-			Vector2f diff = Vector2f(new_mpos - old_mpos);
-			move(diff);
-		}
-	}
 	Widget::process_events(key_event, mouse_event);
-	for (auto& w : widgets)
-	{
-		w->process_events(key_event, mouse_event);
-	}
+	// and no event processing besides itself
 }
 
 void VBox::update(float dt)
 {
-	for (auto& w : widgets)
-	{
-		w->update(dt);
-	}
+	// update neither, only for organizing
 }
 
 void VBox::draw(D3DGFX& gfx)
 {
-	for (auto& w : widgets)
-	{
-		w->draw(gfx);
-	}
+	// no drawing, only used for organizing the widgets
 }
 
-void VBox::add_widget(std::unique_ptr<Widget> widget)
+void VBox::add_widget(Widget* widget)
 {
-	widgets.emplace_back(std::move(widget));
+	widgets.emplace_back(widget);
 	adjust_widgets();
 }
 

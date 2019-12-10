@@ -27,7 +27,7 @@ public:
 	void update(float dt) override;
 	void draw(D3DGFX& gfx) override;
 
-	void add_widget(std::unique_ptr<Widget> widget);
+	void add_widget(Widget* widget);
 
 	virtual void set_position(float x, float y, Transform2D::RELPOS relative_pos = Transform2D::TOP_LEFT) override;
 	virtual void set_scale(float x, float y) override;
@@ -38,10 +38,9 @@ private:
 	void adjust_widgets();
 
 private:
-	Vector2i old_mpos, new_mpos;
 	// NOTE: VBox should only need a pointer to the widgets
 	// since the widget will be owned by someone else
-	std::vector<std::unique_ptr<Widget>> widgets;
+	std::vector<Widget*> widgets;
 	
 };
 

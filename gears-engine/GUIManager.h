@@ -1,7 +1,10 @@
 #pragma once
 
-#include "Widget.h"
 #include <vector>
+#include "Widget.h"
+#include "Label.h"
+#include "Button.h"
+#include "VBox.h"
 
 class GUIManager
 {
