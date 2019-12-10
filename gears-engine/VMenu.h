@@ -27,8 +27,15 @@ public:
 	virtual void set_rotation(float angle) override;
 	virtual void set_dimension(float length, float height) override;
 
+	void toggle();
+
+private:
+	void minimize();
+	void maximize();
+
 private:
 	Vector2i old_mpos, new_mpos;
+	bool is_minimized;
 
 	Label title;
 	std::vector<std::unique_ptr<Button>> buttons;

@@ -4,6 +4,7 @@ Widget::Widget(
     const DirectX::XMFLOAT4X4* view,
     const DirectX::XMFLOAT4X4* ortho)
     : Transform2D(view, ortho)
+    , is_visible(true)
 {
     reset_state();
     reset_buttons();
@@ -11,6 +12,12 @@ Widget::Widget(
 
 void Widget::process_events(Keyboard::Event key_event, Mouse::Event mouse_event)
 {
+    //if its not visible dont process any events
+    if (!is_visible)
+    {
+        return;
+    }
+
     if (mouse_event.type == Mouse::Event::Type::Move)
     {
         float posx = (float)mouse_event.position.x;
@@ -91,6 +98,14 @@ void Widget::process_events(Keyboard::Event key_event, Mouse::Event mouse_event)
     }
 }
 
+void Widget::update(float dt)
+{
+}
+
+void Widget::draw(D3DGFX& gfx)
+{
+}
+
 void Widget::bind_enter(GUICallback callback_func)
 {
     enter_callback = callback_func;
@@ -110,6 +125,16 @@ void Widget::bind_right(GUICallback callback_func)
 void Widget::bind_middle(GUICallback callback_func)
 {
     middle_callback = callback_func;
+}
+
+void Widget::set_visibility(bool is_visible)
+{
+    this->is_visible = is_visible;
+}
+
+bool Widget::visible()
+{
+    return is_visible;
 }
 
 bool Widget::entered()

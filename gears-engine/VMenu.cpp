@@ -23,6 +23,7 @@ VMenu::VMenu(
 		organizer.add_widget(b.get());
 	}
 
+	this->title.bind_right(std::bind(&VMenu::toggle, this));
 }
 
 void VMenu::process_events(Keyboard::Event key_event, Mouse::Event mouse_event)
@@ -37,6 +38,7 @@ void VMenu::process_events(Keyboard::Event key_event, Mouse::Event mouse_event)
 			move(Vector2f(new_mpos - old_mpos));
 		}
 	}
+
 	Widget::process_events(key_event, mouse_event);
 	for (auto& w : widgets)
 	{
@@ -48,7 +50,10 @@ void VMenu::update(float dt)
 {
 	for (auto& w : widgets)
 	{
-		w->update(dt);
+		if (w->visible())
+		{
+			w->update(dt);
+		}
 	}
 }
 
@@ -56,7 +61,10 @@ void VMenu::draw(D3DGFX& gfx)
 {
 	for (auto& w : widgets)
 	{
-		w->draw(gfx);
+		if (w->visible())
+		{
+			w->draw(gfx);
+		}
 	}
 }
 
@@ -82,4 +90,34 @@ void VMenu::set_dimension(float length, float height)
 {
 	Transform2D::set_dimension(length, height);
 	organizer.set_dimension(length, height);
+}
+
+void VMenu::toggle()
+{
+	if (is_minimized)
+	{
+		maximize();
+		is_minimized = false;
+	}
+	else
+	{
+		minimize();
+		is_minimized = true;
+	}
+}
+
+void VMenu::minimize()
+{
+	for (auto& b : buttons)
+	{
+		b->set_visibility(false);
+	}
+}
+
+void VMenu::maximize()
+{
+	for (auto& b : buttons)
+	{
+		b->set_visibility(true);
+	}
 }

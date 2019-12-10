@@ -17,8 +17,8 @@ public:
         const DirectX::XMFLOAT4X4* ortho);
 
     virtual void process_events(Keyboard::Event key_event, Mouse::Event mouse_event);
-    virtual void update(float dt) = 0;
-    virtual void draw(D3DGFX& gfx) = 0;
+    virtual void update(float dt);
+    virtual void draw(D3DGFX& gfx);
 
     void bind_enter(GUICallback callback_func);
     void bind_leave(GUICallback callback_func);
@@ -27,6 +27,9 @@ public:
     void bind_right(GUICallback callback_func);
     void bind_middle(GUICallback callback_func);
 
+    void set_visibility(bool is_visible);
+
+    bool visible();
     bool entered();
     bool hovering();
     bool pressed();
@@ -56,6 +59,8 @@ protected:
     void reset_buttons();
 
 protected:
+    bool is_visible;
+
     bool has_entered;
     bool is_hovering;
     bool has_pressed;

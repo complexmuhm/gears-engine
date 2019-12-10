@@ -157,7 +157,7 @@
       <Filter>Headerdateien\GUI</Filter>
     </ClInclude>
     <ClInclude Include="VMenu.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -258,7 +258,7 @@
       <Filter>Quelldateien\GUI</Filter>
     </ClCompile>
     <ClCompile Include="VMenu.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
