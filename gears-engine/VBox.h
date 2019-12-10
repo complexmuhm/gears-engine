@@ -38,9 +38,8 @@ private:
 	void adjust_widgets();
 
 private:
-	// NOTE: VBox should only need a pointer to the widgets
-	// since the widget will be owned by someone else
 	std::vector<Widget*> widgets;
+	// TODO: add padding and margin functionality
 	
 };
 
