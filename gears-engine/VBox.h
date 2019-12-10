@@ -39,6 +39,8 @@ private:
 
 private:
 	Vector2i old_mpos, new_mpos;
+	// NOTE: VBox should only need a pointer to the widgets
+	// since the widget will be owned by someone else
 	std::vector<std::unique_ptr<Widget>> widgets;
 	
 };

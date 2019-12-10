@@ -38,222 +38,6 @@ GUIManager::GUIManager(
 	buttons.back()->bind_left([]() {});
 	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
 	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
-	buttons.emplace_back(std::make_unique<Button>(gfx, "Button", view, ortho));
-	buttons.back()->bind_left([]() {});
 
 	for (auto& b : buttons)
 		v_box->add_widget(std::move(b));
@@ -296,7 +80,27 @@ void GUIManager::draw(D3DGFX& gfx)
 	static std::ofstream ofs("benchmark.dat");
 	ofs << diff.count() << "\n";
 }
-//6 elements -diff{ _MyRep = 3976 }		std::chrono::duration<__int64, std::ratio<1, 10000000>>
-//24 elements +	diff	{_MyRep=6235 }	std::chrono::duration<__int64,std::ratio<1,  10000000>>
-// +		diff	{_MyRep=15866 }	std::chrono::duration<__int64,std::ratio<1,10000000>>
 
+Widget* GUIManager::get_widget(size_t GUI_ID)
+{
+	if (widgets.empty())
+		return nullptr;
+	return widgets[GUI_ID].get();
+}
+
+void GUIManager::register_gui_id(const std::string& name, size_t GUI_ID)
+{
+	static bool initialized = false;
+	static std::ofstream ofs("GUI_ID.h");
+
+	if (!initialized)
+	{
+		ofs << "#pragma once\n"
+			<< "\n"
+			<< "namespace GUI_ID\n"
+			<< "{\n"
+			<< "};\n";
+		initialized = true;
+	}
+
+}
